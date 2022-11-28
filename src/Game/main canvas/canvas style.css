@@ -1,0 +1,163 @@
+.BoardPermament {
+/*    position: absolute;
+    border: 2px solid black;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 80%;
+    width: inherit;
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;*/
+/*    This oen is for the float boxes layout. Gonna try absolutely positioned one. Will see how it works.*/
+
+    position: absolute;
+    top:48%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    height: 83%;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    box-sizing:border-box;
+    /*For Absolute positioning in absolute columns
+ */
+
+    
+    
+    
+    /*    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width:22%;
+    height:80%;
+
+    margin: auto;
+    border: 2px solid black;*/
+    /* This is so far my favourite version. No floatbox model, jjust fixed. other elements would be fixed too.*/
+    /*    max-height: 800px;
+    max-width: 50%;
+    border: 2px solid #000000;
+    padding: 0px;
+    height: 800px;
+    width: 400px;*/
+}
+    .BoardPermament::after {
+
+    }
+.CanvasBoard {
+    height: 100%;
+    width: 100%;
+}
+
+.tableBoard{
+    width:100%;
+    height:100%;
+    background-color:rgba(124, 43, 161, 0.75);
+    border: 2px solid black;
+    border-radius:0 0 8px 8px;
+}
+.hidden{
+    display:none
+}
+.row{
+    width:100%;
+    height:5%;
+}
+.cell{
+    width:10%;
+    height:5%;
+    border: 1px solid black;
+}
+.testButton{
+    margin:auto;
+    width:200px;
+    height:100px;
+    border: 1px red solid;
+    position:center;
+}
+.testButton:hover{
+    border: 3px red solid;
+}
+.test{
+    margin:auto;
+    text-align:center;
+}
+/*[value="1"]{
+    background-color:yellow;
+}*/
+.CanvasGame{
+    display:none
+}
+.countdown {
+    border: 0px solid black;
+    position: absolute;
+    width: 30%;
+    height: 15%;
+    top: 37.5%;
+    left: 35%
+}
+.countdownText{
+    width:100%;
+    font-size:70px;
+    text-align:center;
+    vertical-align:middle;
+    display:inline-block;
+    padding-top:5%;
+    padding-bottom:10%;
+
+}
+.startButton {
+    margin: auto;
+    width: 200px;
+    height: 100px;
+    border: 1px red solid;
+    position: center;
+}
+.startButton:hover {
+        border: 3px red solid;
+    }
+.red{
+    background-color:red;
+}
+.yellow{
+    background-color:greenyellow;
+}
+.blue{
+    background-color:blue;
+}
+.green{
+    background-color:green;
+}
+.lagoon{
+    background-color:midnightblue;
+}
+.pink{
+    background-color:lightpink
+}
+.brown{
+    background-color:sienna;
+}
+.cell.ghost{
+    background-color:aliceblue;
+}
+.fuckYou {
+    height: 400px;
+    width: 1000px;
+    position: fixed;
+    top: 40%;
+    left: -100px;
+    font-size: 120px;
+    animation: fadein 5s;
+    z-index:10;
+}
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
