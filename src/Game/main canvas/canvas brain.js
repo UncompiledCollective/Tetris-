@@ -1,14 +1,20 @@
 import * as React from "react";
 import "./canvas style.css";
-import { StartArray } from "./array.js";
-import { getFirstPiece, getNextPiece, changeCheckDown, changeCheckSide, changeCheckGhost, findLowestY, findHeight } from "./pieces.js"
+import { StartArray, GameOfFunction } from "./array.js";
+import {
+    getFirstPiece, getNextPiece, changeCheckDown, changeCheckSide, changeCheckGhost,
+    findLowestY, findHeight, spawnPiece,
+} from "./pieces.js"
 import { leftRotator, leftRotatorCheck } from "./leftRotators.js";
 import { rightRotator, rightRotatorCheck } from "./rightRotator.js"
-import { StartScreen } from "./StartScreen.js"
+import { StartScreen, PauseScreen, OverScreen } from "./StartScreen.js"
 import death from "./death.mp3"
-import { checkMoveDown, checkMoveLeft, checkMoveRight, checkSpawn,  checkIfAnyFull } from './controls.js'
+import {
+    checkMoveDown, checkMoveLeft, checkMoveRight, checkIfAnyFull,
+    restoreBoard
+    } from './controls.js'
 const death_sound = new Audio(death)
-const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGameOn, getMovement }) => {
+const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGameOn, getMovement, setSendMovement, isSettingsOpen, ghost }) => {
     console.log("CanvasGame renders")
     const [GameArray, setGameArray] = React.useState(StartArray); // ok this is a mutable array used only to change the value attribute of cells
     const [isChanged, setIsChanged] = React.useState(false); // GameArray is an Array, if certain key-value pair changes it will not trigger a rerender. This will be used to trigger that rerender. Probably gonna wrap that into a function.
@@ -18,7 +24,6 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
     const firstRender = React.useRef(true); //ref to prevent some stuff on first render
     const currentPiece = React.useRef(null); // keeps track of current piece. When set back to null the game will no longer respond.
     const nextPiece = React.useRef(null);
-    const [fuck, setFuck] = React.useState(false) //meme state hook to play the deathsound and reveal the you suck message.
     const rowFull = React.useRef(false); // this ref is used to track if any rows are full after a complete move.
     const [fullRowsStatus, setFullRowsStatus] = React.useState(false) // used to trigger removal of full rows.
     const [rowsToRemoveStatus, setRowsToRemoveStatus] = React.useState(false) // used to move the remaining rows down.
@@ -29,26 +34,15 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
     // I couldn't export functions that use setGameArray() setter of GameArray React.useState().
     // so they are here. As much stuff as I could I have exported elsewhere for better code readibility
     //functions for game logic
-    const spawnPiece = (piece) => {
-        if (checkSpawn(piece, GameArray)) {
-            setGameArray((x) => {
-                let temp = x;
-                for (let y = 0; y < piece.arr.length; y++) {
-                    temp[piece.arr[y][0]][piece.arr[y][1]].value = piece.val
-                }
-                return x = temp;
-            })
-            return piece;
-        } else {
-            return false;
-        }
-    }
     const gameOver = () => { //executes when either of the defeat conditions are met.
         currentPiece.current = null
         nextPiece.current = null
-        setFuck(true)
         death_sound.play()
-        setGameOn(false);
+        setGameOn("over");
+    }
+    const RemakeEveryting = () => {
+        setGameOn(false)
+        setBoardStatus(false)
     }
     // below are functions for movement. Their deeper explaination is at controls.js at the very bottom.
 
@@ -69,7 +63,8 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
             return true
         } else {
             if (checkIfAnyFull(piece, GameArray, rowFull)) {
-                setGameOn(false);
+                setGameOn("removing");
+                console.log("beginning row removal")
                 return "fullRows"
             } else {
                 return false
@@ -126,6 +121,7 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
         })
     }
     const removeEmpty = (array) => {
+        console.log(array, "logging array at removeEmpty")
         setGameArray((x) => {
             let temp = x;
             for (let y = 0; y < array.length; y++) {
@@ -153,6 +149,9 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
                         temp[piece.arr[z][0]][piece.arr[z][1]].value = piece.val;
                     }
                     ghostPieceRef.current = ghostPiece(currentPiece.current, GameArray);
+                    currentPiece.current.check = changeCheckDown(currentPiece.current.arr)
+                    currentPiece.current.check_left = changeCheckSide(currentPiece.current.arr, "left")
+                    currentPiece.current.check_right = changeCheckSide(currentPiece.current.arr, "right")
                     return x = temp;
                 })
                 wasRotated.current = true;
@@ -168,6 +167,9 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
                         temp[piece.arr[z][0]][piece.arr[z][1]].value = piece.val;
                     }
                     ghostPieceRef.current = ghostPiece(currentPiece.current, GameArray);
+                    currentPiece.current.check = changeCheckDown(currentPiece.current.arr)
+                    currentPiece.current.check_left = changeCheckSide(currentPiece.current.arr, "left")
+                    currentPiece.current.check_right = changeCheckSide(currentPiece.current.arr, "right")
                     return x = temp;
                 })
                 wasRotated.current = true;
@@ -190,6 +192,9 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
                         temp[piece.arr[z][0]][piece.arr[z][1]].value = piece.val;
                     }
                     ghostPieceRef.current = ghostPiece(currentPiece.current, GameArray);
+                    currentPiece.current.check = changeCheckDown(currentPiece.current.arr)
+                    currentPiece.current.check_left = changeCheckSide(currentPiece.current.arr, "left")
+                    currentPiece.current.check_right = changeCheckSide(currentPiece.current.arr, "right")
                     return x = temp;
                 })
                 wasRotated.current = true;
@@ -205,12 +210,14 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
                         temp[piece.arr[z][0]][piece.arr[z][1]].value = piece.val;
                     }
                     ghostPieceRef.current = ghostPiece(currentPiece.current, GameArray);
+                    currentPiece.current.check = changeCheckDown(currentPiece.current.arr)
+                    currentPiece.current.check_left = changeCheckSide(currentPiece.current.arr, "left")
+                    currentPiece.current.check_right = changeCheckSide(currentPiece.current.arr, "right")
                     return x = temp;
                 })
                 wasRotated.current = true;
                 return true;
             case false:
-                console.log("returning false");
                 return false;
         }
     }
@@ -277,6 +284,9 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
         }
     }
     const ghostPiece = (piece, reference) => {
+        if (!ghost) {
+            return;
+        }
         if (currentPiece.current === null) {
             return;
         }
@@ -333,13 +343,13 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
         }
             
     }
-    const removeGhostPiece = (ghost) => {
-        if (!ghost) {
+    const removeGhostPiece = (ghostPiece) => {
+        if (!ghostPiece) {
             return;
         }
         setGameArray((x) => {
-            for (let y = 0; y < ghost.arr.length; y++) {
-                x[ghost.arr[y][0]][ghost.arr[y][1]].motion = false;
+            for (let y = 0; y < ghostPiece.arr.length; y++) {
+                x[ghostPiece.arr[y][0]][ghostPiece.arr[y][1]].motion = false;
             }
             return x;
         })
@@ -351,12 +361,23 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
     //}
     // test button, used for testing stuff
     const handleclick = () => {
-        console.log(gameOn, "logging gameOn");
+        trueRotateLeft(currentPiece.current);
+        moveToBottom(currentPiece.current, GameArray);
+        switch (moveDown(currentPiece.current)) {
+            case true:
+                setIsChanged(!isChanged);
+                break;
+            case "fullRows":
+                setFullRowsStatus(!fullRowsStatus)
+                break
+            case false:
+                setNotifyEnd(!notifyEnd)
+                break;
+        }
         return;
     }
 
     // Event listener to capture keys. Doesn't trigger a rerender, which is wonderful
-
 
     const finalCountdown = React.useCallback(() => { // ok so this is used to countdown until the game starts
     const reduce = () => { setCountdown((x) => x - 1) }
@@ -371,7 +392,7 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
         }
     }, [countdown]);
 
-    
+    useRemakeGame(firstRender, gameOn, setGameArray, GameOfFunction);
     React.useEffect(() => { // ok so basicly
         if (firstRender.current === true) {
             return;
@@ -382,7 +403,6 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
                 setLinesCleared(rowFull.current.length);
             }
             killRow(rowFull.current);
-            console.log("sideEffect removing rows")
             let delay = setTimeout(reRender, 500)
             return;
         }
@@ -394,7 +414,6 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
         }
         const reRender = () => {setNotifyEnd(!notifyEnd) }
         removeEmpty(rowFull.current)
-        console.log("sideEffect removing empty rows")
         let delay = setTimeout(reRender, 500)
     }, [rowsToRemoveStatus])
 
@@ -409,32 +428,46 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
         return;
     }, [notifyEnd])
 
+
+
+
+
     React.useEffect(() => { //controls the player input
-        if (wasRotated.current) { //regenerate checks after rotation. Necessary. 
-            currentPiece.current.check = changeCheckDown(currentPiece.current.arr)
-            currentPiece.current.check_left = changeCheckSide(currentPiece.current.arr, "left")
-            currentPiece.current.check_right = changeCheckSide(currentPiece.current.arr, "right")
-            wasRotated.current = false;
-        } 
+        //if (wasRotated.current) { //regenerate checks after rotation. Necessary. 
+        //    currentPiece.current.check = changeCheckDown(currentPiece.current.arr)
+        //    currentPiece.current.check_left = changeCheckSide(currentPiece.current.arr, "left")
+        //    currentPiece.current.check_right = changeCheckSide(currentPiece.current.arr, "right")
+        //    wasRotated.current = false;
+        //} 
+        //if (getMovement) {
+        //    return;
+        //}
         const handleCapture = (event) => {
             event.preventDefault();
             if (!gameOn) { // this line disables the event listener when rows are being deleted.
                 return;
             }
-            if (currentPiece.current == null) {
+            if (currentPiece.current == null) { //if there's no piece at all - disable event listener
                 return;
-            } if (ghostPieceRef.current) {
-                removeGhostPiece(ghostPieceRef.current);
+            }
+            if (isSettingsOpen) {
+                return;
             }
             if (event.key === "Escape") {
-                if (gameOn) {
-                    setGameOn("pause");
-                }
                 if (gameOn === "pause") {
                     setGameOn(true);
+                    return;
                 }
+                if (gameOn) {
+                    setGameOn("pause");
+                    return;
+                }
+                
             }
-            if (gameOn === "pause") {
+            if (ghostPieceRef.current && gameOn !== "pause") {
+                removeGhostPiece(ghostPieceRef.current);
+            }
+            if (gameOn === "pause" || gameOn === "removing") {
                 return;
             }
             if (event.key === "d" || event.key === "ArrowRight" || event.key === "t") {
@@ -455,7 +488,7 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
                     if (trueRotateLeft(currentPiece.current)) {
                         setIsChanged(!isChanged);
                         return;
-                    }
+                    } return;
                 }
             }if (event.key === "c" || event.key === "e") {
                 if (currentPiece.current.name !== "sq") {
@@ -476,14 +509,29 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
                     case false:
                         setNotifyEnd(!notifyEnd)
                         break;
-                }
+                }return;
             }
             if (event.key === " ") {
                 moveToBottom(currentPiece.current, GameArray);
                 setIsChanged(!isChanged);
+                return;
             }
             // it will be moved and setIsChanged(will rerender the component)
-        }                       // if returns false the game will spawn another piece. Will be implemented in another way later
+        }
+        // if returns false the game will spawn another piece. Will be implemented in another way later
+        if (getMovement) {
+            switch (moveDown(currentPiece.current)) {
+                case true:
+                    break;
+                case "fullRows":
+                    setFullRowsStatus(!fullRowsStatus)
+                    break
+                case false:
+                    setNotifyEnd(!notifyEnd)
+                    break;
+            }
+            setSendMovement(false);
+        }
         document.addEventListener("keydown", handleCapture, true);
         return () => {
             document.removeEventListener("keydown", handleCapture, true);
@@ -506,6 +554,9 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
             firstRender.current = false;
             return;
         }
+        if (!boardStatus) {
+            return;
+        }
         setCountdown(3);
     }, [boardStatus])
 
@@ -514,7 +565,7 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
         if (currentPiece.current == null) {
             currentPiece.current = getFirstPiece();
             nextPiece.current = getNextPiece(currentPiece.current);
-            spawnPiece(currentPiece.current);
+            spawnPiece(currentPiece.current, GameArray, setGameArray);
             sendNextPiece(nextPiece.current);
             ghostPieceRef.current = ghostPiece(currentPiece.current, GameArray)
             setGameOn(true);
@@ -522,7 +573,7 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
         } else {
             currentPiece.current = nextPiece.current;
             nextPiece.current = getNextPiece(currentPiece.current);
-            if (!spawnPiece(currentPiece.current)) {
+            if (!spawnPiece(currentPiece.current, GameArray,setGameArray)) {
                 gameOver();
                 return;
             };
@@ -533,29 +584,30 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
             return;
         }
     }
-    React.useEffect(() => {
-        if (firstRender.current) {
-            return;
-        }
-        if (!currentPiece.current) {
-            return;
-        }
-        switch (moveDown(currentPiece.current)) {
-            case true:
-                setIsChanged(!isChanged);
-                break;
-            case "fullRows":
-                setFullRowsStatus(!fullRowsStatus)
-                break
-            case false:
-                setNotifyEnd(!notifyEnd)
-                break;
-        }
-    }, [getMovement])
+    //React.useEffect(() => {
+    //    if (firstRender.current) {
+    //        return;
+    //    }
+    //    if (!currentPiece.current || !getMovement) {
+    //        return;
+    //    }
+    //    switch (moveDown(currentPiece.current)) {
+    //        case true:
+    //            break;
+    //        case "fullRows":
+    //            setFullRowsStatus(!fullRowsStatus)
+    //            break
+    //        case false:
+    //            setNotifyEnd(!notifyEnd)
+    //            break;
+    //    }
+    //    setSendMovement(false);
+    //    console.log("setSendMovement executes back to false", getMovement);
+    //}, [getMovement])
 
 
     return (
-        <div className="tableBoard" reactkey="board">  
+        <div className="tableBoard clearfix" reactkey="board">  
             <table className={`${boardStatus ? "CanvasBoard" :"CanvasBoard hidden"}`} reactkey="tableMain">
                 <tbody>
                     {array_prop.map((x, index) => {
@@ -573,10 +625,11 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
                 </tbody>
             </table>
             <StartScreen board={boardStatus} setBoard={setBoardStatus }/>
-            <button type="button" className="testButton" onClick={handleclick}>test</button>
+            <button type="button" className="testButton hidden" onClick={handleclick}>test</button>
 {/*            <button type="button" className="testButton" onClick={handleClick2}>test</button>*/}
             <div className="countdown"><div className="countdownText">{countdown}</div></div>
-            <div className={`${fuck ? "fuckYou":"hidden"}` }>YOU SUCK</div>
+            <PauseScreen gameOn={gameOn} setGameOn={setGameOn} />
+            <OverScreen gameOn={gameOn} callback={RemakeEveryting} />
         </div>
     )
 }
@@ -630,5 +683,14 @@ const CanvasCell = ({ row_number, cell_number, mutableFinal }) => {
         <td className={"cell " + color + ghostClass} id={"r" + row_number + "c" + cell_number} value={CellValue} ></td>
         )
 }
-
+const useRemakeGame = (firstRender, gameOn, setter, template) => {
+    React.useEffect(() => {
+        if (firstRender.current) {
+            return;
+        }
+        if (!gameOn) {
+            restoreBoard(setter, template);
+        }
+    },[gameOn])
+}
 export { CanvasGame };

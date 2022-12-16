@@ -1,20 +1,20 @@
 import * as React from "react";
-//const GameOfFunction = () => {
-//    let array = [];
-//    let temp = [];
-//    for (let x = 0; x < 10; x++) {
-//        temp.push({
-//            index: x,
-//            value: 0,
-//        });
-//    }
-//    let y = 0;
-//    while (y < 20) {
-//        array.push(temp);
-//        y++;
-//    }
-//    return array;
-//};
+const GameOfFunction = () => {
+    let array = [];
+    let temp = [];
+    for (let x = 0; x < 10; x++) {
+        temp.push({
+            value: 0,
+            motion: false
+        });
+    }
+    let y = 0;
+    while (y < 23) {
+        array.push(temp);
+        y++;
+    }
+    return JSON.parse(JSON.stringify(array));
+};
 // encountered a very peculiar problem with using an array generated this way. Hard to explain, but when changing value of a single "cell"
 // all the cells that share the index would change their values too. Example:
 // let array = GameOfFunction();
@@ -634,4 +634,4 @@ const createNextPieceArray = () => {
     let clone = JSON.parse(JSON.stringify(nextPieceArray))
     return clone;
 }
-export { StartArray, StartArray2, createNextPieceArray }
+export { StartArray, StartArray2, createNextPieceArray, GameOfFunction }

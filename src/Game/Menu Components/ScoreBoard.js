@@ -1,6 +1,7 @@
 import * as React from "react";
-const ScoreBoard = ({ currentLevel, linesCleared, resetLinesCleared }) => {
+const ScoreBoard = ({ currentLevel, linesCleared, resetLinesCleared, gameOn, Text, lang }) => {
     console.log("ScoreBoard renders")
+    const [isChanged, setIsChanged] = React.useState(false);
     const FirstRenderRef = React.useRef(true);
     const ScoreObj = React.useRef({
         Score: 0,
@@ -45,16 +46,18 @@ const ScoreBoard = ({ currentLevel, linesCleared, resetLinesCleared }) => {
         calculateScore();
         resetLinesCleared(null)
         return;
-    },[linesCleared])
+    }, [linesCleared])
+    useRefreshScore(FirstRenderRef, gameOn, ScoreObj, setIsChanged);
     return (
         <div className="scoreBoard">
             <table className="scoreBoardTable">
                 <tbody>
                     <tr>
-                        <th colSpan="2">Score</th>
+                        <th colSpan="2">{Text[lang].scoreBoard.score }</th>
                     </tr>
                     <tr>
-                        <td>Total:</td>
+                        <td>{Text[lang].scoreBoard.total}</td>
+
                         <td>{ScoreObj.current.Score}</td>
                     </tr>
                     <tr>
@@ -82,7 +85,7 @@ const ScoreBoard = ({ currentLevel, linesCleared, resetLinesCleared }) => {
                         <td>{ScoreObj.current.lines_1}</td>
                     </tr>
                     <tr>
-                        <td>Lines total:</td>
+                        <td>{Text[lang].scoreBoard.lines_total}</td>
                         <td>{ScoreObj.current.lines_total}</td>
                     </tr>
                 </tbody>
@@ -119,12 +122,33 @@ const IndicatorCell = ({lightUp}) => {
         </>
             )
 }
-const LevelIndicator = ({currentLevel}) => {
+const LevelIndicator = ({currentLevel, Text, lang}) => {
 
     return (
         <div className="levelIndicator">
-            <span className="levelIndicatorText">{`Level ${currentLevel}`} </span>
+            <span className="levelIndicatorText">{Text[lang].scoreBoard.level} {currentLevel}</span>
         </div>
         )
+}
+const useRefreshScore = (firstRender, gameOn, scoreObj, resetState) => {
+    React.useEffect(() => {
+        if (firstRender.current) {
+            return;
+        }
+        if (gameOn === false) {
+            remakeScoreObj(scoreObj);
+            console.log(scoreObj, "logging score object");
+            return;
+        }
+    },[gameOn])
+}
+const remakeScoreObj = (obj) => {
+    obj.current.Score = 0;
+    obj.current.lines_4 = 0;
+    obj.current.lines_3 = 0;
+    obj.current.lines_2 = 0;
+    obj.current.lines_1 = 0;
+    obj.current.lines_total = 0;
+    return;
 }
 export { ScoreBoard, LevelIndicator };

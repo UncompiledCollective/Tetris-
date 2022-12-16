@@ -1,5 +1,5 @@
 .BoardPermament {
-/*    position: absolute;
+    /*    position: absolute;
     border: 2px solid black;
     top: 50%;
     left: 50%;
@@ -9,23 +9,18 @@
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;*/
-/*    This oen is for the float boxes layout. Gonna try absolutely positioned one. Will see how it works.*/
-
+    /*    This oen is for the float boxes layout. Gonna try absolutely positioned one. Will see how it works.*/
     position: absolute;
-    top:48%;
-    left:50%;
+    top: 51.5%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    height: 83%;
+    height: 76%;
     width: 100%;
     margin: 0px;
-    padding: 0px;
-    box-sizing:border-box;
+    padding:0;
+    box-sizing: border-box;
     /*For Absolute positioning in absolute columns
  */
-
-    
-    
-    
     /*    position: fixed;
     top: 50%;
     left: 50%;
@@ -46,28 +41,33 @@
     .BoardPermament::after {
 
     }
+
+.tableBoard {
+    user-select: none;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(124, 43, 161, 0.75);
+    border: 2px solid black;
+    border-radius: 0 0 8px 8px;
+}
 .CanvasBoard {
+    position: absolute;
     height: 100%;
     width: 100%;
+    background-color: #b65fe5;
+    z-index: 0;
+    border-radius:inherit;
 }
 
-.tableBoard{
-    width:100%;
-    height:100%;
-    background-color:rgba(124, 43, 161, 0.75);
-    border: 2px solid black;
-    border-radius:0 0 8px 8px;
-}
 .hidden{
     display:none
 }
 .row{
     width:100%;
-    height:5%;
 }
 .cell{
     width:10%;
-    height:5%;
     border: 1px solid black;
 }
 .testButton{
@@ -108,16 +108,36 @@
     padding-bottom:10%;
 
 }
+/*startButton style*/
 .startButton {
-    margin: auto;
-    width: 200px;
-    height: 100px;
-    border: 1px red solid;
-    position: center;
+    position:relative;
+    width:17%;
+    height:0%;
+    padding-bottom:17%;
+    transform:translate(-50%,-50%);
+    left:50%;
+    top:50%;
+    z-index:1;
 }
-.startButton:hover {
-        border: 3px red solid;
-    }
+.startButtonSvg{
+    position:absolute;
+    width:100%;
+    height:100%;
+    fill:#ffacf8;
+    stroke:#f78cff;
+    stroke-width:0.5rem;
+    padding-top:5px;
+    padding-bottom:5px
+}
+#startButton:hover {
+    width: 19%;
+    height: 0%;
+    padding-bottom: 19%;
+}
+#startButton:hover #startButtonSvg {
+    stroke: #1f1e1e;
+    stroke-width: 0.8rem;
+}
 .red{
     background-color:red;
 }
@@ -142,15 +162,28 @@
 .cell.ghost{
     background-color:aliceblue;
 }
+
+/*Game over screen style:*/
+.overScreenContainer {
+    position: relative;
+    width: 100%;
+    height: 55%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    z-index: 2;
+    animation: fadein 5s;
+}
+
 .fuckYou {
+    position: absolute;
+    display: inline;
     height: 400px;
     width: 1000px;
-    position: fixed;
-    top: 40%;
-    left: -100px;
+    left: -12%;
+    top:-10%;
     font-size: 120px;
-    animation: fadein 5s;
-    z-index:10;
+
 }
 @keyframes fadein {
     from {
@@ -160,4 +193,67 @@
     to {
         opacity: 1;
     }
+}
+.replayButtonHolder {
+    display: inline-block;
+    position: relative;
+    width: 11rem;
+    height: 11rem;
+    transform:translate(-50%);
+    top:20%;
+    left:50%;
+}
+.refreshButtonSvg {
+    position: absolute;
+    height: inherit;
+    width:inherit;
+    left:0%;
+    top: -25%;
+    stroke: #191919;
+
+}
+
+.refreshButtonSvg:hover{
+    transform-origin: center;
+    animation: antiprogress 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes antiprogress {
+    from{
+        
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(-360deg);
+    }
+}
+/*Pause button style*/
+.pauseScreen {
+    position: relative;
+    display: inline-block;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    width: 80%;
+    height: 30%;
+    z-index: 2;
+}
+.pauseButton {
+    position:absolute;
+    width:50%;
+    height:50%;
+    transform:translateX(-50%);
+    left:49%;
+    bottom:55%;
+    stroke:white;
+    stroke-width:0.3px;
+}
+.pauseButton:hover{
+    stroke:white;
+    stroke-width:0.5px;
+}
+.pauseButton>path{
+    fill:#f2c3ff;
 }

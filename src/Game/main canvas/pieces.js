@@ -313,4 +313,53 @@ const findHeight = (array) => {
     }
     return height
 }
-export { Pieces, getFirstPiece, getNextPiece, changeCheckDown, changeCheckSide, changeCheckGhost, findLowestY, findHeight };
+//check if can be spawn, and spawn the piece
+const checkFirst = (piece, reference) => {
+    for (let a = 0; a < piece.check.length; a++) {
+        if (reference[piece.check[a][0]][piece.check[a][1]].value !== 0) {
+            return false
+        }
+    } return true
+}
+const checkLast = (piece, reference) => {
+    piece.arr.map((x) => x[0] -= 1);
+    piece.check.map((x) => x[0] -= 1);
+    piece.check_left.map((x) => x[0] -= 1);
+    piece.check_right.map((x) => x[0] -= 1);
+    console.log(piece, "logging piece after updates for last chance;")
+    for (let b = 0; b < piece.check.length; b++) {
+        if (reference[piece.check[b][0]][piece.check[b][1]].value !== 0) {
+            return false
+        }
+    } return true
+}
+const checkSpawn = (piece, reference) => { //checks if the piece can be spawned. it's the condition of defeat in tetris.
+    if (checkFirst(piece, reference)) {
+        return true;
+    } else {
+        if (checkLast(piece, reference)) {
+            return true
+        } else {
+            return false;
+        }
+    }
+}
+const spawnPiece = (piece, reference, setter) => {
+    if (checkSpawn(piece, reference)) {
+        setter((x) => {
+            let temp = x;
+            for (let y = 0; y < piece.arr.length; y++) {
+                temp[piece.arr[y][0]][piece.arr[y][1]].value = piece.val
+            }
+            return x = temp;
+        })
+        return piece;
+    } else {
+        return false;
+    }
+}
+export {
+    Pieces, getFirstPiece, getNextPiece, changeCheckDown,
+    changeCheckSide, changeCheckGhost, findLowestY, findHeight,
+    spawnPiece,checkFirst, checkLast, checkSpawn
+};

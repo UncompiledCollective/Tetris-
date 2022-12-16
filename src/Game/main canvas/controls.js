@@ -1,33 +1,4 @@
-const checkFirst = (piece, reference) => {
-    for (let a = 0; a < piece.check.length; a++) {
-        if (reference[piece.check[a][0]][piece.check[a][1]].value !== 0) {
-            return false
-        }
-    } return true
-}
-const checkLast = (piece, reference) => {
-    piece.arr.map((x) => x[0] -= 1);
-    piece.check.map((x) => x[0] -= 1);
-    piece.check_left.map((x) => x[0] -= 1);
-    piece.check_right.map((x) => x[0] -= 1);
-    console.log(piece, "logging piece after updates for last chance;")
-    for (let b = 0; b < piece.check.length; b++) {
-        if (reference[piece.check[b][0]][piece.check[b][1]].value !== 0) {
-            return false
-        }
-    } return true
-}
-const checkSpawn = (piece, reference) => { //checks if the piece can be spawned. it's the condition of defeat in tetris.
-    if (checkFirst(piece, reference)) {
-        return true;
-    } else {
-        if (checkLast(piece, reference)) {
-            return true
-        } else {
-            return false;
-        }
-    }
-}
+
 const checkMoveLeft = (piece, reference) => {
     for (let x = 0; x < piece.check_left.length; x++) {
         if (piece.check_left[x][1] === 0) {
@@ -102,4 +73,8 @@ const checkIfAnyFull = (piece, reference, fullRowRef) => {
         return false
     }
 }
-export { checkFirst, checkLast, checkSpawn, checkMoveDown, checkMoveRight, checkMoveLeft, checkIfAnyFull };
+const restoreBoard = (setter, template) => {
+    setter((x) => template());
+    return;
+}
+export {checkMoveDown, checkMoveRight, checkMoveLeft, checkIfAnyFull, restoreBoard };

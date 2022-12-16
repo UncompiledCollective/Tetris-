@@ -1,5 +1,5 @@
 import * as React from "react";
-const Timer = ({ gameOn, setSendMovement, currentLevel }) => {
+const Timer = ({ gameOn, setSendMovement, currentLevel, sendMovement }) => {
     console.log("Timer renders")
     const [timeRightNow, setTimeRightNow] = React.useState(0);
     const firstRender = React.useRef(false);
@@ -7,7 +7,6 @@ const Timer = ({ gameOn, setSendMovement, currentLevel }) => {
     const updateTime = () => {
         setTimeRightNow((x) => x + 10);
     }
-
     const updateGravity = (x, level) => {
         if (level === 0) {
             return 800;
@@ -24,9 +23,11 @@ const Timer = ({ gameOn, setSendMovement, currentLevel }) => {
                 temp = 2;
         }
         let temp2 = Math.round((0.8 - ((level) * 0.007)) ** (level) * 100) * 10;
+        console.log(temp2, "logging new gravity")
         return temp2;
     }
     React.useEffect(() => { //increases gravity
+        console.log("side effect inside timer runs")
         if (firstRender.current) {
             return;
         }
@@ -42,12 +43,18 @@ const Timer = ({ gameOn, setSendMovement, currentLevel }) => {
             firstRender.current = !firstRender.current;
             return;
         }
-        if (!gameOn || gameOn === "pause") {
+        if (!gameOn || gameOn === "pause" || gameOn === "removing" || sendMovement) {
             return;
         }
-        if (gameOn) {
+        if (gameOn === "over") {
+            setGravity(800);
+            setTimeRightNow(0);
+            console.log(Gravity, timeRightNow, "logging aat Timer at gameOver")
+            return;
+        }
+        if (gameOn === true) {
             if (timeRightNow === Gravity) {
-                setSendMovement((x) => !x);
+                setSendMovement(true);
                 setTimeRightNow(0);
             }
             else {
@@ -60,7 +67,7 @@ const Timer = ({ gameOn, setSendMovement, currentLevel }) => {
             console.log(timeRightNow, "logging timeRightNow")
             return;
         }
-    }, [timeRightNow, gameOn, currentLevel])
+    }, [timeRightNow, gameOn, currentLevel, sendMovement])
     return (
         <div>
         </div>

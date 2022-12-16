@@ -1,32 +1,11 @@
 import * as React from "react";
-const NextPiece = ({ getNextPiece, createMutableArray }) => {
+const NextPiece = ({ getNextPiece, createMutableArray, gameOn }) => {
     const [mutableArray, setMutableArray] = React.useState(createMutableArray)
-    const boardArray = [0, 1, 2, 3, 4, 5]
+    const boardArray = [0, 1, 2, 3, 4,]
     const cellArray = [0, 1, 2, 3]
     const firstRender = React.useRef(true)
-    React.useEffect(() => {
-        if (firstRender.current) {
-            firstRender.current = !firstRender.current
-            return;
-        }
-        if (getNextPiece == null) {
-            return;
-        }
-        setArray(getNextPiece);
-        console.log(getNextPiece)
-    },[getNextPiece])
-
-    const setArray = (piece) => {
-        setMutableArray((x) => {    
-            let temp = createMutableArray();
-            for (let y = 0; y < piece.arr.length; y++) {
-                temp[piece.arr[y][0]-2][piece.arr[y][1]-3].value = piece.val
-            }
-            return x = temp;
-        })
-        return;
-    }
-
+    useRefreshPiece(firstRender, gameOn, setMutableArray, createMutableArray, getNextPiece);
+    useNextPiece(firstRender, getNextPiece, setArray, setMutableArray, createMutableArray)
     return (
         <div className="nextPiece">
             <table className="nextPieceTable">
@@ -84,5 +63,39 @@ const NextPieceCell = ({ cell_id, row_id, mutableFinal }) => {
     return (
         <td className={"nextPieceCell " + color} id={"r" + row_id + "c" + cell_id }  value={cellValue}></td>
         )
+}
+const setArray = (piece, setMutableArray, createMutableArray) => {
+    setMutableArray((x) => {
+        let temp = createMutableArray();
+        for (let y = 0; y < piece.arr.length; y++) {
+            temp[piece.arr[y][0] - 2][piece.arr[y][1] - 3].value = piece.val
+        }
+        return x = temp;
+    })
+    return;
+}
+const useNextPiece = (firstRender, getNextPiece, setArray, setMutableArray, createMutableArray) => {
+    React.useEffect(() => {
+        if (firstRender.current) {
+            firstRender.current = !firstRender.current
+            return;
+        }
+        if (getNextPiece == null) {
+            return;
+        }
+        setArray(getNextPiece, setMutableArray, createMutableArray);
+        console.log(getNextPiece)
+    }, [getNextPiece])
+}
+const useRefreshPiece = (firstRender,gameOn, setMutableArray, createMutableArray, nextPiece) => {
+    React.useEffect(() => {
+        if (firstRender.current) {
+            return;
+        }
+        if (gameOn === false || nextPiece === null) {
+            setMutableArray(createMutableArray);
+            return;
+        }
+    },[gameOn])
 }
 export { NextPiece };

@@ -1,11 +1,14 @@
 import * as React from "react";
+import { ReactComponent as SpeakerUp } from "./Menu SVGs/speaker_up3.svg";
+import { ReactComponent as SpeakerDown } from "./Menu SVGs/speaker_down3.svg";
 const MuteButton = ({setMute, isMute }) => {
     const handleClick = () => {
-        return isMute ? setMute("") : setMute("");
+        setMute(!isMute)
     }
     return (
         <div className="muteButtonHolder">
-            <button className="muteButton"type="button" onClick={handleClick}>MuteButton</button>
+            {isMute ? (<SpeakerDown className="muteButton Up" type="button" onClick={handleClick} />) :
+                (< SpeakerUp className="muteButton Up" type="button" onClick={handleClick} />)}
         </div>
         )
 }
