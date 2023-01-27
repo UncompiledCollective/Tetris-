@@ -7,6 +7,7 @@ const gameText = {
             polish: "polish",
             ghostPiece: "GhostPiece",
             ghostDisc1: "GhostPiece shows where the piece is gonna fall. Press spacebar to  instantly move the piece there.",
+            congratulations: "Congratulations!"
         },
         sound: {
             sound: "sound",
@@ -45,7 +46,19 @@ const gameText = {
             level: "Level",
             score: "Score",
             total: "Total",
-            lines_total:"Lines total: "
+            lines_total: "Lines total: ",
+            special: "Allowed special characters are: ",
+            spaceBound: "Name cannot start or end with a whitespace",
+            spaceCount: "A single whitespace is allowed",
+            short: "Minimum length is 6 characters",
+            long: "Maximal length is 13 characters",
+            right: "The name is alright : )",
+            letter: "The name must contain at least one letter",
+            new_score: {
+                local: "Your score made it to local score board!",
+                global: "Your score made it to global score board!"
+            },
+            your_slot:"Your placement: number ",
         },
     },
     pl: {
@@ -55,13 +68,14 @@ const gameText = {
             english: "angielski",
             polish: "polski",
             ghostPiece: "klocek-duch",
-            ghostDisc1: "Klocek-duch pokazuje gdzie obecny klocek ma spaść. Naciśnij spacje by natychmiast się tam znalazł."
+            ghostDisc1: "Klocek-duch pokazuje gdzie obecny klocek ma spaść. Naciśnij spacje by natychmiast się tam znalazł.",
+            congratulations: "Gratulacje!"
         },
         sound: {
             sound: "dźwięk",
             music: "muzyka",
             sfx: "efekty dźwiękowe",
-            playing:"teraz gra:"
+            playing: "teraz gra:"
         },
         controls: {
             controls: "sterowanie",
@@ -95,12 +109,25 @@ const gameText = {
             score: "Wynik",
             total: "Razem",
             lines_total: "Razem linie:",
+            special: "Dozwolone znaki specjalne to: ",
+            spaceBound: "Nazwa nie może zacznać albo konczyć spacją",
+            spaceCount: "Tylko jedna spacja jest dozwolona",
+            short: "Nazwa musi mieć minimum 6 znaków",
+            long: "Nazwa musi mieć nie więcej niż 13 znaków",
+            right: "Nazwa jest w porządku",
+            letter: "Nazwa musi zawierać przynajmniej jedną litere",
+            new_score: {
+                local: "Twój wynik znalazł się na lokalnej tabeli wyników!",
+                global: "Twój wynik znalazł się na globalnej tabeli wyników!"
+            },
+            your_slot: "Twoja pozycja: ",
         },
 
     },
     misc: {
         name: "UncompilledCollective",
-        git:"link to github;"
+        git: "link to github;",
+        chars:"$#^*()-:;<>~_",
     }
 }
 export { gameText };

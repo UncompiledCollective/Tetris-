@@ -15,7 +15,6 @@ import {
     } from './controls.js'
 const death_sound = new Audio(death)
 const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGameOn, getMovement, setSendMovement, isSettingsOpen, ghost }) => {
-    console.log("CanvasGame renders")
     const [GameArray, setGameArray] = React.useState(StartArray); // ok this is a mutable array used only to change the value attribute of cells
     const [isChanged, setIsChanged] = React.useState(false); // GameArray is an Array, if certain key-value pair changes it will not trigger a rerender. This will be used to trigger that rerender. Probably gonna wrap that into a function.
     const [boardStatus, setBoardStatus] = React.useState(false); //used to reveal the board and hide the start button. Is passed down as props.
@@ -392,7 +391,7 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
         }
     }, [countdown]);
 
-    useRemakeGame(firstRender, gameOn, setGameArray, GameOfFunction);
+    useRemakeGame(firstRender, gameOn, setGameArray, GameOfFunction, setBoardStatus);
     React.useEffect(() => { // ok so basicly
         if (firstRender.current === true) {
             return;
@@ -433,20 +432,21 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
 
 
     React.useEffect(() => { //controls the player input
-        //if (wasRotated.current) { //regenerate checks after rotation. Necessary. 
+        //if (wasRotated.current) { //regenerate checks after rotation. Necessary.
         //    currentPiece.current.check = changeCheckDown(currentPiece.current.arr)
         //    currentPiece.current.check_left = changeCheckSide(currentPiece.current.arr, "left")
         //    currentPiece.current.check_right = changeCheckSide(currentPiece.current.arr, "right")
         //    wasRotated.current = false;
-        //} 
+        //}
         //if (getMovement) {
         //    return;
         //}
+
+        if (gameOn === false || gameOn ==="over") { // this line disables the event listener when rows are being deleted.
+            return;
+        }
         const handleCapture = (event) => {
             event.preventDefault();
-            if (!gameOn) { // this line disables the event listener when rows are being deleted.
-                return;
-            }
             if (currentPiece.current == null) { //if there's no piece at all - disable event listener
                 return;
             }
@@ -560,8 +560,7 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
         setCountdown(3);
     }, [boardStatus])
 
-    const true_Game = () => { // spawns the next piece. Generetaes new pieces. Sends the next piece to be displayed
-        console.log("trueGame executes") // at NextPiece.js
+    const true_Game = () => { // spawns the next piece. Generetaes new pieces. Sends the next piece to be displayed// at NextPiece.js
         if (currentPiece.current == null) {
             currentPiece.current = getFirstPiece();
             nextPiece.current = getNextPiece(currentPiece.current);
@@ -683,13 +682,15 @@ const CanvasCell = ({ row_number, cell_number, mutableFinal }) => {
         <td className={"cell " + color + ghostClass} id={"r" + row_number + "c" + cell_number} value={CellValue} ></td>
         )
 }
-const useRemakeGame = (firstRender, gameOn, setter, template) => {
+const useRemakeGame = (firstRender, gameOn, setter, template, setBoardStatus) => {
     React.useEffect(() => {
         if (firstRender.current) {
             return;
         }
         if (!gameOn) {
             restoreBoard(setter, template);
+            setBoardStatus(false);
+            return;
         }
     },[gameOn])
 }

@@ -1,10 +1,9 @@
 import * as React from "react";
 import { songs, generatePlaylist } from "./songsObj.js";
 
-const MusicPlayer = ({ mVol, isMute, Text, lang }) => {
-    console.log("music player renders")
+const MusicPlayer = ({ mVol, isMute, Text, lang, isFocused }) => {
     const [song, setSong] = React.useState(0); //what's the index of current song, we start at 0
-    const [isPlaying, setIsPlaying] = React.useState(false); //is the music playing
+    const [isPlaying, setIsPlaying] = React.useState(null); //is the music playing
     const [isPopup, setIsPopup] = React.useState(false);//change state
     const [tryPromise, setTryPromise] = React.useState(false);
     const firstRenderRef = React.useRef(true);
@@ -25,14 +24,15 @@ const MusicPlayer = ({ mVol, isMute, Text, lang }) => {
             break;
     }
     useClosePopup(firstRenderRef, isPopup, setIsPopup)
-    useStartPlaying(firstRenderRef, setIsPlaying, isPlaying, musicRef.current, song, mVol, setTryPromise, tryPromise);
-    useSwitchSong(song, setSong, playlistRef)
+    useStartPlaying(firstRenderRef, setIsPlaying, isPlaying, musicRef.current, song, mVol, setTryPromise, tryPromise, isMute);
+    useSwitchSong(song, setSong, playlistRef, isFocused)
     return (
         <div className="soundContainer">
             <audio src={songs[playlistRef.current[song]].audio}
                 ref={musicRef}
                 onEnded={(e) => autoPlay(e, song, setSong, playlistRef)}
                 muted={isMute}
+                autoPlay={true }
             >
             </audio>
 
@@ -51,31 +51,37 @@ const MusicPlayer = ({ mVol, isMute, Text, lang }) => {
 
 
 // hooks and functions:
-const useStartPlaying = (firstRender, setPlay, play, musicRef, song, mVol, setTryPromise, tryPromise) => {
+const useStartPlaying = (firstRender, setPlay, play, musicRef, song, mVol, setTryPromise, tryPromise, mute) => {
     React.useEffect(() => {
         const tryAgain = () => {
             setTryPromise(!tryPromise)
         }
+        const setPlayDelayTrue = () => {
+            setPlay(true)
+        }
+        const setPlayDelayFalse = () => {
+            setPlay(false)
+        }
         if (firstRender.current) {
-            const startPlaying = () => {
-                setPlay(true);
-                return;
-            }
-            
-            let delay = setTimeout(startPlaying, 4000);
+            //const startPlaying = () => {
+            //    setPlay(true);
+            //    return;
+            //}
+            //let delay = setTimeout(startPlaying, 4000);
+            setPlay(false);
             firstRender.current = false;
             return;
         }
-        if (play) {
-            try {
-                musicRef.play()
-                musicRef.volume = mVol / 100;
-            } catch {
-                let delay2 = setTimeout(tryAgain, 3000)
-                console.log("trying again")
-            }
+        if (!play) {
+            musicRef.pause()
+            let delay = setTimeout(setPlayDelayTrue, 4500);
         }
-    },[play, song, mVol, tryPromise])
+        if (play) {
+            musicRef.volume = mVol / 100;
+            musicRef.play();
+        }
+
+    },[play, song, mVol, tryPromise, mute])
 }
 
 const autoPlay = (e, song, setSong, playlistRef) => {
@@ -112,8 +118,11 @@ const setNext = (song, setSong, playlistRef) => {
     }
     return;
 }
-const useSwitchSong = (song, setSong, playlistRef) => {
+const useSwitchSong = (song, setSong, playlistRef, isFocused) => {
     React.useEffect(() => {
+        if (isFocused) {
+            return;
+        }
         const handleKey = (event) => {
             if (event.key === "o") {
                 setPrevious(song, setSong, playlistRef)
@@ -127,7 +136,7 @@ const useSwitchSong = (song, setSong, playlistRef) => {
         }
         document.addEventListener("keydown", handleKey)
         return () => document.removeEventListener("keydown", handleKey)
-    }, [song])
+    }, [song, isFocused])
 }
 const handleClick = (e, text, cords, setter, status) => {
     cords.current[0] = e.clientX;

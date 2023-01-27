@@ -1,0 +1,696 @@
+@use 'sass:math';
+@font-face {
+    font-family: 'Cascadia Code', sans-serif;
+    src: url("D:\gay shit\true-tetris\src\Game\Menu Components\fonts\Cascadia.ttf");
+}
+
+$holder-color:#e49fee;
+$holder-border-color: #b33fdf;
+.leaderBoardButtonHolder{
+    box-sizing:border-box;
+    $local-square:25%;
+    position:absolute;
+    top:40%;
+    left:10%;
+    width:$local-square;
+    height:0%;
+    padding-bottom:$local-square - 3%;
+    margin:0 auto;
+    border:0.5rem solid;
+    border-color:$holder-border-color;
+    border-radius:50%;
+    background:$holder-color;
+    &:hover{
+        >svg>path{
+            stroke:red;
+        }
+    }
+}
+.leaderBoardButton {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    left: 5%;
+    object-fit: cover;
+
+    & > path {
+        stroke: $holder-border-color;
+    }
+}
+$container-border-color:#f4acff;
+$container-background-color:#9233cb;
+.leaderBoardContainer {
+    box-sizing: border-box; 
+    position: absolute;
+    background: $container-background-color;
+    width: 40%;
+    height: 95%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 1;
+    border: 0.45rem solid $container-border-color;
+    border-radius: 1.5rem;
+    z-index:3;
+
+}
+.leaderBoardProper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background-color: inherit;
+    box-sizing: border-box;
+}
+/*Tab holder for the leaderboard (local, global, close cross)*/
+.leaderTabHolder {
+    position: relative;
+    width: 100%;
+    height: 6%;
+    box-sizing:border-box;
+    border-bottom:0.4rem solid $container-border-color;
+    & > div {
+        float: left;
+        display: block;
+        position: relative;
+        height:100%;
+        box-sizing:border-box;
+    }
+}
+.leaderTab {
+    width: 47%;
+    border-right: 0.3rem solid $container-border-color;
+    &.up{
+        background:#2b2b2b50;
+    }
+    &.global{
+        border-top-left-radius:1rem;
+    }
+}
+.leaderImgContainer{
+    position:relative;
+    height:100%;
+    width:20%;
+    padding: 1% 35% 1% 35%;
+}
+.leaderSVG {
+    position:relative;
+    width:auto;
+}
+.leaderSVG.local{
+    height:88%;
+    width:auto;
+    object-fit:contain;
+    fill:$container-background-color;
+}
+.leaderSVG.global{
+    height:90%;
+    width:auto;
+    background:$container-background-color;
+    border-radius:50%;
+}
+.leaderBoardCrossHolder {
+    position:relative;
+    display:block;
+    width:6%;
+    float:left;
+    height:100%;
+    border-radius:0.5rem;
+}
+.settingsCross.leader {
+    width: 100%;
+    height: 100%;
+    &>g>line{
+        stroke-width: 2px;
+        stroke: black;
+    }
+    &:hover{
+        &>g>line{
+            stroke-width:2.5px;
+            stroke:black;
+        }
+    }
+}
+/*SpotHolder*/
+$slotMargin: 0.4rem;
+.spotsHolder{
+    box-sizing:border-box;
+    position:relative;
+    width:100%;
+    height:89%;
+/*    background:red;*/
+    box-sizing:border-box;
+    border-bottom:0.3rem solid $container-border-color;
+    border-bottom-left-radius:0.2rem;
+    border-bottom-right-radius:0.2rem;
+
+}
+.leaderSlotHolder {
+    box-sizing:border-box;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-auto-rows: repeat(5, 20%);
+    gap: $slotMargin;
+    padding: $slotMargin 0.2rem $slotMargin 0.2rem;
+    &:nth-child(3) {
+        background: red;
+    }
+}
+.leaderSlotProper {
+    box-sizing: border-box;
+    border-radius: 2rem;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background: #752ca0;
+    & > span {
+        display: block;
+    }
+}
+.leaderSlot {
+    box-sizing: border-box;
+    display: inline-block;
+    position: absolute;
+    border-radius: inherit;
+    width: 99%;
+    left: 0.5%;
+    height: 96%;
+    top: 2%;
+    border: 0.3rem solid #f4acff;
+    background: #b33fdf;
+
+    & > span {
+        text-align: center;
+        display: block
+    }
+
+    & > div {
+        display: inline-block;
+        box-sizing: border-box;
+        float: left;
+        position: relative;
+    }
+}
+.slotAvatarContainer {
+    margin: 1% 0.5% 1% 2%;
+    height: 90%;
+    width: 0%;
+    padding-left: 19%;
+    border-radius: 1rem;
+    & > img {
+        position: absolute;
+        display: block;
+        left: 0%;
+        margin: 0.2rem;
+        margin-left: 0.4rem;
+        width: 86%;
+        border-radius: 2rem;
+    }
+}
+.slotStatContainer {
+    width: 76%;
+    margin: 1% 0.5% 1% 0.5%;
+    height: 90%;
+    border-radius: 1rem;
+    &>div{
+        font-family:"Cascadia Code";
+        color:#b317ed;
+    }
+}
+.slotTitle, .slotBig, .slotSmall {
+    float: left;
+    position: relative;
+    width: 71%;
+    margin-left:1%;
+}
+.slotScore {
+    position: relative;
+    float: right;
+    height: 100%;
+    width: 27%;
+    margin-left: 1%;
+    text-align: center;
+
+    & > * {
+        border-radius: 1rem;
+        background: #f4acff;
+        float: left;
+        clear: both;
+        position: relative;
+    }
+
+    & > span {
+        padding: 0 2rem 0 2rem;
+        margin: 0.1rem 0.5rem 0.5rem;
+        top: 1rem;
+    }
+
+    & > div {
+        font-size: 1.5rem;
+        margin-top: 12%;
+        width: 100%;
+        min-height: 1.8rem;
+        max-height: max-content;
+    }
+}
+.slotTitle{
+    height:25%;
+    margin-left:1%;
+    text-align:center;
+    &>span{
+        border-radius:1rem;
+        position:relative;
+        font-size:1.2rem;
+        min-width:1rem;
+        max-width:max-content;
+        padding: 0 2rem 0 2rem;
+        background:#f4acff;
+    }
+}
+.slotBig{
+    width:71%;
+    height:50%;
+    display:grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap:5px;
+}
+.slotSmall {
+    width: 71%;
+    height: 25%;
+    margin-top: 1.5%;
+    & > span {
+        border-radius: 1rem;
+        background: #f4acff;
+        float: left;
+        min-width: 40%;
+        padding: 0 0.8rem 0 1rem;
+        text-align: center;
+    }
+}
+#first{
+    margin-right:2.3%;
+}
+.slotTableAndNumber{
+    border-radius:1rem;
+    background-color:#f4acff;
+    &>*{
+        display:inline-block;
+        float:left;
+    }
+    &>span{
+        padding-top:1%;
+        font-size:1.2rem;
+    }
+    &>div{
+        margin:1% 25% 0 10%;
+    }
+}
+/*LeaderBoardArrowHolder style...*/
+.leaderArrowHolder {
+    position: relative;
+    width: 100%;
+    height: 5%;
+    border-bottom-left-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+}
+.leaderArrowContainer{
+    float:left;
+    position:relative;
+    width:50%;
+    height:100%;
+}
+.leaderArrowMiniHolder{
+    $square-side:15%;
+    position:relative;
+    height:100%;
+    width:15%;
+    &.left{
+        float:right;
+        right:0.5%;
+        bottom:0;
+    }
+    &.right{
+        float:left;
+        left:0.5%
+    }
+}
+.leaderArrow {
+    position: absolute;
+    height: 93%;
+    width: auto;
+    background: #8352ff;
+    border-radius: 50%;
+    top:3%;
+    & > g > g > path {
+        fill: $container-border-color;
+        stroke-width: 4px;
+    }
+
+    &.left {
+        right: 0;
+    }
+
+    &.right {
+        left: 0;
+    }
+}
+/*ScoreBoard style*/
+$score-screen-border:#b317ed;
+$score-screen-background:#f4acff;
+.scoreScreenHolder{
+    font-family:"Cascadia Code";
+    position:relative;
+    width:28%;
+    height:20%;
+    background:$container-border-color;
+    top:45%;
+    border:0.3rem solid $score-screen-border;
+    border-radius:1.6rem;
+    animation: fadeItIn 1.5s;
+    box-sizing:border-box;
+    transform:translateX(-50%);
+    left:50%;
+    z-index:2;
+    display:inline-block;
+}
+
+.scoreScreenProper{
+    position:relative;
+    width:100%;
+    height:100%;
+    &>div{
+        float:left;
+        box-sizing:border-box;
+    }
+}
+.bigHolder {
+    display: block;
+    width: 75%;
+    height: 60%;
+}
+.avatarHolder {
+    float:left;
+    display:inline-block;
+    border-radius: 0.8rem;
+    position: relative;
+    box-sizing: border-box;
+    width: 22%;
+    height: 100%;
+}
+.scoreAvatarWrapper {
+    position: absolute;
+    margin: 30% 0 0 10%;
+    border-radius: 1rem;
+    & > img {
+        object-fit: contain;
+        border-radius:inherit;
+    }
+}
+.nameDiv{
+    position:relative;
+    text-align:center;
+    display:block;
+    height:33%;
+}
+.scoreRow {
+    position: relative;
+    display: block;
+    height: 30%;
+    width:80%;
+    margin: 0 10% 1.5% 2.5%;
+    border-radius: 0.7rem;
+    background-color:$score-screen-border;
+}
+.tableAndNumber {
+    float: left;
+    position:relative;
+    width:50%;
+    & > div {
+        float: left;
+        margin-top:0.2rem;
+    }
+    &>.internalTableDiv{
+        width:40%;
+        margin-left:15%;
+    }
+    &>.numberDiv{
+        margin-top:0.3rem;
+    }
+}
+
+.smallHolder {
+    box-sizing: border-box;
+    position: relative;
+    height: 18%;
+    width: 75%;
+    margin-left: 2.5%;
+
+    & > .constText {
+        background: $score-screen-border;
+        color: #f8d0fe;
+        border-radius: 0.8rem;
+        width: 45%;
+        margin-right:8%;
+    }
+
+    &.first {
+        margin-top: 1%;
+    }
+
+    & > div {
+        position: relative;
+        float: left;
+        height: 80%;
+    }
+
+    & > .numberDiv {
+        background: $score-screen-border;
+        min-width:20%;
+        max-width:30%;
+        padding: 0 0.1rem 0 0.1rem;
+    }
+}
+.numberDiv {
+    text-align: center;
+    color: #f8d0fe;
+    border-radius: 0.6rem;
+}
+.constText{
+    text-align:center;
+}
+@keyframes fadeItIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+.checkMarkHolder {
+    $local-width: 18%;
+    position: relative;
+    width: $local-width;
+    height: 0%;
+    padding-bottom: $local-width - 2%;
+    border: 0.3rem solid #d369fb;
+    background: $container-border-color;
+    border-radius: 2.5rem;
+    left:66%;
+    bottom:34%;
+    z-index:5;
+    &:hover{
+        &>svg>g>line{
+            stroke-width:3px;
+        }
+    }
+}
+.checkMark{
+    position:absolute;
+    display:inline;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    stroke:white; 
+    &>g>line{
+        stroke:#f4e6ff
+    }
+    &>g>:hover{
+            stroke-width:3px;
+            &>*{
+                stroke-width:3px;
+            }
+    }
+}   
+/*Styling that little pop up when incorrect name has been put in*/
+$popUpBorder:#f8d0fe;
+$popUpBackground:#a21bd4;
+$popUpWidth:18vw;
+.wrongPopUpHolder {
+    color: #f8d0fe;
+    position: absolute;
+    min-width: $popUpWidth;
+    width: max-content;
+    height: $popUpWidth*0.1;
+    text-align: center;
+    display: inline-block;
+    top: -5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    background: $popUpBackground;
+    border: 0.21rem solid $popUpBorder;
+    border-radius: 1.8rem;
+    animation: fadeItIn 250ms;
+    padding: 0 1rem 0 1rem;
+    vertical-align: central;
+
+    & > span {
+        position: relative;
+        height: 100%;
+        top: 0.3rem;
+    }
+
+    &.pop {
+        animation: fadeItOut 1000ms;
+        animation-delay: 1400ms;
+        animation-fill-mode: forwards;
+    }
+}
+@keyframes fadeItOut{
+    from{
+        opacity:1;
+    }
+    to{
+        opacity:0;
+    }
+}
+.inputDiv {
+    font-family:"Cascadia Code";
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    color: $score-screen-border;
+    position: absolute;
+    width: 40%;
+    max-width:max-content;
+    height: 1.5rem;
+    top: 15%;
+    left: 40%;
+    transform: translateX(-50%);
+    border: 2px solid $score-screen-border;
+    border-radius: 0.8rem;
+    background-color: #f9d4ff;
+    text-align: center;
+    transition: width 500ms;
+
+    &:hover {
+        background-color: #f4e6ff;
+        box-shadow: 4px 4px 20px 4px rgba(0, 0, 0, 0.15);
+        border-width: 3px;
+        width: 60%;
+    }
+
+    &:focus {
+        background-color: #f4e6ff;
+        box-shadow: 4px 4px 20px 4px rgba(0, 0, 0, 0.05);
+        width:60%;
+        outline-color: $score-screen-border;
+        border-width: 3px;
+    }
+}
+
+.newLeaderContainer {
+    box-sizing:border-box;
+    font-family:"Cascadia Code";
+    color:#f8d0fe;
+    min-width:11rem;
+    max-width:max-content;
+    min-height:4.1rem;
+    background:$popUpBackground;
+    border: 0.2rem solid $popUpBorder;
+    border-radius:1.3rem;
+    padding:0.2rem 0.8rem 0.4rem 0.8rem;
+    display:inline-block;
+    float:left;
+    clear:both;
+    position:relative;
+    transform:translateX(-50%);
+    left:50%;
+    top:14%;
+    z-index:1;
+    animation: fadeItIn 1.5s;
+    &.local{
+        top:36%
+    }
+    &.global{
+    }
+    &.pop {
+        animation: fadeItOut 1000ms;
+        animation-fill-mode: forwards;
+    }
+    &>span{
+        display:block;
+        text-align:center;
+    }
+}
+
+/*Avatar selector style (and it's avatars)*/
+$centerAvatar: 8rem;
+.scoreAvatarSelector {
+    box-sizing: border-box;
+    position: absolute;
+    width: calc(100% + $centerAvatar);
+    left: math.div(-$centerAvatar, 2);
+    min-height: 60%;
+    max-height: calc(100% + 25vh);
+    background: $score-screen-background;
+    border: 0.3rem solid $score-screen-border;
+    bottom: 105%;
+    border-radius: 2rem;
+    padding: 0.2rem 0.1rem 0.1rem 0.1rem;
+    display: flex;
+    flex-flow: wrap-reverse;
+
+    & > * {
+        box-sizing: border-box;
+        border-radius: 0.8rem;
+        position: relative;
+        display: inline-block;
+        margin: 0.1rem 1.4% 0.2rem 1.2%;
+    }
+}
+.avatarContainer{
+    width: 14%;
+    height:0%;
+    padding-bottom:14%;
+    &>img{
+        position:absolute;
+        width:100%;
+        height:100%;
+        border-radius:inherit;
+    }
+}
+.addContainer{
+    display:inline-block;
+    width:14%;
+    border:0.3rem solid $score-screen-border;
+    padding-bottom:12%;
+    &>label>svg{
+        background:white;
+        position:absolute;
+        width:100%;
+        height:100%;
+        border-radius:0.8rem;
+        background-color:#fce4ff;
+        &>g>line{
+            stroke:$score-screen-border;
+            stroke-width:2.5px;
+        }
+    }
+}
+input[type="file"] {
+    display: none;
+}

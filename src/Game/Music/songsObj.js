@@ -27,6 +27,10 @@
         title: "I Can't Stop The Loneliness - Anri, night tempo",
         audio: require("./Songs/I Can't Stop The Loneliness - Anri, night tempo.mp3")
     },
+    {
+        title: "Miss Macross - Macross",
+        audio: require("./Songs/Miss Macross - Macross.mp3")
+    },
 ]
 const generatePlaylist = (arr) => {
     let temp = arr.length

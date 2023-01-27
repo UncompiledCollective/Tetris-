@@ -36,7 +36,6 @@ $mute-percent: 21%;
     width:$mute-percent;
     padding-bottom:$mute-percent;
     right:10%;
-    z-index:1;
     
 }
 .muteButton{
@@ -56,8 +55,6 @@ $mute-percent: 21%;
     width: 18%;
     height: 0px;
     padding-top: 18%;
-    z-index: 1;
-
 }
 .settingsPanel {
     border-radius: 20px 20px 15px 15px;
@@ -70,12 +67,15 @@ $mute-percent: 21%;
     width: 68%;
     height: 80%;
     box-sizing: border-box;
+    z-index:3;
+
 }
 .contents {
-    font-size:30px;
+    font-size:2rem;
+    line-height:2rem;
     border-radius: 20px 20px 15px 15px;
     background-color: blueviolet;
-    border: 2px solid black;
+    border: 2px solid black;    
     position: absolute;
     top:0;
     left:0;
@@ -113,8 +113,6 @@ $mute-percent: 21%;
     top: 0px;
     width: 100%;
     height: 100%;
-
-
 }
 .settingsScrew:hover {
     filter: invert(9%) sepia(99%) saturate(5630%) hue-rotate(246deg) brightness(111%) contrast(148%);
@@ -217,7 +215,7 @@ $mute-percent: 21%;
 /*GeneralScreen style:*/
 .settingsScreen.general {
     font-family: "Cascadia Code", sans-serif;
-    font-size: 28px;
+    font-size: 1.5rem;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -281,7 +279,7 @@ $mute-percent: 21%;
     background: #f5f5f5;
     width: 9rem;
     height: 0%;
-    padding: 0% 4% 4% 4%;
+    padding: 0% 4% 7% 4%;
     border: 5px solid black;
     text-align:justify;
     border-radius: 1rem;
@@ -297,8 +295,12 @@ $mute-percent: 21%;
     overflow:hidden;
 }
 .helperDiv > span {
+    $font-size-helper: 0.75rem;
+    position:relative;
+    top:0%; 
     font-family: "Cascadia Code", sans-serif;
-    font-size: 17px;
+    font-size: $font-size-helper;
+    line-height: $font-size-helper;
     text-align:justify;
 }
 #hint:hover + #helper {
@@ -351,12 +353,13 @@ $mute-percent: 21%;
 }
 .flagText{
     position:absolute;
-    top:7%;
+    top:11%;
     left:25%;
 }
 .flagText > span {
     font-family: "Mistral";
-    font-size: 45px;
+    font-size: 2.5rem;
+    line-height:2.5rem;
 }
 .eyeOpen{
     position: relative;
@@ -399,7 +402,8 @@ $mute-percent: 21%;
 $clr-background:rgba(white, 1);
 .aboutContainer {
     font-family:"Cascadia Code", sans-serif;
-    font-size:35px;
+    font-size:2rem;
+    line-height:2rem;
     border-radius: 5%;
     border: 3px solid black;
     position: relative;
@@ -413,7 +417,7 @@ $clr-background:rgba(white, 1);
     height: 50%;
     text-align: center;
     position:relative;
-    top:15%;
+    top:20%;
 }
 .aboutScreenContainer {
     position: absolute;
@@ -426,7 +430,7 @@ $clr-background:rgba(white, 1);
     width: 77%;
     height: 86%;
     box-sizing: border-box;
-    z-index: 2;
+    z-index: 3;
 
     &::before {
         content: "";
@@ -435,12 +439,12 @@ $clr-background:rgba(white, 1);
         height: 5%;
         left: 50%;
         transform: translateX(-50%);
-        border-bottom: 1.6rem solid transparent;
-        border-radius: 0.7em;
+        border-bottom: 3vh solid transparent;
+        border-radius: 2.2vh;
         background-image: linear-gradient(black, black);
         background-origin: border-box;
         background-clip: content-box, border-box;
-        top: -2.6%;
+        top: -2.7%;
     }
 }
 
@@ -467,8 +471,8 @@ $clr-background:rgba(white, 1);
     &::before{
                  content:"";
                  position:absolute;
-                 border-bottom:1.6rem solid transparent;
-                 border-radius:0.7em;
+                 border-bottom:3vh solid transparent;
+                 border-radius:2.2vh;
                  width:95%;
                  height:5%;
                  left:50%;
@@ -485,7 +489,7 @@ $clr-background:rgba(white, 1);
         height:5%;
         left:50%;
         transform: translateX(-50%);
-        border-top:0.6rem solid black;
+        border-top:1.2vh solid black;
         border-radius:0.6rem;
         top:-2.2%;
     }
@@ -499,17 +503,27 @@ $clr-background:rgba(white, 1);
     display:block;
 }
 .welcome{
-    font-size:34px;
+    font-size:2.5rem;
+    line-height:2.5rem;
     text-align:center;
     padding-bottom:0.5%;
 }
 .aboutContent.text {
-    font-size: 24px;
+    font-size: 1.3rem;
     text-align: justify;
 }
 .aboutContent.text>span{
     display:inline-block;
     font-family:"Cascadia Code", sans-serif;
+}
+.aboutContent.logo{
+    position:relative;
+    height:38%;
+    &>img{
+        object-fit:cover;
+        height:100%;
+        width:auto;
+    }
 }
 .linkSpan {
     position: relative;
@@ -538,7 +552,7 @@ $clr-background:rgba(white, 1);
         float:left;
         position:relative;
         height:90%;
-        font-size:20px;
+        font-size:1rem;
     }
     &>img{
         padding:0.5% 1% 0 1%;
@@ -599,13 +613,13 @@ a[first-trick]{
 }
 .enjoy{
     text-align:center;
-    font-size:30px;
+    font-size:1.5rem;
 }
 .launguageMiniHolder {
     position:relative;
     text-align:center;
     font-family: 'RocketRinder';
-    font-size: 36px;
+    font-size: 1.8rem;
     width:20%;
     height:10%;
     left:50%;
@@ -809,7 +823,7 @@ option{
 /*ControlsScreen style:*/
 .settingsScreen.controls {
     font-family: "Cascadia Code", sans-serif;
-    font-size: 26px;
+    font-size: 1.2rem;
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
@@ -874,7 +888,7 @@ option{
 }
 .keyText.title {
     top:35%;
-    font-size: 28px;
+    font-size: 1.4rem;
     font-weight: bold;
     position: relative;
     text-align: center;
@@ -895,13 +909,13 @@ option{
 }
 .keyText.or{
     font-weight:bold;
-    font-size:28px;
+    font-size:1.4rem;
     text-align:center;
     position:relative;
     padding-top:4%;
 }
 .keyText.space {
-    font-size: 28px;
+    font-size: 1.4rem   ;
     width: 100%;
     position: relative;
     top:15%;
@@ -977,7 +991,7 @@ option{
     position: absolute;
     top: 61.5%;
     left: 10%;
-    width: 22%;
+    width: 25%;
     height: 22%;
     padding: 0px;
     margin: 0px;
@@ -1005,42 +1019,56 @@ tbody{
     width:25%;
 
 }
+/*red, greenyellow, lightpink, blue, greent, midnightblue, brown, aliceblue */
+/*colors version 2:
+    #E10032
+    #f6db2e
+    #4a00ff
+    #04B16F
+    #BCBEC0
+    #FF8300
+    #47f1cd
+    aliceblue
+*/
 .nextPiece:hover{
 
 }
 .red {
-    background-color: red;
+    background-color: #E10032;
 }
 
 .yellow {
-    background-color: greenyellow;
+    background-color: #f6db2e;
 }
 
 .blue {
-    background-color: blue;
+    background-color: #4a00ff;
 }
 
 .green {
-    background-color: green;
+    background-color: #04B16F;
 }
 
 .lagoon {
-    background-color: midnightblue;
+    background-color: #BCBEC0    /*#BCBEC0*/; /*alternative: #92A9BD*/
 }
 
 .pink {
-    background-color: lightpink
+    background-color: #FF8300;
 }
 
 .brown {
-    background-color: sienna;
+    background-color: #7FE9DE /*#7FE9DE*/;
+}
+.cell.ghost {
+    background-color: aliceblue;
 }
 /*
     ScoreBoard Style
 */
 .scoreBoard {
     display:table;
-    font-size:26px;
+    font-size:1.5rem;
     border-radius: 10px;
     border: 2px solid black;
     background-color: blueviolet;
@@ -1092,16 +1120,20 @@ tbody{
     position:relative;
 }
 .internalTableDiv {
-    width: 100%;
     box-sizing: border-box;
+    padding:0.1rem 0 0.1rem 0;
 }
 .internalTable {
+    position:relative;
+    width:25px;
+    height:25px;
     border-radius: 5px;
     padding: 0px;
     margin: 0px;
     margin-left: 35%;
     position: relative;
     font-size: 6px;
+    line-height:6px;
     top: 10%;
     border-collapse: collapse;
     margin-bottom: 0;
@@ -1121,7 +1153,7 @@ tbody{
 .levelIndicator {
     font-weight:bold;
     text-align: center;
-    font-size: 22px;
+    font-size: 1.2rem;
     height: 5%;
     width: 100%;
     border-radius: 12px 12px 0 0;
@@ -1137,7 +1169,7 @@ tbody{
 }
 /*Music style*/
 .soundContainer { /*Main div. Had problems without it (couldn't z-index properly)*/
-    z-index: 1 ;
+    z-index: 30 ;
 }
 .songContainer{
     box-sizing:border-box;
@@ -1158,7 +1190,7 @@ $songTextSize:25%;
 .songText{
     user-select:none;
     display:inline;
-    font-size:16px;
+    font-size:0.8rem;   
     line-height:16px;
     position:absolute;
     width:$songTextSize;
@@ -1245,6 +1277,7 @@ $song-time:10s;
     }
 }
 .songPopup {
+    font-size:100%;
     overflow: clip;
     user-select: none;
     line-height: 20px;

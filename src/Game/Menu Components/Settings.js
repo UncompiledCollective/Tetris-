@@ -23,26 +23,10 @@ import pKey from "./Menu PNGs/P_key_done.png";
 import oKey from "./Menu PNGs/O_key_done.png";
 import title_black from "./Menu PNGs/Title black.png";
 import gitHub from "./Menu PNGs/gitHub.png";
-const SettingsButton = ({ setUp, isUp, gameOn, setGameOn, launguage, setLaunguage,
-    ghost, setGhost, Text, mVol, setMVol, sfxVol, setSfxVol, mute, setMute,
-    setMemory, about, setAbout }) => {
-    const handleClick = () => { //simply opens and closes the menu. Pauses the game if a game is currently going on.
-        if (isUp) {
-            return;
-        }
-        setUp(true);
-        if (gameOn === true) {
-            setGameOn("pause");
-        }
-        return;
-    }
-    
+const SettingsButton = ({setUp }) => {
     return (
-        <div className="settingsButton" onClick={handleClick}>
-            <SettingsScrew className="settingsScrew" fill="#FFFFFF" width="9%"/>
-            <SettingsPanel isUp={isUp} setUp={setUp} lang={launguage} setLang={setLaunguage} ghost={ghost} setGhost={setGhost}
-                Text={Text} mVol={mVol} setMVol={setMVol} sfxVol={sfxVol} setSfxVol={setSfxVol}
-                mute={mute} setMute={setMute} setMemory={setMemory} about={about} setAbout={setAbout}/>
+        <div className="settingsButton" onClick={() => { setUp(x => !x) }}>
+            <SettingsScrew className="settingsScrew" fill="#FFFFFF" width="9%" />
         </div>
         )
 }
@@ -151,7 +135,7 @@ const GeneralScreen = ({ settingsUp, tab, lang, setLang, ghost, setGhost, Text, 
                             <span>{Text[lang].general.ghostPiece}</span>
                             <div className="hint" id="hint"> <Hint1 /> </div>
                             <div className="helperDiv" id="helper" style={(lang === "eng") ? {
-                                paddingTop: "4%"
+                                paddingTop: "0%"
                             } : {}}><span>{Text[lang].general.ghostDisc1}</span></div>
                         </div>
                         

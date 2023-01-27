@@ -36,18 +36,20 @@ body{
 
 }
 .left{
-    width:39%;
-
+    width:38%;
+    bottom:1rem;
+    z-index:2;
 
 }
-.right{
-    right:0;
-    width:39%;
-    
+.right {
+    right: 0;
+    width: 38%;
+    z-index: 0;
 }
 .center {
-    left:39%;
-    width: 22%;
+    left:38%;
+    width:24%;
+    z-index:0;
 
 }
 .firstDiv::after {

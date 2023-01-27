@@ -19,9 +19,9 @@ const OverScreen = ({gameOn, callback}) => {
     return (
         <div className={`${(gameOn === "over")?"overScreenContainer": "overScreenContainer hidden"}` }>
             <div className="fuckYou">YOU SUCK</div>
-            <div className={`${(gameOn === "over") ? "replayButtonHolder" : "replayButtonHolder"}`}>
-                <RefreshButton className="refreshButtonSvg" onClick={handleClick }/>
-            </div>
+            {/*<div className={`${(gameOn === "over") ? "replayButtonHolder" : "replayButtonHolder"}`}>*/}
+            {/*    <RefreshButton className="refreshButtonSvg" onClick={handleClick }/>*/}
+            {/*</div>*/}
         </div>
         )
 }

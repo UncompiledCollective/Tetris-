@@ -84,7 +84,6 @@ const useNextPiece = (firstRender, getNextPiece, setArray, setMutableArray, crea
             return;
         }
         setArray(getNextPiece, setMutableArray, createMutableArray);
-        console.log(getNextPiece)
     }, [getNextPiece])
 }
 const useRefreshPiece = (firstRender,gameOn, setMutableArray, createMutableArray, nextPiece) => {
