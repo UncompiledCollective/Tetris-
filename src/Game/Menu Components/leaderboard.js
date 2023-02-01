@@ -26,7 +26,6 @@ const LeaderBoardButton = ({ handler }) => {
 const LeaderBoard = ({ leaderUp, setLeader, setMemory, getMemory, scoreObj, newScore, setNewScoreLocal,
     setNoteNewScore, setHoldScore, Text, lang
 }) => {   //leaderUp and setLeader are passed from GameContainer. They opena and close the menu.
-    console.log("leaderBoard renders.")
     const [pageUp, setPageUp] = React.useState("local");
     const [currentPageLocal, setCurrentPageLocal] = React.useState(0); //controls which page currently we have of local/global scoreboard
     const [currentPageGlobal, setCurrentPageGlobal] = React.useState(0);
@@ -125,47 +124,43 @@ const LeaderSlotsTab = ({ page, currentPage, score, Text, lang }) => {
 }
 const LeaderSlot = ({ page, slot, score, Text, lang }) => {
     return (
-        <div className={"LeaderSlotHolder"}>
             <div className={"leaderSlotProper"}>
                 {score ? (
                     <div className="leaderSlot">
-                        <AvatarContainer nameOfClass="slotAvatarContainer" source={score.avatar} />
+                        <AvatarContainer nameOfClass="slotAvatarContainer" source={score?.avatar} />
                         <div className="slotStatContainer">
                             <div className="slotScore">
                                 <span>{Text[lang].scoreBoard.total}</span>
-                                <div>{score.Score}</div>
+                                <div>{score.Score ? score.Score : 0}</div>
                             </div>
                             <div className="slotTitle">
-                                <span>{score.name }</span>
+                                <span>{score.name ? score.name : "player :)" }</span>
                             </div>
                             <div className="slotBig">
                             <div className="slotTableAndNumber">
                                 <InternalTable whichOn={[true, true, true, true]}  />
-                                <span>{score.lines_4 }</span>
+                                    <span>{score.lines_4 ? score.lines_4 : 0}</span>
                             </div>
                             <div className="slotTableAndNumber">
                                 <InternalTable whichOn={[true, false, true, true]} />
-                                <span>{score.lines_3}</span>
+                                    <span>{score.lines_3 ? score.lines_3 : 0}</span>
                             </div>
                             <div className="slotTableAndNumber">
                                 <InternalTable whichOn={[true, false, true, false]} />
-                                <span>{score.lines_2}</span>
+                                <span>{score.lines_2 ? score.lines_2 : 0}</span>
                             </div>
                             <div className="slotTableAndNumber">
                                 <InternalTable whichOn={[false, false, true, false]} />
-                                <span>{score.lines_1}</span>
+                                    <span>{score.lines_1 ? score.lines_1: 0}</span>
                             </div>
                             </div>
                             <div className="slotSmall">
                                 <span id="first">{Text[lang].scoreBoard.lines_total }</span>
-                                <span id="second">{score.lines_total }</span>
+                                <span id="second">{score.lines_total ? score.lines_total: 0}</span>
                             </div>
                         </div>
                     </div>
                     ):<></> }
-                    
-                </div>
-
         </div>        
         )
 }
@@ -202,4 +197,4 @@ const LeaderBoardArrowHolder = ({ callback }) => {
     )
 }
 
-export { LeaderBoardButton, LeaderBoard, NewLeaderUniversal };
+export { LeaderBoardButton, LeaderBoard, NewLeaderUniversal, LeaderSlot };

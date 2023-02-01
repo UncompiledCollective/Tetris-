@@ -1,13 +1,19 @@
 import * as React from "react";
-import placeHolderPNG from "./Menu PNGs/placeholder.png";
 import { ReactComponent as CheckMark } from "./Menu SVGs/checkmark3.svg"
 import { ReactComponent as PlusSign } from "./Menu SVGs/plus1.svg";
+import { ReactComponent as Cross } from "./Menu SVGs/cross4.svg"
+import { ReactComponent as CheckMark2 } from "./Menu SVGs/checkmark5.svg"
+import { ReactComponent as Cross2 } from "./Menu SVGs/cross2.svg"
+import { ReactComponent as Refresh } from "./Menu SVGs/refresh2.svg"
 import {
     calculateScore, useUpdateScore, useRefreshScore, useDisplayError,
-    remakeScoreObj, isNameTrue, 
+    remakeScoreObj, isNameTrue, useCloseCropper, useWrongFormat, onImageLoad, handleFileUpload, useCloseAvatarSelector
 } from "./ScoreHooksFuncs.js";
 import { avatarObj } from "./Avatars/Avatars.js";
-
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/src/ReactCrop.scss';
+import { centerAspectCrop, canvasPreview, canvasPreview100, canvasToBase64, downloadFile } from "./cropCanvas.js";
+import { LeaderSlot } from "./leaderBoard.js";
 const ScoreBoard = ({ currentLevel, linesCleared, resetLinesCleared, gameOn, Text, lang, setHoldScore }) => {
     const FirstRenderRef = React.useRef(true);
     const ScoreObj = React.useRef({
@@ -109,9 +115,9 @@ const LevelIndicator = ({currentLevel, Text, lang}) => {
 const ScoreScreen = ({ gameOn, setGameOn, score, Text, lang, user, setUser, handleFocus, setNewScore, setHoldScore }) => {
     const [errorMessage, setErrorMessage] = React.useState("right");
     const [isInCorrect, setIsIncorrect] = React.useState(false);
-    const [isAvUp, setIsAvUp] = React.useState(false);
+    const [isAvUp, setIsAvUp] = React.useState(false); // state for avatar selector
+    const [isAvatarCropper, setIsAvatarCropper] = React.useState(false) //state for avatar cropper. Need to be here to close respectible ones with escape.
     const [currentAv, setCurrentAv] = React.useState(0);
-    const [localUploadAvatar, setLocalUploadAvatar] = React.useState("")
     const handleClick = () => {
         if (isNameTrue(user) !== true) {
             setIsIncorrect(true);
@@ -126,7 +132,9 @@ const ScoreScreen = ({ gameOn, setGameOn, score, Text, lang, user, setUser, hand
         setGameOn(false);
         return;
     }
+    
     useDisplayError(isInCorrect, setIsIncorrect);
+    useCloseAvatarSelector(isAvUp, setIsAvUp, isAvatarCropper);
     return (
         <div className="scoreScreenHolder">
             {isInCorrect !== false ? (
@@ -135,10 +143,7 @@ const ScoreScreen = ({ gameOn, setGameOn, score, Text, lang, user, setUser, hand
                 </div>
                 ):(<></>)
             }
-            {isAvUp ? (
-                <ScoreAvatarSelector avObj={avatarObj} isUp={isAvUp} setIsUp={setIsAvUp} currentAv={currentAv} setCurrentAv={setCurrentAv} />
-            ): (<></>)
-            }
+            
             <div className="scoreScreenProper">
                 <div className="avatarHolder" onClick={function () {
                     setIsAvUp((x) => !x);
@@ -193,7 +198,11 @@ const ScoreScreen = ({ gameOn, setGameOn, score, Text, lang, user, setUser, hand
                     <CheckMark className="checkMark" />
                 </div>
             </div>
-            
+            {isAvUp ? (
+                <ScoreAvatarSelector avObj={avatarObj} isUp={isAvUp} setIsUp={setIsAvUp} currentAv={currentAv} setCurrentAv={setCurrentAv}
+                    Text={Text} lang={lang} cropperUp={isAvatarCropper} setCropperUp={setIsAvatarCropper} />
+            ) : (<></>)
+            }
         </div>
         )
 }
@@ -208,22 +217,157 @@ const ScoreInput = ({isAutofocused, setUser, user, handleFocus}) => {
         </>
         )
 }
-const ScoreAvatarSelector = ({ avObj, isUp, setIsUp, currentAv, setCurrentAv }) => {
+const ScoreAvatarSelector = ({ avObj, isUp, setIsUp, currentAv, setCurrentAv, Text, lang, cropperUp, setCropperUp}) => {
+    const [isFileError, setIsFileError] = React.useState(false);
+    const [fileErrorMessage, setFileErrorMessage] = React.useState(false);
+    const [imageSource, setImageSource] = React.useState(null);
+    const [aspectRatio, setAspectRatio] = React.useState(1);
+    const [crop, setCrop] = React.useState({});
+    const [completeCrop, setCompleteCrop] = React.useState(null);
+    useWrongFormat(isFileError, setIsFileError);
+    useCloseCropper(cropperUp, setCropperUp, setImageSource);
     return (
         <div className="scoreAvatarSelector">
+            
             {avObj.avatars.map(function (x, index) {
                 return(
-                    <AvatarContainer index={index} source={avObj.avatars[index]} isOnClick={true} callback={setCurrentAv} secondCallback={setIsUp}
+                    <AvatarContainer key={"avatar_" + index} index={index} source={avObj.avatars[index]} isOnClick={true} callback={setCurrentAv} secondCallback={setIsUp}
                         ranVariable={currentAv }
                     />
                     )
             })}
-            <AddAvatar/>
+            <AddAvatar setError={setIsFileError} setErrorMessage={setFileErrorMessage} setCropper={setCropperUp} setImageSource={setImageSource}
+                setCrop={setCrop}
+            />
+            
+            {cropperUp &&(
+                <Cropper imageSource={imageSource} crop={crop} aspect={aspectRatio} setCrop={setCrop} setImageSource={setImageSource}
+                    setIsAvatarCropper={setCropperUp} setCompleteCrop={setCompleteCrop} setErrorMessage={setFileErrorMessage}
+                    setError={setIsFileError} setCropper={setCropperUp} Text={Text} lang={lang} completeCrop={completeCrop}
+                />
+                )
+            }
+            {
+                (isFileError) ? (
+                    <PopupChangeling state={isFileError} name4class="wrongFormatPopup" Text={Text} lang={lang} tab="scoreBoard" line={fileErrorMessage} secondClass=" pop" />
+                ) : (<></>)
+            }
         </div>
         )
 }
+
+const Cropper = ({ imageSource, crop, aspect, setCrop, setImageSource, setIsAvatarCropper, setCompleteCrop,completeCrop,
+    setError, setErrorMessage, setCropper, Text, lang
+}) => {
+    const [switchPreview, setSwitchPreview] = React.useState(true);
+    const cropRef = React.useRef(null);
+    const canvasRef = React.useRef(null);
+    const canvasRef2 = React.useRef(null);
+    const imageRef = React.useRef(null);
+    const imgWidth = cropRef.current ? cropRef.current?.children[1]?.getBoundingClientRect()?.width - 5 + "px" : "0%";
+    const imgHeight = cropRef.current ? cropRef.current?.children[1]?.getBoundingClientRect()?.height - 8 + "px" : "0%";
+    const dynamicClass = switchPreview ? [""] : [" hidden"];
+    const dynamicClass2 = switchPreview ? [" hidden"] : [""]; 
+    const [previewSlot, setPreviewSlot] = React.useState({
+        avatar: {
+            path: null
+        }
+    }); // used to preview avatar inside a slot when cropping is done by the user
+    console.log(previewSlot, "here");
+    return (
+        <div className="avatarCropperContainer" ref={cropRef }>
+            <div className="cropControls">
+                <AddAvatar setError={setError} setErrorMessage={setErrorMessage} setCropper={setCropper} setImageSource={setImageSource}
+                    setCrop={setCrop} nameClass="addContainer2"/>
+                <div className="cropText">
+                    <span>{Text[lang].scoreBoard.image_crop}</span>
+                    <span>{Text[lang].scoreBoard.image_crop2}</span>
+                </div>
+                <div className="cropCrossWrapper" onClick={() => {
+                            setImageSource(null);
+                            setIsAvatarCropper(false);
+                        }}>
+                            <Cross/>
+                        </div>
+                    </div>
+                    <div className="previewBig" >
+                        {imageSource ? (<>
+                    <ReactCrop src={imageSource} crop={crop} onChange={(crop, percentCrop) => setCrop(percentCrop)}
+                        onComplete={(crop, percentCrop) => setCompleteCrop(percentCrop)} className={"cropProper" + dynamicClass}
+                                aspect={aspect }
+                            >
+                        <img src={imageSource} ref={imageRef }
+                            onLoad={(event) => {
+                                onImageLoad(event, aspect, setCrop, centerAspectCrop)
+                            }}
+                            style={{
+                                maxWidth: imgWidth,
+                                maxHeight: imgHeight,
+                            } }
+                        />
+                    </ReactCrop>
+                    <div className={"canvasContainer" + dynamicClass2} >
+                        <div className="previewBigCropped first">
+                            <canvas ref={canvasRef} className="canvasPreview Big" ></canvas>
+                        </div>
+                        <div className="previewBigCropped second">
+                            <canvas ref={canvasRef2} className="canvasPreview small" ></canvas>
+                        </div>
+                        <div className="previewBigCropped third">
+                            <div className="previewWrapper">
+                                <LeaderSlot page={"0"} slot="0" score={previewSlot} Text={Text} lang={lang }/>
+                            </div>
+                        </div>
+
+                        <button type="button" style={{ position: "absolute", bottom: "0", left:"0", width:"200px", height:"80px"}}
+                            onClick={function () {
+                                let file = canvasToBase64(canvasRef2.current);
+                                console.log(file);
+                                downloadFile(canvasRef2.current);
+                                return;
+                            } }
+                        >test</button>
+                        
+                    </div>
+
+                        </>
+                        ):<></> }
+            </div>
+            <div className="previewSmall">
+                <div className="cropHoldButtons">
+                    <div className="cropButton">
+                        <Cross2 onClick={()=>setImageSource(null) }/>
+                    </div>
+                    <div className={"cropButton" + dynamicClass2 } onClick={() => {
+                            setSwitchPreview(true);
+                        }}>
+                            <Refresh />
+                        </div>
+                    <div className="cropButton">
+                        <CheckMark2 onClick={() => {
+                            if (switchPreview) {
+                                setSwitchPreview(false);
+                                canvasPreview(imageRef.current, canvasRef.current, completeCrop)
+                                canvasPreview100(imageRef.current, canvasRef2.current, completeCrop)
+                                setPreviewSlot((x) => {
+                                    console.log(x);
+                                    let temp = canvasRef2.current.toDataURL("image/jpeg");
+                                    console.log(temp);
+                                    x.avatar.path = JSON.parse(JSON.stringify(temp));
+                                    return x;
+                                })
+                            }
+                            return;
+                        } }/>
+                    </div>
+
+                </div>
+            </div>
+                </div >
+        )
+}
+
 const AvatarContainer = ({ source, index, nameOfClass = "avatarContainer", isOnClick = false, callback = false, secondCallback = false, ranVariable = false }) => {
-    console.log(isOnClick)
     return (
         <div className={nameOfClass} {...(isOnClick ? {
             onClick: function () {
@@ -234,20 +378,31 @@ const AvatarContainer = ({ source, index, nameOfClass = "avatarContainer", isOnC
                 return;
             }
         } : {})}>
-            <img src={source.path}/>
+            <img src={source?.path ? source.path : avatarObj.avatars[0].path }/>
         </div>
         )
 }
-const AddAvatar = ({ }) => {
+
+const AddAvatar = ({ nameClass = "addContainer", id="file-button", setError, setErrorMessage, setCropper, setImageSource, setCrop}) => {
     return (
-        <div className="addContainer">
-            <label for="file-button" class="addWraper">
+        <div className={nameClass} >
+            <label htmlFor={id} className="addWraper">
                 <PlusSign />
             </label>
-            <input type="file" id="file-button" onChange={function (e) {
-                console.log(e.target.files[0]);
-                return;
-            }}/>
+            <input type="file" id={id }
+                onChange={function (event) {
+                    handleFileUpload(event, setErrorMessage, setError, setCropper, setImageSource, setCrop);
+                }}
+               
+                />
+        </div>
+        )
+}
+
+const PopupChangeling = ({state, secondState, name4class, secondClass=" ", Text, lang, tab, line }) => {
+    return (
+        <div className={`${state === true? name4class : name4class+secondClass}` }>
+            <span>{Text[lang][tab]?.[line]}</span>
         </div>
         )
 }

@@ -6,9 +6,10 @@ import { StartArray, createNextPieceArray } from "./main canvas/array.js"
 import { Timer } from "./Timer.js";
 import { MusicPlayer } from "./Music/music.js";
 import { LeaderBoardButton, LeaderBoard, NewLeaderUniversal } from "./Menu Components/leaderBoard.js";
-import { useDisplayNewLeader } from "./GameHooksFuncs.js"
-/*import { OverScreen } from "./main canvas/StartScreen.js";*/
-const GameContainer = ({ gameOn, setGameOn, isSettingsOpen, ghost, mVol, isMute, Text, lang, setMemory, getMemory }) => {
+import { useDisplayNewLeader, useUpdateLevel, useDynamicMemory, useGameOver, handleNameChange, handleFocus } from "./GameHooksFuncs.js"
+/*import { OverScreen } from "./main canvas/StartScreen.js";, legacy version.*/
+
+const GameContainer = ({ gameOn, setGameOn, isSettingsOpen, ghost, mVol, isMute, Text, lang, setMemory, getMemory, oneTime }) => {
     const [currentLevel, setCurrentLevel] = React.useState(0); //tracks current level.
     const [nextPieceState, setNextPieceState] = React.useState(null); // tracks the next piece.Passed to nextPiece.js
     const [linesCleared, setLinesCleared] = React.useState(0); // number of lines cleared at a single instance. Used by This component to calculate level and ScoreBoard to count points.
@@ -23,27 +24,7 @@ const GameContainer = ({ gameOn, setGameOn, isSettingsOpen, ghost, mVol, isMute,
     const [newLocalScore, setNewLocalScore] = React.useState([false, 0]); // used to inform player after new best local score!
     const [newGlobalScore, setNewGlobalScore] = React.useState([false, 0]);
     const [isChanged, setIsChanged] = React.useState(false); // used to force a rerender
-    const changeLevel = () => { // level up occurs after every 10 lines deleted
-        rowsTo10.current += linesCleared;
-        if (rowsTo10.current>=10) {
-            rowsTo10.current -= 10;
-            setCurrentLevel((x) => x + 1);
-        }
-        return;
-    }
-    React.useEffect(() => {
-        if (firstRenderRef.current) {
-            firstRenderRef.current = false;
-            return;
-        }
-        if (!linesCleared) {
-            return;
-        }
-        changeLevel();
-    }, [linesCleared])
-    React.useEffect(() => {
-        console.log(noteNewScore, "newScore is being logged")
-    },[noteNewScore])
+    useUpdateLevel(firstRenderRef, linesCleared, rowsTo10, setCurrentLevel);
     useDisplayNewLeader(firstRenderRef, newLocalScore, newGlobalScore, setNewLocalScore, setNewGlobalScore, isChanged, setIsChanged);
     useGameOver(firstRenderRef, gameOn, setCurrentLevel, setNextPieceState, rowsTo10, setLinesCleared)
     return (
@@ -86,42 +67,9 @@ const GameContainer = ({ gameOn, setGameOn, isSettingsOpen, ghost, mVol, isMute,
             </div>
             <Timer gameOn={gameOn} setSendMovement={setSendMovement} currentLevel={currentLevel}
                 sendMovement={sendMovement} />
-            <MusicPlayer mVol={mVol} isMute={isMute} Text={Text} lang={lang} isFocused={isInputFocused} />
+            <MusicPlayer mVol={mVol} isMute={isMute} Text={Text} lang={lang} isFocused={isInputFocused} oneTime={oneTime }/>
             
         </div>
         );
-}
-const useGameOver = (firstRender, gameOn, setCurrentLevel, setNextPieceState, rowsTo10, setLinesCleared) => {
-    React.useEffect(() => {
-        if (firstRender.current) {
-            return;
-        }
-        if (gameOn === false) {
-            setCurrentLevel(0);
-            setNextPieceState(null);
-            rowsTo10.current = 0;
-            setLinesCleared(0);
-            return;
-        }
-    },[gameOn])
-}
-const useDynamicMemory = (key, defaultName) => {
-    const [value, setValue] = React.useState(
-        localStorage.getItem(key) !== null ?
-            localStorage.getItem(key) : defaultName
-    );
-    React.useEffect(() => {
-        localStorage.setItem(key, value)
-    }, [value, key]);
-    return [value, setValue];
-}
-const handleNameChange = (event, func) => {
-    func(event.target.value);
-    return;
-}
-
-const handleFocus = (event, func) => {
-    func((x) => !x);
-    return;
 }
 export { GameContainer };   

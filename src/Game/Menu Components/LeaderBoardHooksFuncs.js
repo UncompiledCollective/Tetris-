@@ -78,7 +78,6 @@ const leaderCallBack = (setLeader) => {
 const useUpdateLocalScore = (passedScoreObj, setMemory, getMemory, sortOfObj, newScore, setLocalHeldScore, setNewScore,
       setNoteNew, setHoldScore) => {
     React.useEffect(() => {
-        console.log(passedScoreObj, "logging passed score object.");
         if (getMemory("localScore") === null) {
             setMemory("localScore", []);
             return;
@@ -86,16 +85,12 @@ const useUpdateLocalScore = (passedScoreObj, setMemory, getMemory, sortOfObj, ne
         if (newScore === false) {
             return;
         }
-        console.log()
-        console.log(passedScoreObj, "logging passedd score obj");
         if (passedScoreObj.name) { //chosing name because without it score can not be submitted. Score = 0 would evaluate to false.
             let temp = getMemory("localScore");
             if (sortOfObj(temp, passedScoreObj, 10)) {
                 setMemory("localScore", temp)
                 setLocalHeldScore(temp);
-                console.log(temp, "logging temp after push");
                 let temp2 = temp.findIndex(findIndexCallback, passedScoreObj) + 1;
-                console.log(temp2, "logging this fucking shit")
                 let delay = setTimeout(function () {
                     setNewScore([true, temp2]);
                     return;

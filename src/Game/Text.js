@@ -58,7 +58,11 @@ const gameText = {
                 local: "Your score made it to local score board!",
                 global: "Your score made it to global score board!"
             },
-            your_slot:"Your placement: number ",
+            your_slot: "Your placement: number ",
+            format: "Please provide an image type file",
+            size: "Maximum allowed size is 5 MB",
+            image_crop: "Provided image will be cropped and resized into a 100 by 100 pixels square.",
+            image_crop2: "After confirmation a preview will be display with an option to go back."
         },
     },
     pl: {
@@ -121,6 +125,10 @@ const gameText = {
                 global: "Twój wynik znalazł się na globalnej tabeli wyników!"
             },
             your_slot: "Twoja pozycja: ",
+            format: "Proszę wybrać plik typu obraz",
+            size: "Maxymalny dozwolony rozmiar pliku to 5 MB",
+            image_crop: "Wybrany obraz zostanie zeskalowany do kwadratu o wymirach 100 na 100 pixeli.",
+            image_crop2: "Po zatwierdzeniu przycięty obraz zostanie wyświetlony, z opcją powrotu do edycji."
         },
 
     },

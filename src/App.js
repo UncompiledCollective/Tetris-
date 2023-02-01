@@ -14,7 +14,6 @@ import wallpaper6 from "./Game/Menu Components/backgrounds/wallpaper6.png";
 import wallpaper7 from "./Game/Menu Components/backgrounds/wallpaper7.png";
 
 function App() {
-    console.log(retreiveMemory("localScore"))
     const [launguage, setLaunguage] = React.useState(retreiveMemory("funk_tetris-lang") || "eng");
     const [gameOn, setGameOn] = React.useState(false);
     const [isMuted, setIsMuted] = React.useState(false);
@@ -23,12 +22,13 @@ function App() {
     const [sfxVolume, setSfxVolume] = React.useState(retreiveMemory("funk_tetris_sfx-volume") || 50);
     const [musicVolume, setMusicVolume] = React.useState(retreiveMemory("funk_tetris_music-volume") || 50);
     const [aboutOpen, setAboutOpen] = React.useState((retreiveMemory("funk_tetris-welcome") !== null) ? retreiveMemory("funk_tetris-welcome") : true);
+    const [oneTimeHussle, setOneTimeHussle] = React.useState(true);
     React.useEffect(() => {
         document.getElementById("firstDiv").dispatchEvent(evt)
     },[])
     return (    
         <>
-            <div id="firstDiv" className="FirstDiv clearfix" /*{...(mouseOver ? { onMouseOver: () => defeatGoogle() } : {})}*/>
+            <div id="firstDiv" className="FirstDiv clearfix" {...(oneTimeHussle ? { onClick: () => setOneTimeHussle(false) } : {})}>
                 <img src={wallpaper7} className="background" />
                 <img src={title} className="title" />
                 <SettingsPanel isUp={isSettingsOpen} setUp={setIsSettingsOpen} lang={launguage} setLang={setLaunguage} ghost={isGhostPiece}
@@ -41,7 +41,7 @@ function App() {
                 </div>
                 <GameContainer gameOn={gameOn} setGameOn={setGameOn} isSettingsOpen={isSettingsOpen} ghost={isGhostPiece}
                     mVol={musicVolume} isMute={isMuted} Text={gameText} lang={launguage} setMemory={setMemory}
-                    getMemory={retreiveMemory }
+                    getMemory={retreiveMemory} oneTime={oneTimeHussle }
                 />
             </div>
       </>

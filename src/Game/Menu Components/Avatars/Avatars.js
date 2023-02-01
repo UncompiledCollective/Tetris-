@@ -26,7 +26,4 @@ avatarObj.addAvatar("av4");
 avatarObj.addAvatar("av5");
 avatarObj.addAvatar("av6");
 avatarObj.addAvatar("av7");
-avatarObj.addAvatar("av7");
-avatarObj.addAvatar("av7");
-avatarObj.addAvatar("av7");
 export { avatarObj };

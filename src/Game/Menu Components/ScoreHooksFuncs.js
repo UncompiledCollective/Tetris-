@@ -28,6 +28,8 @@ const calculateScore = (ScoreObj, linesCleared, currentLevel) => {
             ScoreObj.current.lines_4 += 1;
             ScoreObj.current.Score += 1200 * (currentLevel + 1);
             break;
+        default:
+            break;
     };
     ScoreObj.current.lines_total += linesCleared;
     return;
@@ -106,4 +108,133 @@ const useDisplayError = (isCorrect, setIsCorrect) => {
         return;
     }, [isCorrect])
 }
-export { calculateScore, useUpdateScore, useRefreshScore, remakeScoreObj, isNameTrue, useDisplayError };
+// scoreScreen:
+
+const verifyFile = (file, maxSize) => {
+    if (file && file.length > 0) {
+        const currentFile = file[0];
+        const fileType = currentFile.type;
+        const fileSize = currentFile.size
+        if (fileSize > maxSize) {
+            return "size";
+        }
+        if (!/image/.test(fileType)) {
+            return "format";
+        }
+        return true
+    } else {
+        return false
+    }
+
+}
+const handleFileUpload = (event, setErrorMessage, setError, setCropperDiv, setImageSource, setCrop) => {
+    switch (verifyFile(event.target.files, 5242880)) {
+        case "size":
+            setErrorMessage("size")
+            setError(true)
+            event.target.value = null;
+            return;
+        case "format":
+            setErrorMessage("format");
+            setError(true);
+            event.target.value = null;
+            return;
+        case false:
+            console.log("no file has been selected")
+            event.target.value = null;
+            return;
+        default:
+            console.log("validation sucessful");
+            break;
+    }
+    setImageSource(null);
+    setCrop(null);
+    const currentFile = event.target.files[0];
+    // this section changes the image to imageBase64Data which is basicly just a string. .readAsDataURL() renders the image ?
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+        setImageSource(reader.result);
+    }, false)
+    reader.readAsDataURL(currentFile);
+    setCropperDiv(true);
+    event.target.value = null;
+    return;
+
+}
+const useWrongFormat = (state, setState) => {
+    React.useEffect(() => {
+        if (state === false) {
+            return;
+        }
+        if (state === true) {
+            let delay = setTimeout(function () {
+                setState("pop");
+                return;
+            }, 2000)
+        }
+        if (state === "pop") {
+            let delay2 = setTimeout(function () {
+                setState(false);
+                return;
+            }, 2000)
+        }
+    }, [state])
+}
+const useCloseAvatarSelector = (state, setState, secondState) =>{
+    React.useEffect(() => {
+        console.log(secondState, state);
+        if (secondState) {
+            return;
+        }
+        if (!state) {
+            return;
+        }
+        const handleKey = (event) => {
+            if (event.key === "Escape") {
+                setState(false);
+                return;
+            }
+        }
+        document.addEventListener("keydown", handleKey)
+        return () => document.removeEventListener("keydown", handleKey)
+    },[state, secondState])
+}
+const useCloseCropper = (state, setState, setSecondState) => {
+    React.useEffect(() => {
+        if (!state) {
+            return;
+        }
+        const handleKey = (event) => {
+            if (event.key === "Escape") {
+                setState(false);
+                setSecondState(null);
+            }
+        }
+        document.addEventListener("keydown", handleKey)
+        return () => document.removeEventListener("keydown", handleKey)
+    }, [state])
+}
+
+function onImageLoad(event, aspect, setCrop, centerAspectCrop) {
+    if (aspect) {
+        const { naturalWidth: width, naturalHeight: height } = event.currentTarget;
+        setCrop(centerAspectCrop(width, height, aspect))
+    }
+}
+//function handleToggleAspectClick(aspect, setAspect, imgRef, setCrop, centerAspectCrop) {
+//    if (aspect) {
+//        setAspect(undefined)
+//    } else if (imgRef.current) {
+//        const { width, height } = imgRef.current;
+//        setAspect(16 / 9);
+//        setCrop(centerAspectCrop(width, height, 16 / 9));
+//    }
+//}
+
+
+
+
+export {
+    calculateScore, useUpdateScore, useRefreshScore, remakeScoreObj, isNameTrue, useDisplayError,
+    useCloseCropper, useWrongFormat, onImageLoad, handleFileUpload, useCloseAvatarSelector
+};

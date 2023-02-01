@@ -194,16 +194,16 @@ $slotMargin: 0.4rem;
     }
 }
 .slotAvatarContainer {
-    margin: 1% 0.5% 1% 2%;
-    height: 90%;
+    margin: 0 0 0 1.5%;
+    height: 100%;
     width: 0%;
     padding-left: 19%;
     border-radius: 1rem;
     & > img {
         position: absolute;
-        display: block;
         left: 0%;
-        margin: 0.2rem;
+        transform:translateY(-50%);
+        top:50%;
         margin-left: 0.4rem;
         width: 86%;
         border-radius: 2rem;
@@ -230,27 +230,27 @@ $slotMargin: 0.4rem;
     float: right;
     height: 100%;
     width: 27%;
-    margin-left: 1%;
     text-align: center;
 
     & > * {
+        left: 0%;
+        position: absolute;
         border-radius: 1rem;
         background: #f4acff;
-        float: left;
-        clear: both;
-        position: relative;
     }
 
     & > span {
-        padding: 0 2rem 0 2rem;
-        margin: 0.1rem 0.5rem 0.5rem;
-        top: 1rem;
+        width:95%;
+        left:5%;
+        font-size: 1.1rem;
+        top: 23%;
+        margin-bottom: 5%;
     }
 
     & > div {
+        top: 47%;
+        width: 105%;
         font-size: 1.5rem;
-        margin-top: 12%;
-        width: 100%;
         min-height: 1.8rem;
         max-height: max-content;
     }
@@ -285,8 +285,8 @@ $slotMargin: 0.4rem;
         border-radius: 1rem;
         background: #f4acff;
         float: left;
-        min-width: 40%;
-        padding: 0 0.8rem 0 1rem;
+        width: 48%;
+        margin-left:0.6%;
         text-align: center;
     }
 }
@@ -501,7 +501,7 @@ $score-screen-background:#f4acff;
     border-radius: 2.5rem;
     left:66%;
     bottom:34%;
-    z-index:5;
+    z-index:0;
     &:hover{
         &>svg>g>line{
             stroke-width:3px;
@@ -693,4 +693,225 @@ $centerAvatar: 8rem;
 }
 input[type="file"] {
     display: none;
+}
+
+.wrongFormatPopup{
+    display:inline-block;
+    text-align:center;
+    font-family:"Cascadia Code";
+    color:$score-screen-border;
+    position:absolute;
+    height:1.8rem;
+    min-width:50%;
+    width:max-content;
+    padding: 0 1.5rem 0 1.5rem;
+    border: 0.2rem solid $score-screen-border;
+    background: $score-screen-background;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    animation:fadeItIn 500ms;
+    user-select:none;
+    &>span{
+        position:relative;
+        top:5%;
+    }
+    &.pop{
+        animation:fadeItOut 2s;
+    }
+}
+.avatarCropperContainer {
+    position: absolute;
+    width: 70vw;
+    height: 80vh;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 110%;
+    border: 0.3rem solid $score-screen-border;
+    background: $score-screen-background;
+    border-radius: 1.8rem;
+
+    & > div {
+        float: left;
+        position: relative;
+        width: 100%;
+        clear: both;
+        box-sizing: border-box;
+    }
+}
+.cropControls{
+    height:10%;
+    border-top-left-radius:1rem;
+    border-top-right-radius:1rem;
+    border-bottom: 0.3rem solid $score-screen-border;
+    &>*{
+        position:relative;
+        display:inline-block;
+    }
+}
+.previewBig{
+    height:80%;
+}
+.previewSmall{
+    height:10%;
+    border-bottom-left-radius:1rem;
+    border-bottom-right-radius:1rem;
+    border-top:0.3rem solid $score-screen-border;
+}
+.cropCrossWrapper {
+    box-sizing:border-box;
+    border: 0.25rem solid $score-screen-border;
+    float: right;
+    height: 3.3rem;
+    width: 3.4rem;
+    margin: 0.5% 1% 0 0;
+    border-radius: 0.8rem;
+    & > svg {
+        width: 100%;
+        height: 100%;
+        background: white;
+        border-radius: inherit;
+        background-color: #fce4ff;
+
+        & > g > line {
+            stroke: $score-screen-border;
+            stroke-width: 2.5px;
+        }
+    }
+}
+.cropProper{
+    margin: 0 5px 8px 5px;
+    transform:translate(-50%,-50%);
+    left:50%;
+    top:50%;
+}
+.addContainer2 {
+    box-sizing:border-box;
+    float:left;
+    height:3.3rem;
+    width:3.4rem;
+    border-radius:0.8rem;
+    display: inline-block;
+    border: 0.25rem solid $score-screen-border;
+    margin:0.5% 0 0 1%;
+    & > label > svg {
+        background: white;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 0.8rem;
+        background-color: #fce4ff;
+
+        & > g > line {
+            stroke: $score-screen-border;
+            stroke-width: 2.5px;
+        }
+    }
+}
+.cropText{
+    font-family:"Cascadia Code";
+    font-size:1.1rem;
+    text-align:center;
+    float:left;
+    margin:0.7rem 0.8rem 0 0.8rem;
+    width:85%;
+    color:#853ab2;
+    &>span{
+        display:block;
+    }
+}
+.cropHoldButtons {
+    position: absolute;
+    width: 30%;
+    left: 35.5%;
+    height: 100%;
+    padding: 0 0.2rem 0 0.2rem;
+
+    & > div {
+        float:left;
+        position: relative;
+        min-width: 32%;
+        min-height: 100%;
+    }
+
+    & :nth-child(1) > svg > g > path {
+        fill: $score-screen-border;
+    }
+    & :nth-child(3){
+        float:right;
+    }
+    & :nth-child(1){
+        float:left;
+    }
+    & :nth-child(2) {
+        padding: 0 1.5% 0 1.5%;
+
+        svg {
+            left: 25%;
+            border: 0.2rem solid $score-screen-border;
+        }
+
+        & > svg > g > g > g > path {
+            fill: $score-screen-border;
+        }
+    }
+
+    & :nth-child(3) > svg > g > g > path {
+        fill: $score-screen-border;
+    }
+
+    & :nth-child(3) > svg {
+        left: 4%;
+    }
+
+    & :nth-child(1) > svg {
+        right:7%;
+    }
+}
+.cropButton {
+    & > svg {
+        top:5%;
+        box-sizing: border-box;
+        position: absolute;
+        height: 90%;
+        background: #f8d0fe;
+        border-radius:100%;
+    }
+}
+.canvasContainer{
+    position:relative;
+    width:100%;
+    height:100%;
+    padding:8px 5px 8px 5px;
+    &>div{
+        float:left;
+        position:relative;
+        height:100%;
+    }
+}
+.previewBigCropped.first{
+    width:32%;
+}
+.previewBigCropped.second{
+    width:10%;
+    padding: 0 0.5% 0 0.5%;
+}
+.previewBigCropped.third{
+    width: 55%;
+    margin-right:1%;
+}
+.previewBigCropped {
+    & > * {
+        position: relative;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;  
+    }
+}
+.canvasPreview {
+    max-width: 100%;
+}
+.previewWrapper{
+    width:100%;
+    height:28%;
 }

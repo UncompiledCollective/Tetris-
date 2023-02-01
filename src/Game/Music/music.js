@@ -1,7 +1,7 @@
 import * as React from "react";
 import { songs, generatePlaylist } from "./songsObj.js";
 
-const MusicPlayer = ({ mVol, isMute, Text, lang, isFocused }) => {
+const MusicPlayer = ({ mVol, isMute, Text, lang, isFocused, oneTime }) => {
     const [song, setSong] = React.useState(0); //what's the index of current song, we start at 0
     const [isPlaying, setIsPlaying] = React.useState(null); //is the music playing
     const [isPopup, setIsPopup] = React.useState(false);//change state
@@ -24,7 +24,7 @@ const MusicPlayer = ({ mVol, isMute, Text, lang, isFocused }) => {
             break;
     }
     useClosePopup(firstRenderRef, isPopup, setIsPopup)
-    useStartPlaying(firstRenderRef, setIsPlaying, isPlaying, musicRef.current, song, mVol, setTryPromise, tryPromise, isMute);
+    useStartPlaying(firstRenderRef, setIsPlaying, isPlaying, musicRef.current, song, mVol, setTryPromise, tryPromise, isMute, oneTime);
     useSwitchSong(song, setSong, playlistRef, isFocused)
     return (
         <div className="soundContainer">
@@ -51,7 +51,7 @@ const MusicPlayer = ({ mVol, isMute, Text, lang, isFocused }) => {
 
 
 // hooks and functions:
-const useStartPlaying = (firstRender, setPlay, play, musicRef, song, mVol, setTryPromise, tryPromise, mute) => {
+const useStartPlaying = (firstRender, setPlay, play, musicRef, song, mVol, setTryPromise, tryPromise, mute, oneTime) => {
     React.useEffect(() => {
         const tryAgain = () => {
             setTryPromise(!tryPromise)
@@ -81,7 +81,7 @@ const useStartPlaying = (firstRender, setPlay, play, musicRef, song, mVol, setTr
             musicRef.play();
         }
 
-    },[play, song, mVol, tryPromise, mute])
+    },[play, song, mVol, tryPromise, mute, oneTime])
 }
 
 const autoPlay = (e, song, setSong, playlistRef) => {
