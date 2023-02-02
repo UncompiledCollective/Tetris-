@@ -4,6 +4,7 @@ import {GameContainer} from "./Game/gameContainer.js"; // main stuff for the gam
 import { MuteButton } from "./Game/Menu Components/MuteButton.js"; // Button that mutes the game
 import { SettingsButton, AboutScreen, SettingsPanel } from "./Game/Menu Components/Settings.js"; // settings button. Uponclick will reveal a big window.
 import { gameText } from "./Game/Text.js";
+import axios from "axios";
 import title from "./Game/Menu Components/Menu PNGs/title done4.png";
 import wallpaper1 from "./Game/Menu Components/backgrounds/wallpaper1.jpg";
 import wallpaper2 from "./Game/Menu Components/backgrounds/wallpaper2.jpg";
@@ -14,6 +15,7 @@ import wallpaper6 from "./Game/Menu Components/backgrounds/wallpaper6.png";
 import wallpaper7 from "./Game/Menu Components/backgrounds/wallpaper7.png";
 
 function App() {
+    console.log("app renders")
     const [launguage, setLaunguage] = React.useState(retreiveMemory("funk_tetris-lang") || "eng");
     const [gameOn, setGameOn] = React.useState(false);
     const [isMuted, setIsMuted] = React.useState(false);
@@ -23,12 +25,15 @@ function App() {
     const [musicVolume, setMusicVolume] = React.useState(retreiveMemory("funk_tetris_music-volume") || 50);
     const [aboutOpen, setAboutOpen] = React.useState((retreiveMemory("funk_tetris-welcome") !== null) ? retreiveMemory("funk_tetris-welcome") : true);
     const [oneTimeHussle, setOneTimeHussle] = React.useState(true);
-    React.useEffect(() => {
-        document.getElementById("firstDiv").dispatchEvent(evt)
-    },[])
+    useStartPlayingTrick(oneTimeHussle, setOneTimeHussle);
     return (    
         <>
-            <div id="firstDiv" className="FirstDiv clearfix" {...(oneTimeHussle ? { onClick: () => setOneTimeHussle(false) } : {})}>
+            <div id="firstDiv" className="FirstDiv clearfix"{...(oneTimeHussle ? {
+                onClick: () => {
+                    console.log("fucking you up right now")
+                    setOneTimeHussle(false)
+                }
+            } : {})} >
                 <img src={wallpaper7} className="background" />
                 <img src={title} className="title" />
                 <SettingsPanel isUp={isSettingsOpen} setUp={setIsSettingsOpen} lang={launguage} setLang={setLaunguage} ghost={isGhostPiece}
@@ -41,8 +46,9 @@ function App() {
                 </div>
                 <GameContainer gameOn={gameOn} setGameOn={setGameOn} isSettingsOpen={isSettingsOpen} ghost={isGhostPiece}
                     mVol={musicVolume} isMute={isMuted} Text={gameText} lang={launguage} setMemory={setMemory}
-                    getMemory={retreiveMemory} oneTime={oneTimeHussle }
+                    getMemory={retreiveMemory} oneTime={oneTimeHussle } 
                 />
+                {/*<ApiTest/>*/}
             </div>
       </>
   );
@@ -63,4 +69,37 @@ var evt = new MouseEvent("click", {
     clientY:5,
     /* whatever properties you want to give it */
 });
+const useStartPlayingTrick = (state, setState) => {
+    React.useEffect(() => {
+        console.log(state);
+        if (!state) {
+            return;
+        }
+        console.log("this runs");
+        const handleclick = (event) => {
+            console.log("fucking you up right now")
+            setState(false);
+            return;
+        }
+        document.addEventListener("click", handleclick)
+        return () => document.removeEventListener("click", handleclick)
+    }, [state])
+}
+const ApiTest = () => {
+    const [backendData, setBackendData] = React.useState(false);
+    React.useEffect(() => {
+        axios.get("/api").then((response) => {
+            console.log(response);
+            setBackendData(response.data.users);
+        })
+    },[])
+    return (
+        <div className="apiTest">
+            nigger;
+            <span>            {backendData ? backendData.map((x) => {
+                return <span>{x}</span>;
+            }) : ""}</span>
+        </div>
+        )
+}
 export default App;

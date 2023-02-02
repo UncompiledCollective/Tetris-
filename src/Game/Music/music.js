@@ -5,7 +5,6 @@ const MusicPlayer = ({ mVol, isMute, Text, lang, isFocused, oneTime }) => {
     const [song, setSong] = React.useState(0); //what's the index of current song, we start at 0
     const [isPlaying, setIsPlaying] = React.useState(null); //is the music playing
     const [isPopup, setIsPopup] = React.useState(false);//change state
-    const [tryPromise, setTryPromise] = React.useState(false);
     const firstRenderRef = React.useRef(true);
     const musicRef = React.useRef(null); //used to handle <audio>
     const playlistRef = React.useRef(generatePlaylist(songs));//generates a random playlist every time the game loads.
@@ -24,7 +23,7 @@ const MusicPlayer = ({ mVol, isMute, Text, lang, isFocused, oneTime }) => {
             break;
     }
     useClosePopup(firstRenderRef, isPopup, setIsPopup)
-    useStartPlaying(firstRenderRef, setIsPlaying, isPlaying, musicRef.current, song, mVol, setTryPromise, tryPromise, isMute, oneTime);
+    useStartPlaying(firstRenderRef, setIsPlaying, isPlaying, musicRef.current, song, mVol, isMute, oneTime);
     useSwitchSong(song, setSong, playlistRef, isFocused)
     return (
         <div className="soundContainer">
@@ -51,17 +50,8 @@ const MusicPlayer = ({ mVol, isMute, Text, lang, isFocused, oneTime }) => {
 
 
 // hooks and functions:
-const useStartPlaying = (firstRender, setPlay, play, musicRef, song, mVol, setTryPromise, tryPromise, mute, oneTime) => {
+const useStartPlaying = (firstRender, setPlay, play, musicRef, song, mVol, mute, oneTime) => {
     React.useEffect(() => {
-        const tryAgain = () => {
-            setTryPromise(!tryPromise)
-        }
-        const setPlayDelayTrue = () => {
-            setPlay(true)
-        }
-        const setPlayDelayFalse = () => {
-            setPlay(false)
-        }
         if (firstRender.current) {
             //const startPlaying = () => {
             //    setPlay(true);
@@ -73,15 +63,18 @@ const useStartPlaying = (firstRender, setPlay, play, musicRef, song, mVol, setTr
             return;
         }
         if (!play) {
-            musicRef.pause()
-            let delay = setTimeout(setPlayDelayTrue, 4500);
+            let delay = setTimeout(function () {
+                setPlay(true)
+            }, 4500);
+            musicRef.pause();
+            return;
         }
         if (play) {
             musicRef.volume = mVol / 100;
             musicRef.play();
         }
 
-    },[play, song, mVol, tryPromise, mute, oneTime])
+    },[play, song, mVol, mute, oneTime])
 }
 
 const autoPlay = (e, song, setSong, playlistRef) => {

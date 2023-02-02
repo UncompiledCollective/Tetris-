@@ -116,6 +116,9 @@ $mute-percent: 21%;
 }
 .settingsScrew:hover {
     filter: invert(9%) sepia(99%) saturate(5630%) hue-rotate(246deg) brightness(111%) contrast(148%);
+    animation: rotate 5s linear;
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
 }
 @keyframes rotate {
     from {

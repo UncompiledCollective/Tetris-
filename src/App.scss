@@ -83,3 +83,15 @@ body{
 .timerTest:hover{
     border: 3px solid red;
 }
+.apiTest{
+    position:absolute;
+    width:70%;
+    height:60%;
+    top:40%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    background-color:#8700ff;
+    border:0.3rem solid #efb7ff;
+    border-radius:1rem;
+    z-index:20;
+}
