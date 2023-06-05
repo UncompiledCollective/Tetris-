@@ -243,10 +243,6 @@ const CreditsScreen = ({ credits, setCredits, Text, lang, songList }) => {
         return;
     }
     useCloseWindow("Escape", closeCall, credits, false)
-    /*useUpdateCreditsSubtitle(switchTab, setSwitchTab, transitionDirection, setString, setDots, setDotRe,
-        setIsLoading, setPreventReload, tabs, creditsTab, setCreditsTab, setTransitionDirection,
-        transitionArray, setTransitionArray
-    )*/
     return (
         <>
             <div className={"credits modal" + `${credits ? "" : " hidden"}`}
@@ -340,13 +336,6 @@ const CreditsScreen = ({ credits, setCredits, Text, lang, songList }) => {
 }
 
 const CreditsAssets = ({title, Text}) => {
-    //let Elements = [
-    //    { rW: 1, ofL: 0.05, ofT: 0.15, sW: 0.2 },
-    //    { rW: 2, ofL: 0.05, sW: 0.2 },
-    //    { rW: 1, ofL: 0.05, ofT: 0.15, sW: 0.2 },
-    //];
-    //const inlineStyle = React.useRef(generateProceduralBlocks(Elements, 0.3, 0.6, 0, false, 0,
-    //    document.getElementById("procedural"), document.getElementById("procedura-container")))
     return (
         <>
            
@@ -354,34 +343,10 @@ const CreditsAssets = ({title, Text}) => {
             <ResourcesTextHolder Text={[Text.assets]} keyprop="first"/>
             <ResourcesTextHolder Text={[Text.svg_p, Text.svg_repo]} keyprop="second" aHref="https://www.svgrepo.com/"/>
             <ResourcesTextHolder Text={[Text.png_p, Text.png_repo]} keyprop="third" aHref="https://icons8.com/"/>
+            <ResourcesTextHolder Text={[Text.cursor, Text.flaticon]} keyprop="third" aHref="https://www.flaticon.com/"/>
             <ResourcesTextHolder Text={[Text.special_thanks, Text.codepen]} keyprop="fourth" aHref="https://codepen.io/" />
             <ResourcesTextHolder Text={[Text.inspire] } keyprop="fith"/>
-            {/*
-            <img src={src} id="procedural" style={{display:"none"} }/>
-            <span style={{ animationDelay: "1500ms" }}>{Text}{Text2}{Text3}</span>
-            <div className="credits tab image assets" id="procedura-container">
-                {Elements.map(function (x, index) {
-                    return (
-                        <div className="procedural"
-                            style={generateProceduralBlocks(Elements, 0.3, 0.6, 0, false, 0,
-                                document.getElementById("procedural"), document.getElementById("procedura-container"))[index][0]}>
-                            <div className="element main"
-                                style={generateProceduralBlocks(Elements, 0.3, 0.6, 0, false, 0,
-                                    document.getElementById("procedural"), document.getElementById("procedura-container"))[index][1][0] }
-                            >
-                                <img src={src }/>
-                            </div>
-                            <div style={generateProceduralBlocks(Elements, 0.3, 0.6, 0, false, 0,
-                                document.getElementById("procedural"), document.getElementById("procedura-container"))[index][1][1] }
-                                className="element side">
-                                <img src={src }/>
-                            </div>
-                        </div>
-                        )
-                })}
-            </div>
-            //this is 2B procedural tiles
-             */}
+
         </>
         )
 }
@@ -551,19 +516,6 @@ const CreditsGeneral = ({ src, title, Text, popUp_text }) => {
                     })}
                     <div className="credits general contained static"></div>
                 </div>
-                {/*<div className="block">*/}
-                {/*    <div className="side main"><img src={src }/></div>*/}
-                {/*    <div className="side left"><img src={src }/></div>*/}
-                {/*</div>*/}
-                {/*<div className="block">*/}
-                {/*    <div className="side main"><img src={src} /></div>*/}
-                {/*    <div className="side left"><img src={src} /></div>*/}
-                {/*</div>*/}
-                {/*<div className="block">*/}
-                {/*    <div className="side main"><img src={src} /></div>*/}
-                {/*    <div className="side left"><img src={src} /></div>*/}
-                {/*</div> */}
-                {/*this was 2b tiles image*/ }
             </div>
         </>
         )

@@ -118,7 +118,9 @@ const gameText = {
                 png_repo: "icons8.com",
                 special_thanks: "Special thanks to:",
                 codepen: "codepen.io",
-                inspire: "For inspiring style ideas"
+                inspire: "For inspiring style ideas",
+                flaticon: "flaticon.com",
+                cursor:"png cursors provided by:"
             },
         }
     },
@@ -241,7 +243,9 @@ const gameText = {
                 png_repo: "icons8.com",
                 special_thanks: "Specjalne podziękowania dla:",
                 codepen: "codepen.io",
-                inspire:"Za inspirujące demonstracje stylu"
+                inspire: "Za inspirujące demonstracje stylu",
+                flaticon: "flaticon.com",
+                cursor: "kursory png pobrane z:"
             },
         }
 

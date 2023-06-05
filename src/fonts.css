@@ -18,4 +18,12 @@
     font-family: 'Holligate Signature Demo';
     src: url('./Game/Menu Components/fonts/Holligate Signature Demo.ttf') format('truetype');
 }
-
+body {
+    cursor: url("./Game/Menu Components/Cursor/cursor50.png"), auto;
+}
+a {
+    cursor: url("./Game/Menu Components/Cursor/pointer.png"), auto;
+}
+input, label {
+    cursor: url("./Game/Menu Components/Cursor/cursor50.png"), auto;
+}
