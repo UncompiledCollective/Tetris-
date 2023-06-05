@@ -1,0 +1,1493 @@
+@use 'sass:math';
+$menu-font-color: #f5afff;
+$credits-tile-color: #321445;
+$creditScreen-font-color: #ffe9ff;
+@mixin posSize($poisition: relative, $width: 100%,$height: 100%,$offsetHor: left,$offsetHorVal: 0,$offsetVer: top, $offsetVerVal: 0) {
+    position: $poisition;
+    width: $width;
+    height: $height;
+    #{$offsetHor}: $offsetHorVal;
+    #{$offsetVer}: $offsetVerVal;
+}
+// for those moving lights around arrows in settings:
+// animations
+// for title and line breakers on the sides:
+@keyframes fade-in-top {
+    from {
+        top: -20%;
+        opacity: 0;
+    }
+
+    to {
+        top: 0%;
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in-right {
+    from {
+        right: -10%;
+        opacity: 0;
+    }
+
+    to {
+        right: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in-left {
+    from {
+        left: -10%;
+        opacity: 0;
+    }
+
+    to {
+        left: 0%;
+        opacity: 1;
+    }
+}
+// for fading tiles
+@keyframes fade-tile-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+// slide in top for title
+@keyframes slide-in-top {
+    from {
+        transform: scale(0, 1);
+        transform-origin: top;
+    }
+
+    to {
+        transform: scale(1,1);
+        transform-origin: top;
+        opacity: 1;
+    }
+}
+//instant opacity is used somewhere...
+@keyframes instant-opacity {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+// these are for the border parts. The border is made of separate before and after pseudo elements
+@keyframes slide-in-bottom {
+    from {
+        transform: scale(0, 1);
+        transform-origin: bottom;
+    }
+
+    to {
+        transform: scale(1, 1);
+        transform-origin: bottom;
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-left {
+    from {
+        transform: scale(1, 0);
+        transform-origin: left;
+    }
+
+    to {
+        transform: scale(1, 1);
+        transform-origin: left;
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-right {
+    from {
+        transform: scale(1, 0);
+        transform-origin: right;
+    }
+
+    to {
+        transform: scale(1, 1);
+        transform-origin: right;
+        opacity: 1;
+    }
+}
+@keyframes fade-in-top {
+    from {
+        top: -20%;
+        opacity: 0;
+    }
+
+    to {
+        top: 0%;
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in-right {
+    from {
+        right: -10%;
+        opacity: 0;
+    }
+
+    to {
+        right: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in-left {
+    from {
+        left: -10%;
+        opacity: 0;
+    }
+
+    to {
+        left: 0%;
+        opacity: 1;
+    }
+}
+//style for those moving lights around arrows in credits
+$credits-pseudo-element-width: 50%;
+$credits-animation-offset-left: 8%;
+$credits-animation-offset-top: 3%;
+@keyframes rotate-pseudo-bottom-right {
+    0% {
+        right: math.div(-$credits-pseudo-element-width, 2);
+        bottom: math.div(-$credits-pseudo-element-width, 6);
+    }
+
+    25% {
+        right: 100% + math.div(-$credits-pseudo-element-width, 2);
+        bottom: math.div(-$credits-pseudo-element-width, 6);
+    }
+
+    50% {
+        right: 100% + math.div(-$credits-pseudo-element-width, 2);
+        bottom: 100% + math.div(-$credits-pseudo-element-width, 6);
+    }
+
+    75% {
+        right: math.div(-$credits-pseudo-element-width, 2);
+        bottom: 100% + math.div(-$credits-pseudo-element-width, 6);
+    }
+
+    100% {
+        right: math.div(-$credits-pseudo-element-width, 2);
+        bottom: math.div(-$credits-pseudo-element-width, 6);
+    }
+}
+
+@keyframes rotate-pseudo-bottom-left {
+    0% {
+        left: math.div(-$credits-pseudo-element-width, 2);
+        bottom: math.div(-$credits-pseudo-element-width, 6);
+    }
+
+    25% {
+        left: math.div(-$credits-pseudo-element-width, 2);
+        bottom: 100% + math.div(-$credits-pseudo-element-width, 6);
+    }
+
+    50% {
+        left: 100% + math.div(-$credits-pseudo-element-width, 2);
+        bottom: 100% + math.div(-$credits-pseudo-element-width, 6);
+    }
+
+    75% {
+        left: 100% + math.div(-$credits-pseudo-element-width, 2);
+        bottom: math.div(-$credits-pseudo-element-width, 6);
+    }
+
+    100% {
+        left: math.div(-$credits-pseudo-element-width, 2);
+        bottom: math.div(-$credits-pseudo-element-width, 6);
+    }
+}
+
+@keyframes rotate-pseudo-top-left {
+    0% {
+        left: math.div(-$credits-pseudo-element-width, 2);
+        top: math.div(-$credits-pseudo-element-width, 6);
+    }
+
+    25% {
+        left: 100% + math.div(-$credits-pseudo-element-width, 2);
+        top: math.div(-$credits-pseudo-element-width, 6);
+    }
+
+    50% {
+        left: 100% + math.div(-$credits-pseudo-element-width, 2);
+        top: 100% + math.div(-$credits-pseudo-element-width, 6);
+    }
+
+    75% {
+        left: math.div(-$credits-pseudo-element-width, 2);
+        top: 100% + math.div(-$credits-pseudo-element-width, 6);
+    }
+
+    100% {
+        left: math.div(-$credits-pseudo-element-width, 2);
+        top: math.div(-$credits-pseudo-element-width, 6);
+    }
+}
+
+@keyframes rotate-pseudo-top-right {
+    0% {
+        right: math.div(-$credits-pseudo-element-width, 2);
+        top: math.div(-$credits-pseudo-element-width, 6);
+    }
+
+    25% {
+        right: math.div(-$credits-pseudo-element-width, 2);
+        top: 100% + math.div(-$credits-pseudo-element-width, 6);
+    }
+
+    50% {
+        right: 100% + math.div(-$credits-pseudo-element-width, 2);
+        top: 100% + math.div(-$credits-pseudo-element-width, 6);
+    }
+
+    75% {
+        right: 100% + math.div(-$credits-pseudo-element-width, 2);
+        top: math.div(-$credits-pseudo-element-width, 6);
+    }
+
+    100% {
+        right: math.div(-$credits-pseudo-element-width, 2);
+        top: math.div(-$credits-pseudo-element-width, 6);
+    }
+}
+// tabs style
+$credits-tab-wrapped-offset-horizontal: 1.5%;
+@keyframes float-tab-in-right {
+    from {
+        left: 102%;
+    }
+
+    to {
+        left: $credits-tab-wrapped-offset-horizontal;
+    }
+}
+
+@keyframes float-tab-in-left {
+    from {
+        left: -102%;
+    }
+
+    to {
+        left: $credits-tab-wrapped-offset-horizontal;
+    }
+}
+
+@keyframes float-tab-out-left {
+    from {
+        left: 0%;
+    }
+
+    to {
+        left: -102%;
+    }
+}
+
+@keyframes float-tab-out-right {
+    from {
+        left: 0%;
+    }
+
+    to {
+        left: 102%;
+    }
+}
+//animation for arrows in credits fading in
+@keyframes fade-arrow-in-left-first{
+    from{
+        opacity:0;
+        left:-5%;
+    }
+    to{
+        opacity:1;
+        left:-15%;
+    }
+}
+@keyframes fade-arrow-in-right-first{
+    from{
+        opacity:0;
+        right:-5%;
+    }
+    to{
+        opacity:1;
+        right:-15%;
+    }
+}
+@keyframes fade-arrow-in-left-second{
+    from{
+        opacity:0;
+        left:20%;
+    }
+    to{
+        opacity:1;
+        left:10%;
+    }
+}
+@keyframes fade-arrow-in-right-second{
+    from{
+        opacity:0;
+        right:10%;
+    }
+    to{
+        opacity:1;
+        right:0%;
+    }
+}
+// text keyframes on credits box
+@keyframes float-span-in{
+    from{
+        top:-5%;
+        opacity:0;
+    }
+    to{
+        top:0%;
+        opacity:1;
+    }
+}
+@keyframes hide-scrollbar{
+    from,to{overflow:hidden;}
+}
+@keyframes generic-fade-in{
+    from{
+        opacity:0;
+    }
+    to{
+        opacity:1;
+    }
+}
+//style for scrollbar in credits-music
+@mixin scroll-style($size: 10px, 
+$thumb: none, 
+$thumb-color: grey, 
+$thumb-radius: 10px, 
+$track-color: transparent, 
+$track-radius: 10px) 
+{
+    //for mozilla:
+    scrollbar-color: $thumb-color $track-color;
+    scrollbar-width: thin;
+    //webkit
+    &::-webkit-scrollbar {
+        width: $size;
+        height: $size;
+
+        &-track {
+            background-color: $track-color;
+            border-radius: $track-radius;
+        }
+
+        &-thumb {
+            background-color: $thumb-color;
+            background-image: $thumb;
+            border-radius: $thumb-radius;
+        }
+    }
+}
+@keyframes generic-fade-out{
+    from{opacity:1;}
+    to{opacity:0;}
+}
+@mixin credits-font-generic($size:1.2, $color: $creditScreen-font-color, $display:block) {
+    font-family: "Cascadia Code";
+    font-size: #{$size}rem;
+    display: $display;
+    color: $color;
+}
+@keyframes float-image-music-in-left{
+    from{right:-102%;}
+    to{right:0%;}
+}
+@keyframes float-image-music-in-right{
+    from{right:102%;}
+    to{right:0%;}
+}
+@keyframes float-image-music-out-left{
+    from{right:0%;}
+    to{right:102%;}
+}
+@keyframes float-image-music-out-right{
+    from{right:0%;}
+    to{right:-102%;}
+}
+@mixin generateOffset($width:auto,$height:100%, $offset-left:0,$offset-top:0){
+    width:$width;
+    height:$height;
+    top:-100%*$offset-top;
+    transform:translateX(-100%*$offset-left)
+}
+@function valueFromProperty($fallback, $value) {
+    @if #{$value} {
+        @return #{$value};
+    }
+    @else {
+        @return $fallback;
+    }
+}
+@mixin generateBlock($width:0.3,$offset-top:0,$offset-left:0.1){
+    position:absolute;
+    left:valueFromProperty($width, 0.3) * 100%;
+    //width: $width * 100%;
+    //height:1 -$offset-top * 100%;
+    //top: $offset-top*50%; // 0.2 * 100% / 2 = 0.2 * 50%
+}
+//glitch animations
+@function generatePolygon($height1, $height2){
+    @return polygon(0% $height1, 100% $height1, 100% $height2, 0% $height2);
+}
+@keyframes glitch-shake {
+    0%,90% {
+        opacity: 0;
+    }
+
+    91% {
+        opacity: 0.2;
+        transform: translate3d(10px, 5px, 0);
+    }
+
+    93% {
+        opacity: 0;
+    }
+}
+
+@keyframes glitch-shake-2 {
+    0%,100% {
+        filter: hue-rotate(30deg) sepia(10%) blur(1px) saturate(90%);
+    }
+
+    0%,95% {
+        opacity: 0;
+    }
+
+    95.5% {
+        opacity: 0;
+    }
+
+    96% {
+        opacity: 0.4;
+        transform: translate3d(-25px, -10px, 0);
+        filter: blur(2px), saturate(50%);
+    }
+
+    99% {
+        opacity: 0.4;
+        transform: translate3d(-25px, -10px, 0);
+    }
+
+    99.5% {
+        opacity: 0;
+    }
+}
+
+@keyframes glitch-main-1 {
+    0%,100% {
+        opacity: 1;
+        transform: translate3d(-7px, 0, 0px);
+        filter: saturate(100%) hue-rotate(30deg) sepia(20%);
+    }
+
+    0% {
+        clip-path: generatePolygon(2%, 5%);
+    }
+
+    10% {
+        clip-path: generatePolygon(10%, 13%);
+    }
+
+    20% {
+        clip-path: generatePolygon(20%, 23%);
+    }
+
+    25% {
+        clip-path: generatePolygon(18%, 18%);
+    }
+
+    50% {
+        clip-path: generatePolygon(50%, 50%);
+    }
+
+    60% {
+        clip-path: generatePolygon(55%, 60%)
+    }
+
+    70% {
+        clip-path: generatePolygon(72%, 72%);
+    }
+
+    80% {
+        clip-path: generatePolygon(85%, 85%);
+    }
+
+    85% {
+        clip-path: generatePolygon(80%, 83%);
+    }
+
+    90% {
+        clip-path: generatePolygon(75%, 78%)
+    }
+
+    95% {
+        clip-path: generatePolygon(85%, 88%);
+    }
+
+    96% {
+        clip-path: generatePolygon(88%, 88%);
+    }
+
+    100% {
+        clip-path: generatePolygon(95%, 96%);
+    }
+}
+
+@keyframes glitch-main-2 {
+    from,to {
+        opacity: 1;
+        transform: translate3d(5px, 0, 0px);
+        filter: saturate(200%) hue-rotate(60deg) sepia(20%) brightness(1.2);
+    }
+
+    0% {
+        clip-path: generatePolygon(95%, 93%);
+    }
+
+    10% {
+        clip-path: generatePolygon(70%, 73%);
+    }
+
+    20% {
+        clip-path: generatePolygon(83%,83%);
+    }
+
+    25% {
+        clip-path: generatePolygon(40%,40%);
+    }
+
+    30% {
+        clip-path: generatePolygon(60%, 64%);
+    }
+
+    40% {
+        clip-path: generatePolygon(55%, 55%);
+    }
+
+    50% {
+        clip-path: generatePolygon(33%, 33%);
+    }
+
+    60% {
+        clip-path: generatePolygon(18%,20%);
+    }
+
+    75% {
+        clip-path: generatePolygon(22%,22%);
+    }
+
+    80% {
+        clip-path: generatePolygon(90%,90%)
+    }
+
+    85% {
+        clip-path: generatePolygon(78%,80%);
+    }
+
+    90% {
+        clip-path: generatePolygon(72%,74%);
+    }
+
+    100% {
+        clip-path: generatePolygon(92%,92%);
+    }
+}
+
+@keyframes glitch-main-3 {
+    0%, 100% {
+        opacity: 1;
+        transform: translate3d(-10px, 0, 0);
+        clip-path: generatePolygon(25%,30%);
+        filter: blur(1px);
+    }
+
+    10% {
+        clip-path: generatePolygon(3%, 3%);
+    }
+
+    15% {
+        clip-path: generatePolygon(5%,20%);
+    }
+
+    17% {
+        clip-path: generatePolygon(20%, 20%);
+    }
+
+    19% {
+        clip-path: generatePolygon(40%,40%);
+    }
+
+    33% {
+        clip-path: generatePolygon(52%, 59%);
+    }
+
+    35% {
+        clip-path: generatePolygon(60%,60%);
+    }
+
+    40% {
+        clip-path: generatePolygon(75%,75%);
+    }
+
+    45% {
+        clip-path: generatePolygon(65%,40%);
+    }
+
+    49% {
+        clip-path: generatePolygon(45%,50%);
+    }
+
+    50% {
+        clip-path: generatePolygon(14%,33%);
+    }
+
+    55% {
+        clip-path: generatePolygon(15%,35%);
+    }
+
+    60% {
+        clip-path: generatePolygon(15%,15%);
+    }
+
+    70% {
+        clip-path: generatePolygon(65%,60%);
+    }
+
+    80% {
+        clip-path: generatePolygon(80%,85%);
+    }
+
+    90% {
+        clip-path: generatePolygon(55%,65%);
+    }
+}
+//because I don't know the syntax:
+@function generateDisco($steps:50, $colors...){
+    $syntax-list: (); // B first list. This one only holds colors for every stripe of conic-gradient
+    $result: (); // C after that we generate result list - we append syntax list and add percentage to our conic gradient   
+    @for $x from 0 through $steps{ //B
+        $len: length($colors);
+        $k: $x % $len + 1;
+        $syntax-list: append($syntax-list, nth($colors, $k));
+    }
+    @for $x from 1 through $steps+1{ //C
+        $k: nth($syntax-list, $x);
+        $k: append($k, math.div($x,$steps)*100%);
+        $result: append($result, $k, comma);
+    }
+    @return $result;
+}
+@function generateDisco2($steps:50, $colors...){
+    $syntax-list: (); // B first list. This one only holds colors for every stripe of conic-gradient
+    $result: (); // C after that we generate result list - we append syntax list and add percentage to our conic gradient
+    @for $x from 0 through $steps { //B
+        $len: length($colors);
+        $k: $x % $len + 1;
+        $syntax-list: append($syntax-list, nth($colors, $k));
+    }
+
+    @for $x from 1 through $steps { //C
+        @if $x == 1 {
+        $transparent: transparent;
+        $transparent: append($transparent, 0%);
+        $result:append($result, $transparent, comma);
+        } 
+        $k: nth($syntax-list, $x);
+        $k: append($k, $x/$steps*100%);
+        //$repeat-k: nth($syntax-list, $x);
+        //$repeat-k: append($repeat-k, ($x - 1)/$steps*100%);
+        //$result: append($result, $repeat-k, comma);
+        $result: append($result, $k, comma);
+        
+    }
+
+    @return $result;
+}
+@keyframes rotate-disco{
+    from {
+        transform: rotate(0deg) scale3d(4,4,4);
+    }
+    to {
+        transform: rotate(360deg) scale3d(4,4,4);
+    }
+}
+@function generateDisco3($steps: 50, $colors...) {
+    $syntax-list: (); // B first list. This one only holds colors for every stripe of conic-gradient
+    $result: (); // C after that we generate result list - we append syntax list and add percentage to our conic gradient
+    @for $x from 0 through $steps { //B
+        $len: length($colors);
+        $k: $x % $len + 1;
+        $syntax-list: append($syntax-list, nth($colors, $k));
+    }
+
+    @for $x from 1 through $steps { //C
+        $k: nth($syntax-list, $x);
+        $k: append($k, $x/$steps*100%);
+        //$repeat-k: nth($syntax-list, $x);
+        //$repeat-k: append($repeat-k, ($x - 1)/$steps*100%);
+        //$result: append($result, $repeat-k, comma);
+        $result: append($result, $k, comma);
+
+    }
+
+    @return $result;
+}
+@keyframes fade-to-9{
+    from{opacity:0}
+    to{opacity:0.9}
+}
+@keyframes fade-to-8{
+    from{opacity:0}
+    to{opacity:0.8}
+}
+@keyframes rotate-generic{
+    to{
+        transform:rotate(1turn);
+    }
+}
+@keyframes rotate-generic-double-speed{
+    to{
+        transform:rotate(2turn);
+    }
+}
+@keyframes morph {
+    0% {
+        border-radius: 40% 60% 60% 40% / 60% 30% 70% 40%;
+    }
+
+    100% {
+        border-radius: 40% 60%;
+    }
+}
+// welcome animations, mixins, variables;
+@mixin generate-skew-in($name,$skewDeg: -30deg, $initTransY: 0, $initScaleX: 1.0, $targetTransY: 0, $targetScaleX: 1.0) {
+    @keyframes #{$name} {
+        from, to {
+            opacity: 1;
+        }
+
+        from {
+            transform: skew($skewDeg) translateY($initTransY) scaleX($initScaleX);
+        }
+
+        to {
+            transform: skew($skewDeg) translateY($targetTransY) scaleX($initScaleX);
+        }
+    }
+}
+@mixin generateFoldOut($name, $constantSkew, $transfomr-origin: center,$initScaleX: 0, $targetScaleX: 1) {
+    @keyframes #{$name} {
+        from,to {
+            transform-origin: $transfomr-origin;
+        }
+
+        from {
+            transform: skew($constantSkew) scaleX($initScaleX);
+        }
+
+        to {
+            transform: skew($constantSkew) scaleX($targetScaleX);
+        }
+    }
+}
+@mixin generateArchedLine($height, $offset-top: 0, $width, $border-part: right, $border-width: 4px, $border-style: solid, $border-color: black, $border-radius: 50% 50% 50% 50% / 60%) {
+    height: $height;
+    top: $offset-top;
+    width: $width;
+    border-#{$border-part}: $border-width $border-style $border-color;
+    border-radius: #{$border-radius};
+}
+@mixin generateSwing($name,$initialDeviation: -45deg,$maxDeviation: 45deg) {
+    @keyframes #{$name} {
+        from,to {
+            transform-origin: top;
+        }
+
+        0% {
+            opacity: 0;
+            transform: rotate($initialDeviation);
+        }
+
+        33% {
+            opacity: 1;
+            transform: rotate($maxDeviation);
+        }
+
+        60% {
+            transform: rotate(math.div($initialDeviation,2));
+        }
+
+        80% {
+            transform: rotate(math.div($maxDeviation,3));
+        }
+
+        90% {
+            transform: rotate(math.div($initialDeviation,7))
+        }
+
+        92% {
+            transform: rotate(math.div($maxDeviation,10))
+        }
+
+        95% {
+            transform: rotate(math.div($initialDeviation,15));
+        }
+
+        95%,100% {
+            transform: rotate(0);
+        }
+
+        33%,100% {
+            opacity: 1;
+        }
+    }
+}
+@mixin generateBackgroundOffsets($number: 6, $slice-size: 0.15) {
+    @for $x from 1 through $number {
+        &:nth-child(#{$x}) {
+            @include posSize(absolute, (1-($x - 1)*$slice-size)*100%, (1-($x - 1)*$slice-size)*100%, left, ($x - 1)*$slice-size*50%,top,($x - 1)*$slice-size*50%);
+            $delta: 1-($x - 1)*$slice-size;
+            $amplify: math.pow(math.div(1,$delta),2);
+            background-size: $amplify*(1 - ($x - 1)*$slice-size)*100% $amplify*(1 - ($x - 1)*$slice-size)*100%;
+            background-position: 50% 50%;
+        }
+    }
+}
+@function getAnimMode($playback){
+    @if ($playback == normal){
+        @return reverse;
+    }
+    @else{
+        @return normal;
+    }
+}
+@function getInverse($value){
+    @if ($value == 0){
+        @return 1;
+    }
+    @else{
+        @return -1;
+    }
+}
+@mixin generate-spin($name, $reverse:0) {
+    $multiply: getInverse($reverse);
+    @keyframes #{$name} {
+        from,to{transform-origin:center;}
+        0%,40% {
+            transform: rotate(0deg);
+        }
+
+        60% {
+            transform: rotate(400deg*$multiply);
+        }
+
+        80% {
+            transform: rotate(330deg*$multiply);
+        }
+
+        85% {
+            transform: rotate(380deg*$multiply)
+        }
+
+        90% {
+            transform: rotate(363deg*$multiply);
+        }
+        95%,100% {
+            transform: rotate(360deg*$multiply);
+        }
+    }
+}
+@mixin generateRotation($name, $value: 0, $init:0deg, $target:360deg) {
+    $inverse: getInverse($value);
+    @keyframes #{$name} {
+        0%{
+            transform: rotate($init*$inverse);
+        }
+        80%,100%{
+            transform:rotate($target*$inverse);
+        }
+    }
+}
+
+@mixin generateAlteringRotations($number, $name, $animation-iterations: infinite, $duration: 2500ms, $delay_static: 0ms, $delay_modular: 100ms, $repeat-delay:$duration) {
+    @for $x from 1 through $number {
+        @if $x % 2 == 0 {
+            &:nth-child(#{$x}) {
+                //@include generate-spin(#{$name}-#{$x}, 1) // one and 0 for altering rotations. Looks good on a complex picture;
+                @include generateRotation(#{$name}-#{$x});
+                animation: #{$name}-#{$x} $duration cubic-bezier(0.250, 0.460, 0.450, 0.940) ($delay_static + ($number - $x)*$delay_modular) $animation-iterations normal forwards,
+                #{$name}-#{$x} $duration cubic-bezier(0.250, 0.460, 0.450, 0.940) ($repeat-delay + ($number - $x)*$delay_modular) $animation-iterations normal forwards;
+            }
+        }
+        @else {
+            &:nth-child(#{$x}) {
+                //@include generate-spin(#{$name}-#{$x}, 0);
+                @include generateRotation(#{$name}-#{$x});
+                animation: #{$name}-#{$x} $duration cubic-bezier(0.250, 0.460, 0.450, 0.940) ($delay_static + ($number - $x)*$delay_modular) $animation-iterations normal forwards,
+                 #{$name}-#{$x} $duration cubic-bezier(0.250, 0.460, 0.450, 0.940) ($repeat-delay + ($number - $x)*$delay_modular) $animation-iterations normal forwards;
+            }
+        }
+    }
+}
+@mixin generatePseudoSphere($position: absolute, $width, $height, $offset-hor:left,$offset-hor-val:0,$offset-ver:top,
+$offset-ver-val:0, $border-radius-1:50%, $border-radius-2:50%, $background:none){
+    content:"";
+    position:absolute;
+    width:$width;
+    height:$height;
+    #{$offset-hor}:$offset-hor-val;
+    #{$offset-ver}:$offset-ver-val;
+    border-radius:#{$border-radius-1} / #{$border-radius-2};
+    background:$background;
+}
+@mixin boxTheShadow($inset: 0, $offset-hor: 0, $offset-ver: 0, $blur: 0, $spread: 0, $color: transparent, $filler:0) {
+    @if $inset == 0 {
+        box-shadow: $offset-hor $offset-ver $blur $spread $color;
+    }
+    @else {
+        box-shadow: inset $offset-hor $offset-ver $blur $spread $color, $filler 0 0 0 $color;
+    }
+}
+@mixin generateFourSpheres($width,$height, $offset-x: 0%, $offset-y: 0%, $circle-width: 100%, $circle-height: 100%, $multiply-circle-x: 1, $multiply-circle-y: 1, $shadow-color, $shadow-x: 1rem, $shadow-y: 1rem, $clip-x: 50%, $clip-y: 50%, $border-radius-1: 50%, $border-radius-2: 50%) {
+    @for $x from 1 through 4 {
+        $hor: left;
+        $ver: top;
+        $shadow-hor: 1;
+        $shadow-ver: 1;
+        $initial-x: 0%;
+        $initial-y: 0%;
+        $clip-x-modulo: $clip-x;
+        $clip-y-modulo: $clip-y;
+
+        @if($x % 2 == 0) {
+            $hor: right;
+            $shadow-hor: -1;
+            $initial-x: 100%;
+            $clip-x-modulo: 100% - $clip-x;
+        }
+
+        @if($x > 2) {
+            $ver: bottom;
+            $shadow-ver: -1;
+            $initial-y: 100%;
+            $clip-y-modulo: 100% - $clip-y;
+        }
+
+        &:nth-child(#{$x}) {
+            @include posSize(absolute, $width, $height, $hor, $offset-x, $ver, $offset-y);
+            clip-path: polygon($initial-x $initial-y, #{$clip-x-modulo} $initial-y, #{$clip-x-modulo} #{$clip-y-modulo}, $initial-x #{$clip-y-modulo});
+
+            &::before {
+                @include generatePseudoSphere(absolute, $circle-width, $circle-height, $hor, $circle-width*$multiply-circle-x, $ver, $circle-height*$multiply-circle-y, $border-radius-1, $border-radius-2 );
+                @include boxTheShadow(0, $shadow-x*$shadow-hor, $shadow-y*$shadow-ver, 0,0, $shadow-color);
+            }
+        }
+    }
+}
+@mixin generateTranslateY($name, $initial:0%, $target){
+    @keyframes #{$name}{
+        0%{
+            transform:translateY($initial);
+        }
+        100%{
+            transform:translateY($target)
+        }
+    }
+}
+@mixin generateTranslateSingle($name, $initial:false, $target, $type:translateY){
+    @keyframes #{$name}{
+        @if $initial{
+            from{
+                transform:#{$type}($initial);
+            }
+        }
+        to{
+            transform:#{$type}($target);
+        }
+        
+    }
+}
+@mixin translateAndScale($name, $init-scale, $target-scale, $init-x,$target-x,$init-y,$target-y){
+    @keyframes #{$name}{
+        0%,100%{
+            transform-origin:center;
+        }
+        0%{
+            transform: scale($init-scale) translate($init-x, $init-y);
+        }
+        100%{
+            transform: scale($target-scale) translate($target-x, $target-y);
+        }
+    }
+}
+@mixin generateToSomewhere($name, $hor:left, $hor-target:0, $ver:top, $ver-target:0){
+    @keyframes #{$name}{
+        to{
+            #{$hor}: $hor-target;
+            #{$ver}: $ver-target;
+        }
+    }
+}
+@mixin generateTranslateGlobal($name, $initial-x:0,$initial-y:0, $target-x:0,$target-y:0){
+    @keyframes #{$name}{
+        from{
+            transform: translate(#{$initial-x}, #{$initial-y});
+        }
+        to{
+            transform: translate(#{$target-x}, #{$target-y});
+        }
+    }
+}
+//animation times for welcome screen
+$welcome-screen-container-main-width: 80%;
+$title-done-height:25%;
+$welcome-screen-animation-delay: 1000ms; //modal fade-in duration
+$swing-lamp-duration: 3000ms; //self explanatory
+$logo-container-delay:1500ms; //delay for logo container to appear (tiles are still generating, it's approximated)
+$logo-div-duration:1000ms; //duration of folding out of the jade screen
+$swirl-animation-duration: 2250ms; //duration of simple logo swirl
+$swirl-repeat-delay:250ms; //delay between swirls of simple logo
+$spin-out-duration:1500ms; //removes simple logo
+$swirl-duration-combined: 1.2*$logo-container-delay + $swirl-animation-duration; //name is misleading. It's duration of delays of swirls to spin out simple logo
+$title-done-duration: 2000ms; //duration of true title entry;
+$title-done-final-delay:$swirl-duration-combined + $title-done-duration + 500ms; //final delay for title animations
+$title-done-final-duration: 1500ms;
+$title-container-delay: $title-done-final-delay + $title-done-final-duration; //delay between complete closure of this container
+$delay-jade-screen: $title-done-final-delay (+250ms);
+$firework-duration: 1.2s;
+$firework-delay: $swirl-duration-combined + 1000ms;
+$firework-right-delay: $firework-delay +250ms;
+$fade-span-out-duration: 2000;
+$fade-span-in-duration: 2000;
+@mixin animateJadeScreen($name, $background-color: #ededed) {
+    @keyframes #{$name} {
+        0%,100% {
+            transform-origin: center;
+        }
+
+        0% {
+            transform: scale(1, 0);
+            background: $background-color;
+        }
+        100% {
+            transform: scale(1, 1);
+            background: none;
+        }
+    }
+}
+@mixin generateFlyIn($name, $direction:left, $initial:0, $target:0){
+    @keyframes #{$name}{
+        0%{
+            #{$direction}: $initial;
+        }
+        100%{
+            #{$direction}: $target;
+        }
+    }
+}
+@mixin generateSpin-out($name, $initial-rot:0,$target-rot:360deg, $initial-o:1,$target-o:0, $scale-init: 1, $scale-target:0, $origin:center){
+    @keyframes #{$name}{
+        0%,100%{
+            transform-origin:$origin;
+        }
+        0%{
+            transform: rotate($initial-o) scale($scale-init);
+            opacity:$initial-o;
+        }
+        100%{
+            transform:rotate($target-rot) scale($scale-target);
+            opacity:$target-o;
+        }
+    }
+}
+@mixin generate-fold-in($name, $init-trans-Y:-30%, $target-trans-y:0, $init-rotate-x:-30deg, $target-rotate-x:0, $init-rotate-y:0, $target-rotate-y:0, $init-scale:0, $target-scale:1,
+$init-o:0, $target-o:1, $init-origin:50% 100%, $middle-origin:50% 200%, $percentage-origin:50%, $target-origin: 50% 1400px
+) {
+    @keyframes #{$name} {
+        0% {
+            transform: translateY($init-trans-Y) rotateX($init-rotate-x) rotateY($init-rotate-y) scale($init-scale);
+            transform-origin: #{$init-origin};
+            opacity: $init-o;
+        }
+        #{$percentage-origin}{
+                                    transform-origin:$middle-origin;
+                             }
+        100% {
+            transform: translateY($target-trans-y) rotateX($target-rotate-x) rotateY($target-rotate-y) scale($target-scale);
+            transform-origin: $target-origin;
+            opacity: $target-o;
+        }
+    }
+}
+@mixin generateScale($name, $init:0, $target:1){
+    @keyframes #{$name}{
+        0%{
+            transform: scale($init);
+        }
+        100%{
+            transform: scale($target);
+        }
+    }
+}
+@mixin de-translate-title($name, $init-scale:0, $target-scale:1, $init-y:0,$target-y:0){
+    @keyframes #{$name}{
+        0%{
+            transform:translateY($init-y) scale($init-scale);
+        }
+        100%{
+            transform:translateY($target-y) scale($target-scale);
+        }
+    }
+}
+@mixin generateModal($z-index: 4, $background: #00000049, $opacity:0) {
+    z-index: $z-index;
+    @include posSize(absolute);
+    background: $background;
+    opacity: $opacity;
+}
+@mixin generateFade-out($name, $init:1,$target:0){
+    @keyframes #{$name}{
+        0%{
+            opacity:$init;
+        }
+        100%{
+            opacity:$target
+        }
+    }
+}
+@mixin generate-fire-work($name, $scale-init, $scale-target){
+    @keyframes #{$name}{
+        0%{
+            opacity:0;
+            transform:scale($scale-init);
+        }
+        100%{
+            opacity:1;
+            transform:scale($scale-target);
+        }
+    }
+}
+@function generateRGBA($number, $transparent:false){
+    $list: ();
+    @for $x from 1 through $number{
+        @if($transparent){
+            $list: append($list, #fff);
+        }
+        @else{
+            $list: append($list, rgba(random(105)+150, random(105)+150, random(105)+150, 1));
+        }
+    }
+    @return $list;
+}
+@function generateRandomOffset($number){
+    @return random($number) - math.div($number,2);
+}
+@function generateBoxShadow($number, $x-axis, $y-axis, $unit: 1px, $blur: 0px, $spread: 0px ) {
+    $colored: ();
+    $white: ();
+    $colors: generateRGBA($number);
+    @for $y from 1 through $number {
+        $offset-x: generateRandomOffset($x-axis)*$unit;
+        $offset-y: generateRandomOffset($y-axis)*$unit;
+        $colored: append($colored, $offset-x $offset-y $blur $spread #{nth($colors, $y)}, comma);
+        $white: append($white, 0 0 #ffffff1b, comma);
+    }
+    $map: (white: $white, colors: $colored);
+    @return $map;
+}
+@mixin translate-color($name,$colors){
+    @keyframes #{$name}{
+        100%{
+            box-shadow:$colors;
+        }
+    }
+}
+@mixin generateGravity($name, $targetY:20%, $target-o:0){
+    @keyframes #{$name}{
+        100%{
+            opacity:$target-o;
+            transform:translateY($targetY);
+        }
+    }
+}
+@mixin generateFirePositions($name,$steps:5, $children...){
+    $value: math.div(100,$steps);
+    @keyframes #{$name}{
+        @for $x from 1 through $steps {
+            #{($x - 1)*20%}, #{(20%*$x) - 0.01%} {
+                margin-left: nth($children, ($x - 1)*2 +1)*1%;
+                margin-top: nth($children, ($x - 1)*2 +2)*1%;
+            }
+        }
+    }
+}
+@mixin Testing-mixin($steps: 5, $children...) {
+    @for $x from 1 through $steps {
+        &:nth-child(#{$x}) {
+            margin-left: nth($children, ($x - 1)*2 +1)*1%;
+            margin-top: nth($children, ($x - 1)*2 +2)*1%;
+        }
+    }
+}
+@function generateBoxShadow-const-color($number, $color, $width,$height, $blur:0, $spread:0,$unit:px){
+    $list:();
+    @for $x from 1 through $number{
+        $list: append($list, random($width)+$unit random($height)+$unit $blur $spread $color, comma);
+    }
+    @return $list;
+}
+@mixin generateStars($children, $color, $target, $initial, $width, $height, $duration, $blur: 0, $spread: 0,$unit: px,$numbers...) {
+    @for $y from 1 through $children {
+        &:nth-child(#{$y}) {
+            $shadow:generateBoxShadow-const-color(nth($numbers, $y), $color, $width, $height, $blur, $spread, $unit);
+            box-shadow: $shadow;
+            @include generateTranslateSingle(translate-star-#{$y}, false, $target, translateX );
+            animation: translate-star-#{$y} $duration*$y linear infinite;
+
+            &::before {
+                box-shadow:$shadow;
+            }
+        }
+    }
+}
+@mixin generateFadedSphere($number, $number-children){
+    @for $x from 1 through $number{
+        &:nht-child(#{$x}){
+            transform: rotate(math.div(360, number)deg);
+        }
+    }
+}
+@function isGreater($var1, $var2, $true: 1, $false: 0) {
+    @if ($var1 > $var2) {
+        @return $true;
+    }
+    @else {
+        @return $false;
+    }
+}
+@function generateRatioSine($current-x, $radius, $section, $mutliplier:2){
+    @return math.div(math.cos(math.div($current-x, $radius) * $mutliplier * 3.14) * math.random(100)*0.01 * $section + ($radius - $section), $radius);
+}
+@function generateRandomRatio($radius, $section){
+    @return math.div(math.random(100)*0.01 * $section + ($radius - $section), $radius)
+}
+@function generateRatioTrig($current-x,$radius,$section,$multiplier:2){
+    @return 1 - math.div(1,2);
+}
+
+//name i.e. className
+@mixin generatePopupOnHover($position: absolute, $container-name: toGit, $wrapper-name: "",
+$border-radius: 1.5rem, $padding: 0, $padding-span: 0, 
+$height: 2rem, $border-width: 0.2rem, $border-color: pink, 
+$background-color: violet, $font-size: 1.2rem, $font-color: white, 
+$image-margin: 0, $transition-time-mode-delay: 500ms ease-out 1s, 
+$y-transform-initial: 0, $scale-init: 0, $offset-horizontal:0,$font-display: inline-block ) {
+    & > .#{$container-name} {
+        position: $position;
+        border-radius: $border-radius;
+        height: $height;
+        //width not declared, defined by conents
+        box-sizing: border-box;
+        transform: translateY($y-transform-initial);
+        transition: all $transition-time-mode-delay;
+        left:$offset-horizontal;
+        display:inline-block;
+        padding:0;
+        & > .#{$wrapper-name} {
+            position:relative;
+            height: inherit;
+            border: $border-width solid $border-color;
+            background: $background-color;
+            border-radius: inherit;
+            padding: #{$padding};
+            transform: scale($scale-init);
+            transition: transform $transition-time-mode-delay;
+            width:max-content;
+            & > * {
+                position: relative;
+                float: left;
+            }
+
+            & > img {
+                height: 100%;
+            }
+
+            & > span {
+                @include credits-font-generic($font-size, $font-color, $font-display);
+                padding: #{$padding-span};
+
+                & > a {
+                    @include credits-font-generic($font-size, $font-color, $font-display);
+                }
+            }
+        }
+    }
+}
+@mixin generateTrick($width, $height, $hor-ver: (left, top), $pos-val: (0,0),$white-orientation: hor, $white-longer: 100%, $white-shorter: 0.4rem, $filter-1: 3px, $filter-2: 1px, $color-shade: violet, $color-white: white, $border-radius: 0 0 0 0, $transition-initial: (0,0), $transition-mode: 500ms ease-in, $transform-origin: left ) {
+    @include posSize(absolute, $width, $height, nth($hor-ver,1),nth($pos-val,1), nth($hor-ver,2), nth($pos-val,2));
+    border-radius: #{$border-radius};
+
+    & > div {
+        @include posSize();
+        overflow: hidden;
+        border-radius: #{$border-radius};
+        & > div {
+            @include posSize(absolute);
+            background: transparent;
+            //transform: translate(nth($transition-initial,1),nth($transition-initial, 2));
+            transform:scale(nth($transition-initial,1),nth($transition-initial,2));
+            //transform:scale(1,1);
+            transform-origin: $transform-origin;
+            transition: $transition-mode;
+
+
+            &::before {
+                content: "";
+                display: block;
+            }
+
+            &:nth-child(1) {
+                filter: blur(10px);
+
+                &::before {
+                    @include posSize(absolute);
+                    background: $color-shade;
+                    z-index: 0;
+                }
+            }
+
+            &:nth-child(2) {
+                filter: blur($filter-2);
+                z-index: 1;
+
+                &::before {
+                    background: $color-white;
+
+                    @if($white-orientation == hor) {
+                        @include posSize(relative, $white-longer, $white-shorter, left, (100% - $white-longer)*0.5, top, ($height - $white-shorter)*0.5)
+                    }
+                    @else {
+                        @include posSize(relative, $white-shorter, $white-longer, left, ($width - $white-shorter)*0.5, top, (100% - $white-longer)*0.5)
+                    }
+
+                    z-index: 1;
+                }
+            }
+        }
+    }
+}
+@mixin generate-fly-in($name, $transform-name:translateY, $init-opacity:1, $target-opacity:0, $init-translate, $target-translate, $scale-init:1, $scale-target:1){
+    @keyframes #{$name}{
+        from{
+            opacity: $init-opacity;
+            transform: #{$transform-name}(#{$init-translate}) scale($scale-init);
+        }
+        to{
+            opacity:$target-opacity;
+            transform:#{$transform-name}(#{$target-translate}) scale($scale-target);
+        }
+    }
+}
+@mixin generate-slide-out-back($name, $init-o, $target-o, $init-z, $target-z){
+    @keyframes #{$name}{
+        from{
+            opacity:$init-o;
+            transform: translateZ($init-z);
+        }
+        to{
+            opacity:$target-o;
+            transform: translateZ($target-z);
+        }
+    }
+}
+@mixin generate-puff-out($name, $init-o, $target-o, $init-scale,$target-scale, $transform-origin:center){
+    @keyframes #{$name}{
+        from,to{
+            transform-origin: $transform-origin;
+        }
+        from{
+            opacity:$init-o;
+            transform: scale($init-scale);
+        }
+        to{
+            opacity:$target-o;
+            transform:scale($target-scale);
+        }
+    }
+}
+@keyframes most-generic-rotate{to{transform:rotate(1turn)}};
+@mixin generateCloseCross($size: 4rem,$offsets: (left,top), $offset-vals: (0,0), $border-radius: 50%,$background: red, $border-color: white, $border-width: 0.2rem, $cross-longer: 3rem,$cross-shorter: 0.4rem, $cross-radius: 0.2rem, $cross-background: black, $target-scale: 1.2, $transition-duration: 500ms ) {
+    position: absolute;
+    width: $size;
+    height: $size;
+    #{nth($offsets,1)}: nth($offset-vals,1);
+    #{nth($offsets,2)}: nth($offset-vals,2);
+    border-radius: #{$border-radius};
+    box-sizing: border-box;
+
+    & > .wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        box-sizing: border-box;
+        background: $background;
+        border: $border-width solid $border-color;
+
+        &::before, &::after {
+            content: "";
+            position: absolute;
+            width: $cross-longer;
+            height: $cross-shorter;
+            border-radius: $cross-radius;
+            background: $cross-background;
+            left: ($size - $cross-longer - $border-width*2)*0.5;
+            top: ($size - $cross-shorter - $border-width*2)*0.5;
+            transition: $transition-duration transform ease-in-out;
+        }
+
+        &::before {
+            transform: scaleX(1) rotate(45deg);
+        }
+
+        &::after {
+            transform: scaleX(1) rotate(-45deg);
+        }
+    }
+
+    &:hover {
+        & > div {
+                &::before {
+                    transform: scaleX($target-scale) rotate(45deg);
+                }
+
+                &::after {
+                    transform: scaleX($target-scale) rotate(-45deg);
+                }
+        }
+    }
+}
+:export{
+    fadeSpanOutDuration:$fade-span-out-duration;
+    fadeSpanInDuration:$fade-span-in-duration;
+}

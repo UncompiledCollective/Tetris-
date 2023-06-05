@@ -1,0 +1,21 @@
+@font-face {
+    font-family: 'RocketRinder';
+    src: url('./Game/Menu Components/fonts/RocketRinder.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Mistral';
+    src: url('./Game/Menu Components/fonts/Mistral.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Cascadia Code';
+    src: url('./Game/Menu Components/fonts/Cascadia.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Alien Encounters';
+    src: url('./Game/Menu Components/fonts/Alien-Encounters-Italic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Holligate Signature Demo';
+    src: url('./Game/Menu Components/fonts/Holligate Signature Demo.ttf') format('truetype');
+}
+

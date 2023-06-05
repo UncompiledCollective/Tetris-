@@ -1,28 +1,36 @@
 @use 'sass:math';
-@font-face {
-    font-family: 'Cascadia Code', sans-serif;
-    src: url("D:\gay shit\true-tetris\src\Game\Menu Components\fonts\Cascadia.ttf");
+@mixin generatePos($position:relative,$width:100%,$height:100%, $left:0%,$top:0%){
+    position:$position;
+    width:$width;
+    height:$height;
+    left:$left;
+    top:$top;
 }
-
 $holder-color:#e49fee;
 $holder-border-color: #b33fdf;
-.leaderBoardButtonHolder{
-    box-sizing:border-box;
-    $local-square:25%;
-    position:absolute;
-    top:40%;
-    left:10%;
-    width:$local-square;
-    height:0%;
-    padding-bottom:$local-square - 3%;
-    margin:0 auto;
-    border:0.5rem solid;
-    border-color:$holder-border-color;
-    border-radius:50%;
-    background:$holder-color;
-    &:hover{
-        >svg>path{
-            stroke:red;
+.leaderBoardButtonHolder {
+    box-sizing: border-box;
+    $local-square: 25%;
+    position: absolute;
+    top: 40%;
+    left: 10%;
+    width: $local-square;
+    height: 0%;
+    padding-bottom: $local-square - 3%;
+    margin: 0 auto;
+    border: 0.5rem solid;
+    border-color: $holder-border-color;
+    border-radius: 50%;
+    background: $holder-color;
+    perspective: 1000px;
+    box-shadow:2px 4px 10px 0px rgba(0,0,0,0.4);
+    & > svg {
+        transition: 1000ms transform ease-in-out;
+    }
+
+    &:hover {
+        > svg {
+            transform: rotate3d(0.1,1,0.1,-30deg);
         }
     }
 }
@@ -96,18 +104,26 @@ $container-background-color:#9233cb;
 .leaderSVG {
     position:relative;
     width:auto;
+    left:20%;
 }
-.leaderSVG.local{
-    height:88%;
-    width:auto;
-    object-fit:contain;
-    fill:$container-background-color;
+.leaderSVG.local {
+    height: 88%;
+    width: auto;
+    object-fit: contain;
+    fill: $container-background-color;
+
+    & > path {
+        stroke: #e09fea;
+    }
 }
 .leaderSVG.global{
     height:90%;
     width:auto;
     background:$container-background-color;
     border-radius:50%;
+    &>path{
+        fill:#e09fea;
+    }
 }
 .leaderBoardCrossHolder {
     position:relative;
@@ -116,18 +132,23 @@ $container-background-color:#9233cb;
     float:left;
     height:100%;
     border-radius:0.5rem;
+
 }
 .settingsCross.leader {
+    position: absolute;
+    left: 0%;
     width: 100%;
     height: 100%;
-    &>g>line{
+
+    & > g > line {
         stroke-width: 2px;
-        stroke: black;
+        stroke: $container-border-color;
     }
-    &:hover{
-        &>g>line{
-            stroke-width:2.5px;
-            stroke:black;
+
+    &:hover {
+        & > g > line {
+            stroke-width: 2.5px;
+            stroke: $container-border-color;
         }
     }
 }
@@ -138,7 +159,6 @@ $slotMargin: 0.4rem;
     position:relative;
     width:100%;
     height:89%;
-/*    background:red;*/
     box-sizing:border-box;
     border-bottom:0.3rem solid $container-border-color;
     border-bottom-left-radius:0.2rem;
@@ -154,9 +174,6 @@ $slotMargin: 0.4rem;
     grid-auto-rows: repeat(5, 20%);
     gap: $slotMargin;
     padding: $slotMargin 0.2rem $slotMargin 0.2rem;
-    &:nth-child(3) {
-        background: red;
-    }
 }
 .leaderSlotProper {
     box-sizing: border-box;
@@ -404,9 +421,22 @@ $score-screen-background:#f4acff;
     position: absolute;
     margin: 30% 0 0 10%;
     border-radius: 1rem;
+
     & > img {
         object-fit: contain;
-        border-radius:inherit;
+        border-radius: inherit;
+    }
+
+    &.loading {
+        background:$score-screen-border;
+        width: 100px;
+        height: 100px;
+        &>svg{
+            animation:antiprogress 5s linear infinite;
+            &>g>g>g>path{
+                fill:#f8d0fe;
+            }
+        }
     }
 }
 .nameDiv{
@@ -504,7 +534,7 @@ $score-screen-background:#f4acff;
     z-index:0;
     &:hover{
         &>svg>g>line{
-            stroke-width:3px;
+            stroke-width:1.5px;
         }
     }
 }
@@ -520,9 +550,9 @@ $score-screen-background:#f4acff;
         stroke:#f4e6ff
     }
     &>g>:hover{
-            stroke-width:3px;
+            stroke-width:1px;
             &>*{
-                stroke-width:3px;
+                stroke-width:1px;
             }
     }
 }   
@@ -547,7 +577,18 @@ $popUpWidth:18vw;
     animation: fadeItIn 250ms;
     padding: 0 1rem 0 1rem;
     vertical-align: central;
-
+    z-index:3;
+    &::after{
+        content:"";
+        border-radius:1rem;
+        border-top: 17px solid $popUpBorder;
+        border-left:2rem solid transparent;
+        border-right:2rem solid transparent;
+        position:absolute;
+        bottom:-17px;
+        left:50%;
+        transform:translateX(-50%);
+    }
     & > span {
         position: relative;
         height: 100%;
@@ -569,13 +610,12 @@ $popUpWidth:18vw;
     }
 }
 .inputDiv {
-    font-family:"Cascadia Code";
+    font-family: "Cascadia Code";
     box-sizing: border-box;
     -webkit-appearance: none;
     color: $score-screen-border;
     position: absolute;
-    width: 40%;
-    max-width:max-content;
+
     height: 1.5rem;
     top: 15%;
     left: 40%;
@@ -584,56 +624,57 @@ $popUpWidth:18vw;
     border-radius: 0.8rem;
     background-color: #f9d4ff;
     text-align: center;
-    transition: width 500ms;
-
+    transition: width 500ms, min-width 500ms;
+    padding: 0 0.5rem 0 0.5rem;
+    max-width:80%;
     &:hover {
         background-color: #f4e6ff;
         box-shadow: 4px 4px 20px 4px rgba(0, 0, 0, 0.15);
         border-width: 3px;
-        width: 60%;
     }
 
     &:focus {
         background-color: #f4e6ff;
         box-shadow: 4px 4px 20px 4px rgba(0, 0, 0, 0.05);
-        width:60%;
         outline-color: $score-screen-border;
         border-width: 3px;
     }
 }
 
 .newLeaderContainer {
-    box-sizing:border-box;
-    font-family:"Cascadia Code";
-    color:#f8d0fe;
-    min-width:11rem;
-    max-width:max-content;
-    min-height:4.1rem;
-    background:$popUpBackground;
+    box-sizing: border-box;
+    min-width: 11rem;
+    max-width: max-content;
+    min-height: 4.1rem;
+    background: $popUpBackground;
     border: 0.2rem solid $popUpBorder;
-    border-radius:1.3rem;
-    padding:0.2rem 0.8rem 0.4rem 0.8rem;
-    display:inline-block;
-    float:left;
-    clear:both;
-    position:relative;
-    transform:translateX(-50%);
-    left:50%;
-    top:14%;
-    z-index:1;
+    border-radius: 1.3rem;
+    padding: 0.2rem 0.8rem 0.4rem 0.8rem;
+    transform: translateX(-50%);
+    left: 50%;
+    z-index: 1;
     animation: fadeItIn 1.5s;
-    &.local{
-        top:36%
+
+    &.local {
+        position:absolute;
+        top: 31%;
     }
-    &.global{
+
+    &.global {
+        position: relative;
+        top: 19%;
     }
+
     &.pop {
         animation: fadeItOut 1000ms;
         animation-fill-mode: forwards;
     }
-    &>span{
-        display:block;
-        text-align:center;
+
+    & > span {
+        font-family: "Cascadia Code";
+        color: #f8d0fe;
+        display: block;
+        text-align: center;
     }
 }
 
@@ -645,15 +686,31 @@ $centerAvatar: 8rem;
     width: calc(100% + $centerAvatar);
     left: math.div(-$centerAvatar, 2);
     min-height: 60%;
-    max-height: calc(100% + 25vh);
     background: $score-screen-background;
     border: 0.3rem solid $score-screen-border;
     bottom: 105%;
     border-radius: 2rem;
     padding: 0.2rem 0.1rem 0.1rem 0.1rem;
+}
+.large {
+    height: calc(100% + 22vh);
+    &>.loading.selector{
+        top:15%;
+    }
+}
+.avatarPageContainer, .avatarPage {
+    border-radius: inherit;
+    background: inherit;
+    z-index: 1;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.avatarPage {
     display: flex;
     flex-flow: wrap-reverse;
-
+    align-items:center;
+    align-content: flex-start;
     & > * {
         box-sizing: border-box;
         border-radius: 0.8rem;
@@ -662,33 +719,79 @@ $centerAvatar: 8rem;
         margin: 0.1rem 1.4% 0.2rem 1.2%;
     }
 }
-.avatarContainer{
+.avatarContainer {
     width: 14%;
-    height:0%;
-    padding-bottom:14%;
-    &>img{
-        position:absolute;
-        width:100%;
-        height:100%;
-        border-radius:inherit;
+    height: 0%;
+    padding-bottom: 14%;
+
+    & > img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
     }
 }
-.addContainer{
-    display:inline-block;
-    width:14%;
-    border:0.3rem solid $score-screen-border;
-    padding-bottom:12%;
-    &>label>svg{
-        background:white;
-        position:absolute;
-        width:100%;
-        height:100%;
-        border-radius:0.8rem;
-        background-color:#fce4ff;
-        &>g>line{
-            stroke:$score-screen-border;
-            stroke-width:2.5px;
+.addContainer {
+    position: relative;
+    box-sizing: border-box;
+    display: inline;
+    width: 13.5%;
+    height: fit-content;
+    border: 0.3rem solid $score-screen-border;
+    background-color: #fce4ff;
+    & > label > svg {
+        background: white;
+        position: relative;
+        width: 100%;
+        height: 1%;
+        border-radius: 0.8rem;
+        background-color: #fce4ff;
+        top:0.1rem;
+        & > g > line {
+            stroke: $score-screen-border;
+            stroke-width: 2.5px;
         }
+    }
+    &>div{
+        padding:0 25% 0 25%;
+    }
+}
+.filePopUp {
+    box-sizing: border-box;
+    position: absolute;
+    height: 1.8rem;
+    background: $popUpBackground;
+    border: 0.2rem solid $popUpBorder;
+    border-radius: 1rem;
+    padding: 0 0.8rem 0 0.8rem;
+    top: -2.7rem;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 8px 20px 5px rgba(140,20,252,0.3), 0 -8px 20px 0 rgba(140,20,252,0.3);
+    animation: fadeItIn 500ms;
+    & > span {
+        position: relative;
+        top: 0.1rem;
+        white-space: nowrap;
+        font-family: 'Cascadia Code';
+        font-size: 1rem;
+        color: $popUpBorder;
+    }
+
+    &::after {
+        content: "";
+        border-radius: 1rem;
+        border-top: 0.8rem solid $popUpBorder;
+        border-left: 2rem solid transparent;
+        border-right: 2rem solid transparent;
+        position: absolute;
+        bottom: -0.8rem;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    &.pop {
+        animation: fadeItOut 1500ms;
     }
 }
 input[type="file"] {
@@ -730,7 +833,7 @@ input[type="file"] {
     border: 0.3rem solid $score-screen-border;
     background: $score-screen-background;
     border-radius: 1.8rem;
-
+    z-index:3;
     & > div {
         float: left;
         position: relative;
@@ -763,6 +866,7 @@ input[type="file"] {
     border: 0.25rem solid $score-screen-border;
     float: right;
     height: 3.3rem;
+    max-height:85%;
     width: 3.4rem;
     margin: 0.5% 1% 0 0;
     border-radius: 0.8rem;
@@ -789,6 +893,7 @@ input[type="file"] {
     box-sizing:border-box;
     float:left;
     height:3.3rem;
+    max-height:85%;
     width:3.4rem;
     border-radius:0.8rem;
     display: inline-block;
@@ -914,4 +1019,460 @@ input[type="file"] {
 .previewWrapper{
     width:100%;
     height:28%;
+}
+.refreshContainer {
+    box-sizing: border-box;
+    position: absolute;
+    display: inline-block;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    &.leader {
+        width:15%;
+        left: 100%;
+        top: 9%;
+        background: $container-background-color;
+        border: solid $container-border-color;
+        border-width: 0.3rem 0.3rem 0.3rem 0.4rem;
+    }
+
+    &.avatar {
+        width:14%;
+        top: 8%;
+        left: calc(100% + 0.1rem);
+        background: $container-border-color;
+        border: solid $score-screen-border;
+        border-width: 0.3rem 0.3rem 0.3rem 0.2rem;
+        padding: 0.2rem;
+        z-index: 2;
+
+        & > svg > path {
+            fill: #76139b;
+        }
+
+        & > svg {
+            top:0.1rem;
+            stroke-width: 1px;
+            stroke: $score-screen-background;
+        }
+
+        & > svg:hover {
+            stroke-width: 0.5px;
+            stroke: $score-screen-background;
+        }
+    }
+
+    & > svg {
+        position: relative;
+        width: 100%;
+        height: 100%;
+
+        & > g > g > g > path {
+            fill: #f4acff;
+        }
+
+        &:hover {
+            stroke-width: 0.3px;
+            stroke: #f4acff;
+        }
+    }
+}
+.refreshPopUp {
+    box-sizing: border-box;
+    position: absolute;
+    border-radius: 0.8rem;
+    padding-bottom: 0rem;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    &.leader {
+        top: -45%;
+        border: 0.15rem solid #6600a3;
+        background: #fd5aff;
+        animation: fadeItIn 1s;
+        animation-fill-mode: forwards;
+
+        & > span {
+            color: #8230b4;
+            bottom: 0.15rem;
+            margin: 0 0.5rem 0 0.5rem;
+        }
+    }
+
+    &.leader.out {
+        animation: fadeItOut 1.5s;
+        animation-fill-mode: forwards;
+    }
+
+    &.avatar {
+        top: -58%;
+        padding: 0 5% 0 5%;
+        border: 0.2rem solid $popUpBorder;
+        background: $popUpBackground;
+        padding: 0 1rem 0.1rem 1rem;
+        color: $popUpBorder;
+        box-shadow: 0px 8px 20px 8px rgba(216,59,255,0.4), 0px -8px 20px 8px rgba(216,59,255,0.4);
+        animation: fadeItIn 1s 250ms;
+        animation-fill-mode: forwards;
+        &::after {
+            content: "";
+            position: absolute;
+            border-top: 0.4rem solid $popUpBorder;
+            border-left: 1.5rem solid transparent;
+            border-right: 1.5rem solid transparent;
+            left: 50%;
+            top: 1.4rem;
+            transform: translateX(-50%);
+            box-shadow: 0px 8px 20px 8px rgba(216,59,255,0.4);
+        }
+    }
+
+    &.avatar.out {
+        animation: fadeItOut 750ms;
+        animation-fill-mode: forwards;
+    }
+
+    & > span {
+        position: relative;
+        font-family: "Cascadia Code";
+        font-size: 0.8rem;
+        text-align: center;
+        white-space: nowrap;
+    }
+}
+
+@keyframes antiprogress {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(-360deg);
+    }
+}
+.loading.selector {
+    box-sizing:border-box;
+    position: absolute;
+    height:100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-top:0.4rem;
+    & > svg {
+        position: relative;
+        height: 90%;
+        transform: scaleX(-1) translateX(-50%);
+        transform-origin: center;
+        animation: antiprogress 5s linear infinite;
+        stroke-width: 0.01rem;
+        stroke: $container-background-color;
+
+        & > g > g > g > path {
+            fill: $score-screen-border;
+        }
+    }
+}
+.loaderFiller {
+    box-sizing:border-box;
+    position: relative;
+    width: 100%;
+    height: 0%;
+    padding-bottom: 14%;
+    & > canvas {
+        position: absolute;
+        height:100%;
+        border-radius: 1rem;
+    }
+}
+.loading.score {
+    position: absolute;
+    border-radius: 2.4rem;
+    padding: 0.2rem 0 0.2rem 0;
+    height: 90%;
+    left: 50%;
+    top: -50%;
+    transform: translate(-50%,-50%);
+    z-index: 2;
+
+    & > svg {
+        position: relative;
+        height: 80%;
+        left: 20%;
+        transform: scaleX(-1) translateX(-50%);
+        transform-origin: center;
+        animation: antiprogress 5s linear infinite;
+        stroke-width: 0.01rem;
+        stroke: $container-background-color;
+
+        & > g > g > g > path {
+            fill: $container-border-color;
+        }
+    }
+}
+.popUp.selector {
+    position: relative;
+    text-align: center;
+    left: 5%;
+    & > span {
+        color: #7d309b;
+        font-family: "Cascadia Code";
+        font-size: 1.5rem;
+    }
+}
+.popUp.score {
+    box-sizing: border-box;
+    border-radius: 1rem;
+    border: 0.2rem solid $container-background-color;
+    background: $container-border-color;
+    position: relative;
+    padding: 0 1.2rem 0.1rem 1.2rem;
+    box-shadow: 0 -8px 20px 0 rgba(237, 200, 235, 0.2), 0 8px 20px 0 rgba(237, 200, 235, 0.2);
+    & > span {
+        position:relative;
+        display:inline-block;
+        font-family: "Cascadia Code";
+        font-size: 1.3rem;
+        white-space:nowrap;
+        color: #8f13bd;
+    }
+}
+
+.loading.leader {
+    position: relative;
+    height:30%;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+    & > svg {
+        position:relative;
+        height:100%;
+        left:32%;
+        transform: scaleX(-1);
+        transform-origin: center;
+        animation: antiprogress 5s linear infinite;
+
+        & > g > g > g > path {
+            fill: $container-border-color;
+        }
+    }
+}
+.popUp.leader {
+    height: 4rem;
+    position: absolute;
+    top: -4rem;
+    left: 54%;
+    transform: translateX(-50%);
+    padding: 0 5% 0 5%;
+    & > span {
+        font-family: "Cascadia Code";
+        font-size: 3rem;
+        color: $container-border-color;
+        white-space: nowrap;
+    }
+}
+.avatarArrow {
+    position: absolute;
+    background: $container-border-color;
+    border: solid $holder-border-color;
+    bottom: 35%;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 14%;
+
+    & > svg {
+        position: relative;
+        width: 85%;
+        margin-top: 5%;
+        height: fit-content;
+
+        & > g > g > path {
+            fill: $container-background-color;
+        }
+    }
+
+    &.left {
+        left: -13.95%;
+        border-width: 0.3rem 0 0.3rem 0.3rem;
+        border-radius: 2rem 0 0 2rem;
+        box-shadow: 0 -8px 20px 0 rgba(237, 200, 235, 0.2), 0 8px 20px 0 rgba(237, 200, 235, 0.2);
+
+        & > svg {
+            margin-left: 8%
+        }
+    }
+
+    &.right {
+        right: -13.85%;
+        border-width: 0.3rem 0.3rem 0.3rem 0;
+        border-radius: 0 2rem 2rem 0;
+        box-shadow: 0 -8px 20px 0 rgba(237, 200, 235, 0.2), 0 8px 20px 0 rgba(237, 200, 235, 0.2);
+
+        & > svg {
+            margin-left: 5%
+        }
+    }
+}
+@mixin generateFlyIn($name, $direction, $initial, $target){
+    @keyframes #{$name}{
+        0%{
+            #{$direction}: $initial;
+        }
+        100%{
+            #{$direction}:$target;
+        }
+    }
+}
+@mixin geneateTwinkle($name, $initial-O:0, $target-O, $rotate-initial:0, $rotate-target, $scale-inital, $scale-target, $values...){
+    @keyframes #{$name}{
+        0%{
+            opacity:$initial-O;
+            transform: rotate(#{$rotate-initial}deg) scale($scale-inital);
+        }
+        #{nth($values, 1)}%{
+            opacity:$target-O;
+        }
+        #{nth($values, 2)}%{
+            opacity:$initial-O;
+            transform:rotate(#{$rotate-target}deg) scale($scale-target);
+        }
+        100%{
+            opacity:$initial-O;
+            transform:rotate(#{$rotate-initial}deg) scale($scale-inital);
+        }
+    }
+}
+//have to be here cause later I no longer use parent selector and we have a scope issue
+$fly-in-duration: 500ms;
+$light-switch-duration: 1500ms;
+.errorPopup.container.leader.global, .errorPopup.container.scoreScreen, .errorPopup.container.fetch-songs-error {
+    $padding-vertical: 0.7rem;
+    $padding-horizontal: 0.8rem;
+    $light-width: 40%;
+    $light-height: 50%;
+    $inset: -0.5rem;
+    position: absolute;
+    top: 40%;
+    transform: translateX(-50%);
+    background: transparent;
+    border: 0.3rem solid transparent;
+    border-radius: 1.8rem;
+    @include generateFlyIn(fly-in, left, 20%, 45%);
+    @include generateFlyIn(fly-slow, left,45%, 55%);
+    @include generateFlyIn(fly-out, left, 55%, 75%);
+    animation: fly-in $fly-in-duration ease-in 0s 1 normal forwards, fadeItIn $fly-in-duration ease-in 0s 1 normal forwards, 
+    fly-slow $light-switch-duration linear $fly-in-duration 1 normal forwards, 
+        fly-out $fly-in-duration ease-out $fly-in-duration+$light-switch-duration 1 normal forwards,
+    fadeItOut $fly-in-duration ease-out $fly-in-duration+$light-switch-duration 1 normal forwards
+    ;
+    box-sizing: border-box;
+    z-index:2;
+    transition:opacity 500ms ease;
+    & > .animation {
+        position: absolute;
+        inset: $inset $inset $inset $inset;
+        border-radius: inherit;
+        filter: blur(9px);
+        background: transparent;
+        z-index: 0;
+        overflow: hidden;
+        border: inherit;
+
+        &::before, &::after {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            width: $light-width;
+            height: $light-height;
+            background: magenta;
+            border-radius:1rem;
+        }
+
+        &::before {
+            left: -10%;
+            top: -1.5rem;
+            @include generateFlyIn(move-in-top, left, -10%, 70%);
+            animation: move-in-top $light-switch-duration linear $fly-in-duration 1 normal forwards;
+        }
+
+        &::after {
+            right: -10%;
+            bottom: -1.5rem;
+            @include generateFlyIn(move-in-bottom, right, -10%, 70%);
+            animation: move-in-bottom $light-switch-duration linear $fly-in-duration 1 normal forwards;
+        }
+    }
+    & > .wrapper {
+        position: relative;
+        background: #9316c2;
+        border: 0.3rem solid lighten(#ff92ec, 5%);
+        border-radius: inherit;
+
+        & > span {
+            text-align: center;
+            color: #ff97e0;
+            font-family: "Cascadia Code";
+            font-size: 1.8rem;
+            padding-left: $padding-horizontal;
+            padding-right: $padding-horizontal;
+            white-space: nowrap;
+            display: block;
+
+            &:nth-child(1) {
+                padding-top: $padding-vertical - 0.2rem;
+            }
+
+            &:nth-child(2) {
+                padding-bottom: $padding-vertical;
+            }
+        }
+    }
+    &.close{
+        opacity:0;
+    }
+}
+// these two (.twinkle.group, .twingle.path) transforms are copied... I don't know how SVGs work. but they totally change the way it looks into a nice 8 pointed star.
+// things some people come up with are simply amazing.
+.errorPopup.leader.global.twinkle, .errorPopup.scoreScreen.twinkle, .errorPopup.fetch-songs-error.twinkle {
+    $twinkle-size: 4rem;
+    position: absolute;
+    width: $twinkle-size;
+    height: $twinkle-size;
+    top: -1rem;
+
+    & > svg {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+}
+.errorPopup.leader.global.twinkle{ 
+    right:0rem;
+    &.offset{
+        right:2rem;
+    }
+}
+.errorPopup.scoreScreen.twinkle{ 
+    right:-0.8rem;
+    &.offset{
+        right:-1.5rem;
+    }
+}
+.errorPopup.leader.global.twinkle.group {
+    transform: translate(42.5px, 42.5px);
+}
+.twinkle.large,.twinkle.large-2,.twinkle.small{
+    opacity:0;
+}
+.errorPopup.leader.global.twinkle.large {
+    @include geneateTwinkle(twinkle-large, 0, 1, 0, 360, 0, 1.5, 16.5,33);
+    animation: twinkle-large 6s linear 0s 1 normal forwards;
+}
+.errorPopup.leader.global.twinkle.large-2 {
+    @include geneateTwinkle(twinkle-large-2, 0,1,45,405,0,1.1,16,33);
+    animation: twinkle-large-2 6s linear 0s 1 normal forwards;
+}
+.errorPopup.leader.global.twinkle.small {
+    @include geneateTwinkle(twinkle-small, 0,1,0,-360,0,1.5,16,33);
+    animation: twinkle-small 6s linear 0s 1 normal forwards;
+}
+.errorPopup.leader.global.twinkle.path {
+    transform: translate(-42.50px,-42.50px);
 }

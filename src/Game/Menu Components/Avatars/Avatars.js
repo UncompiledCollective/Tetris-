@@ -1,7 +1,7 @@
 const avatarObj = {
     avatars: [{
-        name: "av0",
-        path: require("./av1.jpg")
+        id: 0,
+        path: require("./av0.jpg")
     },
     ],
     addAvatar: function (source) {
@@ -9,7 +9,7 @@ const avatarObj = {
         try {
             this.avatars.push(
                 {
-                    name: "av" + temp,
+                    id: temp,
                     path: require("./" + source + '.jpg')
                 }
             )
@@ -19,11 +19,17 @@ const avatarObj = {
         }
         return;
     },
+    default: {
+        path: require("./placeholder.jpg")
+    }
 };
+avatarObj.addAvatar("av1");
 avatarObj.addAvatar("av2");
 avatarObj.addAvatar("av3");
 avatarObj.addAvatar("av4");
 avatarObj.addAvatar("av5");
 avatarObj.addAvatar("av6");
-avatarObj.addAvatar("av7");
+
+
+
 export { avatarObj };

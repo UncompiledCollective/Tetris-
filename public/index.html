@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>Tetris 夜中街</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="loader" class="loader"
+         style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 3; background-color: #ffa2fc; overflow: clip;"
+         >
+        <div class="loading text"
+             style=" position: absolute; width: 100%; height: 20%; top:0;">
+            <span id="loader-center"
+                  style="position: relative; margin-left:42%; float:left; font-weight: bold; font-size: 4rem; font-family: 'Cascadia Code'; color: #8d0095; display:inline-block; padding-top:1rem;">
+            Loading</span>
+            <span id="loader-span" style="position: relative; float:left; font-weight: bold; font-size: 4rem; font-family: 'Cascadia Code'; color: #8d0095; display:inline-block; padding-top:1rem; letter-spacing:2px;">
+            </span>
+                </div>
+        <div class="loading container">
+            <div class="loading sphere"></div>
+            <div class="loading image holder">
+                <div class="loading img"></div>
+                <div class="loading wave">
+                    <div class="loading svg wrapper">
+                        <svg class="loading svg wrapped" width="0px" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                            <path fill-opacity="1"
+                                  d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,250.7C1248,256,1344,288,1392,304L1440,320L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+                        </svg>
+                    </div>
+                    <div class="loading svg wrapper">
+                        <svg class="loading svg wrapped" width="0px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                            <path fill-opacity="1" d="M0,64L80,90.7C160,117,320,171,480,176C640,181,800,139,960,117.3C1120,96,1280,96,1360,96L1440,96L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
+                        </svg>
+                    </div>
+                    <div class="loading svg wrapper">
+                        <svg class="loading svg wrapped" width="0px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                            <path fill-opacity="1" d="M0,96L60,106.7C120,117,240,139,360,144C480,149,600,139,720,117.3C840,96,960,64,1080,58.7C1200,53,1320,75,1380,85.3L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var loader = document.getElementById("loader");
+        var span = document.getElementById("loader-span");
+        const re = /hidden/;
+        const dotRe = /\.+/g;
+        function centerX(target_id) {
+            let viewportX = document?.documentElement?.clientWidth;
+            let element = document.getElementById(target_id);
+            let offset = Math.round((viewportX - element?.clientWidth) / Math.round(viewportX) * 50) + "%";
+            element.style.marginLeft = offset;
+            return;
+        }
+        function genDots(delay) {
+            if (re.test(loader?.className)) {
+                return;
+            }
+            let timer = setTimeout(function () {
+                if (dotRe.test(span.textContent)) {
+                    if (span.textContent.match(dotRe)[0].length === 3) {
+                        let string = "";
+                        span.textContent = string;
+                    } else {
+                        let string = span.textContent += ".";
+                        span.textContent = string;
+                    }
+                }
+                else {
+                    let string = span.textContent += ".";
+                    span.textContent = string;
+                }
+                genDots(delay);
+            }, delay)
+            return () => clearTimeout(timer);
+        }
+        genDots(1000);
+        centerX("loader-center")
+    </script>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>

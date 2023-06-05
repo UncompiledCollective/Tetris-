@@ -1,46 +1,15 @@
 .BoardPermament {
-    /*    position: absolute;
-    border: 2px solid black;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 80%;
-    width: inherit;
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;*/
-    /*    This oen is for the float boxes layout. Gonna try absolutely positioned one. Will see how it works.*/
     position: absolute;
-    top: 51.5%;
+    top: 50.5%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 76%;
+    height: 78%;
     width: 100%;
     margin: 0px;
-    padding:0;
+    padding: 0;
     box-sizing: border-box;
-    /*For Absolute positioning in absolute columns
- */
-    /*    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width:22%;
-    height:80%;
-
-    margin: auto;
-    border: 2px solid black;*/
-    /* This is so far my favourite version. No floatbox model, jjust fixed. other elements would be fixed too.*/
-    /*    max-height: 800px;
-    max-width: 50%;
-    border: 2px solid #000000;
-    padding: 0px;
-    height: 800px;
-    width: 400px;*/
+    box-shadow: 0px 15px 15px 1px rgba(101,0,160,0.5),1px 5px 5px 0px rgba(101,0,160,0.8),-1px 5px 5px 0px rgba(101,0,160,0.5);
 }
-    .BoardPermament::after {
-
-    }
 
 .tableBoard {
     user-select: none;
@@ -48,8 +17,10 @@
     width: 100%;
     height: 100%;
     background-color: rgba(124, 43, 161, 0.75);
-    border: 2px solid black;
+    border: 0.2rem solid #6d00d1;
     border-radius: 0 0 8px 8px;
+    box-sizing: border-box;
+    
 }
 .CanvasBoard {
     position: absolute;
@@ -57,7 +28,8 @@
     width: 100%;
     background-color: #b65fe5;
     z-index: 0;
-    border-radius:inherit;
+    border-radius: inherit;
+   
 }
 
 .hidden{
@@ -67,27 +39,11 @@
     width:100%;
 }
 .cell{
+    position:relative;
     width:10%;
-    border-radius:1px;
-    border: 0.5px solid black;
+    border-radius:0.1rem;
+    border: 0.5px solid rgba(0,0,0,0.6);
 }
-.testButton{
-    margin:auto;
-    width:200px;
-    height:100px;
-    border: 1px red solid;
-    position:center;
-}
-.testButton:hover{
-    border: 3px red solid;
-}
-.test{
-    margin:auto;
-    text-align:center;
-}
-/*[value="1"]{
-    background-color:yellow;
-}*/
 .CanvasGame{
     display:none
 }
@@ -96,17 +52,18 @@
     position: absolute;
     width: 30%;
     height: 15%;
-    top: 37.5%;
+    top: 35%;
     left: 35%
 }
 .countdownText{
     width:100%;
-    font-size:70px;
+    font-size:8rem;
     text-align:center;
     vertical-align:middle;
     display:inline-block;
     padding-top:5%;
     padding-bottom:10%;
+    font-family:"Cascadia Code";
 
 }
 /*startButton style*/
@@ -135,10 +92,10 @@
     height: 0%;
     padding-bottom: 19%;
 }
-#startButton:hover #startButtonSvg {
-    stroke: #1f1e1e;
-    stroke-width: 0.8rem;
-}
+    #startButton:hover #startButtonSvg {
+        stroke: #6d00d1;
+        stroke-width: 0.8rem;
+    }
 
 
 /*Game over screen style:*/
@@ -153,14 +110,15 @@
     animation: fadein 5s;
 }
 
-.fuckYou {
+.gameOver {
     position: absolute;
-    display: inline;
-    height: 400px;
-    width: 1000px;
-    left: -12%;
-    top:-10%;
-    font-size: 120px;
+    width:200%;
+    left:-50%;
+    top:-3.5rem;
+    font-size: 7rem;
+    white-space:nowrap;
+    text-align:center;
+    color:#680e82;
 
 }
 @keyframes fadein {
@@ -188,7 +146,6 @@
     left:0%;
     top: -25%;
     stroke: #191919;
-
 }
 
 .refreshButtonSvg:hover{

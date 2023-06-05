@@ -1,1 +1,11 @@
-<?xml version="1.0" ?><svg width="32px" height="32px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><defs></defs><title/><g  class="cross"><line id="line" class="cls-1" x1="7" x2="25" y1="7" y2="25"/><line id="line" class="cls-1" x1="7" x2="25" y1="25" y2="7"/></g></svg>
+<?xml version="1.0" ?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" >
+	<defs fill="#fff">
+		
+	</defs>
+	<title/>
+	<g  fill="#fff"  class="cross">
+		<line fill="#fff" id="line" class="cls-1" x1="7" x2="25" y1="7" y2="25"/>
+	<line id="line" class="cls-1" x1="7" x2="25" y1="25" y2="7"/>
+	</g>
+</svg>

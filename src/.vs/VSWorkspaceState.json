@@ -2,10 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\Game",
-    "\\Game\\Menu Components",
-    "\\Game\\Menu Components\\Avatars",
-    "\\Game\\Music"
+    "\\Game\\Menu Components"
   ],
-  "SelectedNode": "\\Game\\Menu Components\\ScoreBoard.js",
+  "SelectedNode": "\\Game\\Menu Components\\settings.scss",
   "PreviewInSolutionExplorer": false
 }

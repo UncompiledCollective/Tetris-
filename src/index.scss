@@ -1,0 +1,272 @@
+$logo-low:url(/loader/logo_low.png);
+$logo-high:url(/loader/logo_high.png);
+body, html {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size:1vw;
+}   
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+$letter-color:#8d0095;
+$background-color:#ffa2fc;
+$violet-shade1:#af00b9;
+
+$pink-shade1:#faa2ff;
+$pink-shade2:#ffbefc;
+$pink-shade3:#ffdbfe;
+$red-shade1:#ff6767;
+$blueviolet-shade1: #dbc8ff;
+
+@mixin absolutePos($width: 100%, $height: 100%, $offsetLeft: 0,$offsetTop:0) {
+    position: absolute;
+    width: $width;
+    height: $height;
+    top: $offsetTop;
+    left: $offsetLeft;
+}
+
+.loader {
+    // moved to inline style because stylesheet itself has to be loaded;
+}
+.loader.close{
+    transition:opacity 500ms ease;
+    opacity:0;
+}
+.loading.container {
+    $size: 28rem;
+    position: relative;
+    width: $size;
+    height: $size;
+    /*background:fade-out(red,0.2);
+    */
+    left: 50%;
+    top: 53%;
+    transform: translate(-50%,-50%);
+    box-sizing: border-box;
+
+    &::before, &::after {
+        content: "";
+    }
+
+    &::before {
+        $border-width: 0.8;
+        @include absolutePos(152%, 152%, -26%, -26%);
+        border: 0.3rem dotted $letter-color;
+    }
+
+    &::after {
+        @include absolutePos(140%, 140%, -20%, -20%);
+        background: $background-color;
+        border-radius: 50%;
+    }
+}
+.loading.container:hover .loading.sphere::before{
+    inset:0 0 0 0;
+    
+}
+.loading.sphere {
+    @include absolutePos(150%, 150%, -25%, -25%);
+    border-radius:50%;
+    background:$violet-shade1;
+    box-sizing:border-box;
+    overflow:hidden;
+    &::before{
+    content:"";
+    box-sizing:border-box;
+    transition:background-image 500ms ease;
+    transition:inset 500ms ease;
+    }
+    &::before{
+    position:absolute;
+    inset: 0 40% 0 40%;
+    $color1:$pink-shade2;
+    $color2: #f65aff; //syntax like this in case I decide for some sass filters
+    background-image:linear-gradient(to bottom, $color1, $color2);
+    animation: generic-rotate 12s linear 0s infinite normal forwards
+             }
+}
+.loading.img{
+    @include absolutePos();
+    background-image:$logo-high;
+    background-size:100% 100%;
+    &:nth-child(1){        
+    }
+}
+.loading.image.holder {
+    @include absolutePos();
+    border-radius: 50%;
+    z-index: 1;
+    box-sizing: border-box;
+    border: 0.3rem solid $violet-shade1;
+    box-shadow: inset 0px 0px 30px 5px rgba(255, 7, 7, 1), 0px 0px 10px 5px rgba(255, 7, 7, 1);
+}
+.loading.img {
+    @include absolutePos();
+    opacity: 1;
+}
+.loading.wave{
+    position:relative;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    border-radius:50%;
+}
+@mixin generateWave($animation-name, $bottom1, $bottom2) {
+    @keyframes #{$animation-name} {
+        from {
+            bottom: $bottom1;
+        }
+
+        to {
+            bottom: $bottom2;
+        }
+    }
+}
+@mixin generateTranslate($animation-name, $initial, $offset){
+    @keyframes #{$animation-name}{
+        from{
+            transform:translate3d($initial, 0,0);
+        }
+        to{
+            transform:translate3d($offset,0,0);
+        }
+        }
+}
+@mixin generateMovement($animationName, $initial, $offset){
+    @keyframes #{$animationName}{
+        from{left:$initial;}
+        to{left:$offset;}
+    }
+}
+@mixin generateVertical($name,$initialY,$targetY){
+    @keyframes #{$name}{
+        0%{
+            bottom:$initialY;
+        }
+        100%{
+            bottom:$targetY;
+        }
+    }
+}
+$fill-color: #730079;
+.loading.svg.wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0%;
+    & > svg {
+        position: absolute;
+    }
+}
+.loading.svg.wrapper {
+    &:nth-child(2) {
+        $fill-2: fade-out($fill-color, 0.3);
+        bottom: -110%;
+        @include generateWave(wave1, -120%, 0%);
+        background: $fill-2;
+        //animation: wave1 12s cubic-bezier(.55,.5,.45,.5) 0s infinite normal forwards;
+        & > svg {
+            $width: 200%;
+            $offset: 100%;
+            width: $width;
+            height: 100%;
+            bottom: 71%;
+            left: -$width + $offset;
+            @include generateMovement(translate, -$width+$offset, 0);
+            animation: translate 8s cubic-bezier(.55,.5,.45,.5) 0s infinite alternate forwards;
+
+            & > path {
+                fill: $fill-2;
+            }
+        }
+    }
+
+    &:nth-child(1) {
+        $fill-1: fade-out($fill-color, 0.2);
+        bottom: -109%;
+        background: $fill-1;
+
+        & > svg {
+            $width: 300%;
+            $offset: 150%;
+            width: $width;
+            height: 60%;
+            bottom: 100%;
+            left: -$width + $offset;
+            @include generateMovement(translate2, -$width, $width);
+            animation: translate2 10s cubic-bezier(.4,.6,.35,.9) 0s infinite normal forwards;
+
+            & > path {
+                fill: $fill-1;
+            }
+        }
+    }
+
+    &:nth-child(3) {
+        $animation-time: 6s;
+        $fill-3: fade-out($fill-color, 0.6);
+        $offset-bottom: -140%;
+        bottom: $offset-bottom;
+        @include generateVertical(translate5, $offset-bottom, -110%);
+        animation: translate5 $animation-time linear 0s infinite alternate forwards;
+        background: $fill-3;
+
+        & > svg {
+            $width: 300%;
+            $offset: 150%;
+            width: $width;
+            height: 80%;
+            bottom: 93.1%;
+            left: -$width + $offset;
+            @include generateMovement(translate3, -$width+100%, 0%);
+            animation: translate3 $animation-time linear 0s infinite alternate-reverse forwards;
+
+            & > path {
+                fill: $fill-3;
+            }
+        }
+    }
+}
+.loading.test{
+    position:absolute;
+    width:400%;
+    height:80%;
+    bottom:0%;
+    background:orange;
+    left:-200%
+}
+.loading.text{
+
+}
+.loading.span{
+
+}
+@keyframes generic-rotate{
+    from{ transform:rotate(0deg); }
+    to{ transform:rotate(360deg); }
+}
+
+//legacy code
+@mixin generateGradient($color1: $letter-color, $color2: transparent, $background-color: $background-color, $unit: 1rem) {
+    background-image: linear-gradient(180deg, $background-color 0.5*$unit, 0.5*$unit, $color2 1*$unit, $color2 9.5*$unit, $background-color 9.5*$unit),
+    //letter T
+    //horizontal line
+    linear-gradient(100deg, $background-color 8*$unit, $color2 8*$unit), linear-gradient(100deg, $background-color 2*$unit, $color2 2*$unit, $color2 12*$unit, $background-color 12*$unit), linear-gradient(180deg, $color2 1*$unit, $color1 1*$unit, $color1 3*$unit, $color2 3*$unit),
+    //arch
+    radial-gradient(circle at center, $color2 4*$unit,$color1 4*$unit, $color1 6*$unit, $background-color 6*$unit),
+    //vertical line
+    linear-gradient(100deg, $background-color 8*$unit, $color1 8*$unit, $color1 10*$unit, $color2 10*$unit);
+    //arch
+    //linear-gradient(180deg, $background-color 7*$unit, $color1 7*$unit),
+    //linear-gradient(250deg, $color1 7*$unit, $background-color 7*$unit),
+    background-size: 12*$unit 12*$unit;
+    background-position: -2*$unit 0*$unit, -2*$unit 0*$unit, -2*$unit -0*$unit,-2+2*$unit 2*$unit, -2+6*$unit -2.5*$unit, -2*$unit -0*$unit;
+    background-color: $background-color;
+}

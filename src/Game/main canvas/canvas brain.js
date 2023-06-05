@@ -14,7 +14,8 @@ import {
     restoreBoard
     } from './controls.js'
 const death_sound = new Audio(death)
-const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGameOn, getMovement, setSendMovement, isSettingsOpen, ghost }) => {
+const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGameOn,
+    getMovement, setSendMovement, isSettingsOpen, ghost, overText }) => {
     const [GameArray, setGameArray] = React.useState(StartArray); // ok this is a mutable array used only to change the value attribute of cells
     const [isChanged, setIsChanged] = React.useState(false); // GameArray is an Array, if certain key-value pair changes it will not trigger a rerender. This will be used to trigger that rerender. Probably gonna wrap that into a function.
     const [boardStatus, setBoardStatus] = React.useState(false); //used to reveal the board and hide the start button. Is passed down as props.
@@ -63,7 +64,7 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
         } else {
             if (checkIfAnyFull(piece, GameArray, rowFull)) {
                 setGameOn("removing");
-                console.log("beginning row removal")
+                //console.log("beginning row removal")
                 return "fullRows"
             } else {
                 return false
@@ -120,7 +121,7 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
         })
     }
     const removeEmpty = (array) => {
-        console.log(array, "logging array at removeEmpty")
+        //console.log(array, "logging array at removeEmpty")
         setGameArray((x) => {
             let temp = x;
             for (let y = 0; y < array.length; y++) {
@@ -354,11 +355,6 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
         })
         return null;
     }
-    //const handleClick2 = () => {
-    //    console.log(currentPiece.current, "logging current piece")
-    //    return;
-    //}
-    // test button, used for testing stuff
     const handleclick = () => {
         trueRotateLeft(currentPiece.current);
         moveToBottom(currentPiece.current, GameArray);
@@ -583,27 +579,6 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
             return;
         }
     }
-    //React.useEffect(() => {
-    //    if (firstRender.current) {
-    //        return;
-    //    }
-    //    if (!currentPiece.current || !getMovement) {
-    //        return;
-    //    }
-    //    switch (moveDown(currentPiece.current)) {
-    //        case true:
-    //            break;
-    //        case "fullRows":
-    //            setFullRowsStatus(!fullRowsStatus)
-    //            break
-    //        case false:
-    //            setNotifyEnd(!notifyEnd)
-    //            break;
-    //    }
-    //    setSendMovement(false);
-    //    console.log("setSendMovement executes back to false", getMovement);
-    //}, [getMovement])
-
 
     return (
         <div className="tableBoard clearfix" reactkey="board">  
@@ -628,7 +603,7 @@ const CanvasGame = ({ array_prop, sendNextPiece, setLinesCleared, gameOn, setGam
 {/*            <button type="button" className="testButton" onClick={handleClick2}>test</button>*/}
             <div className="countdown"><div className="countdownText">{countdown}</div></div>
             <PauseScreen gameOn={gameOn} setGameOn={setGameOn} />
-            <OverScreen gameOn={gameOn} callback={RemakeEveryting} />
+            <OverScreen gameOn={gameOn} callback={RemakeEveryting} Text={overText }/>
         </div>
     )
 }

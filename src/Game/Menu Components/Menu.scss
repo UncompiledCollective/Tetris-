@@ -1,17 +1,4 @@
 $bg-img: url("D:\gay shit\true-tetris\src\Game\Menu Components\Menu PNGs\gitHub.png");
-@font-face {
-    font-family: 'Cascadia Code', sans-serif;
-    src: url("D:\gay shit\true-tetris\src\Game\Menu Components\fonts\Cascadia.ttf");
-}
-@font-face {
-    font-family: 'RocketRinder';
-    src: url("D:\gay shit\true-tetris\src\Game\Menu Components\fonts\RocketRinder.eot");
-    src: url("D:\gay shit\true-tetris\src\Game\Menu Components\fonts\RocketRinder.woff") format("woff");
-}
-@font-face {
-    font-family: "Mistral";
-    src: url("D:\gay shit\true-tetris\src\Game\Menu Components\fonts\Mistral.ttf");
-}
 /*global:*/
 .hidden {
     display: none;
@@ -29,37 +16,61 @@ $bg-img: url("D:\gay shit\true-tetris\src\Game\Menu Components\Menu PNGs\gitHub.
 }
 /*Mute button style:*/
 $mute-percent: 21%;
-.muteButtonHolder{
-    float:right;
-    position:relative;
-    top:75%;
-    width:$mute-percent;
-    padding-bottom:$mute-percent;
-    right:10%;
-    
+$container-border-color: #f4acff;
+$container-background-color: #9233cb;
+$score-screen-border: #b317ed;
+$score-screen-background: #f4acff;
+.muteButtonHolder {
+    float: right;
+    position: relative;
+    top: 75%;
+    width: $mute-percent;
+    padding-bottom: $mute-percent;
+    right: 10%;
+    border: 0.4rem solid #b33fdf;
+    border-radius: 50%;
+    background: #e49fee;
+    box-shadow: -1px 3px 5px 0px fade-out(black, 0.4);
 }
 .muteButton{
     position:absolute;
-    width:100%;
-    height:100%;
+    height:95%;
+    width:95%;
+    top:2.5%;
 }
-.muteButton>path{
-    fill:#5026ff;
+.muteButton > path {
+    fill: #b317ed;
 }
 /*SettingsButton*/
 .settingsButton {
-    border-radius: 20px;
+    border-radius: 20%;
     position: absolute;
     right: 10%;
     top: 15%;
-    width: 18%;
+    width: 19%;
     height: 0px;
-    padding-top: 18%;
+    padding-top: 19%;
+    border: 0.4rem solid #b33fdf;
+    background: #e49fee;
+    box-shadow:-2px 3px 5px 0px fade-out(black, 0.6);
 }
+.settingsScrew {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 90%;
+    height: 90%;
+    top: 5%;
+    left: 5%;
+    & > g > path {
+        fill: #b317ed;
+    }
+}
+
 .settingsPanel {
     border-radius: 20px 20px 15px 15px;
     background-color: blueviolet;
-    border: 1px solid black;
+    border: 0.3rem solid #fff;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -74,8 +85,7 @@ $mute-percent: 21%;
     font-size:2rem;
     line-height:2rem;
     border-radius: 20px 20px 15px 15px;
-    background-color: blueviolet;
-    border: 2px solid black;    
+    background-color: blueviolet;  
     position: absolute;
     top:0;
     left:0;
@@ -93,7 +103,8 @@ $mute-percent: 21%;
     left:-4px;
     right:-4px;
     bottom:-4px;
-    z-index:-1;
+    z-index:-2;
+    filter:blur(3rem);
 }.settingsPanel::after{
     content: '';
     position:absolute;
@@ -102,23 +113,13 @@ $mute-percent: 21%;
     right:-4px;
     bottom:-4px;
     z-index:-2;
-    filter:blur(25px)
+    filter:blur(3rem)
 }
 .settingsPanel::after{
-     background:linear-gradient(235deg,#fc00ffb9,#c831caed,#570292e7);
+     background:linear-gradient(235deg,#ff41f5,#ff41f5,#ff41f5);
  }
-.settingsScrew {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-}
-.settingsScrew:hover {
-    filter: invert(9%) sepia(99%) saturate(5630%) hue-rotate(246deg) brightness(111%) contrast(148%);
-    animation: rotate 5s linear;
-    animation-iteration-count: infinite;
-    animation-fill-mode: forwards;
+.settingsPanel::before{
+    background:#ff41f5;
 }
 @keyframes rotate {
     from {
@@ -130,17 +131,16 @@ $mute-percent: 21%;
     }
 }
 
-.settingsTabs{
-    border-bottom: 1px solid black;
-/*    position:absolute;
+.settingsTabs {
+    /*    position:absolute;
     top:0;*/
-    width:100%;
-    height:5%;
-    padding-top:1%;
+    width: 100%;
+    height: 5%;
+    padding-top: 1%;
     padding-bottom: 3%;
 }
 
-.tab {
+.settingsTab.tab {
     background-color: inherit;
     float: left;
     width: 27%;
@@ -155,6 +155,9 @@ $mute-percent: 21%;
         $border-radius: 3rem;
         $top-position: 50%;
         display: inline-block;
+        color: #f5afff;
+        font-family: "Cascadia Code";
+        font-size: 2.1rem;
 
         &:hover {
             font-weight: bold;
@@ -166,10 +169,10 @@ $mute-percent: 21%;
             position: absolute;
             width: 2.5rem;
             height: 2*$border-width;
-            border-top: $border-width solid black;
-            border-bottom: $border-width solid black;
-            top:$top-position;
-            background-color:black;
+            border-top: $border-width solid #f5afff;
+            border-bottom: $border-width solid #f5afff;
+            top: $top-position;
+            background-color: #f5afff;
             z-index: 2;
         }
 
@@ -189,32 +192,42 @@ $mute-percent: 21%;
             transform: scale(0,1);
             transform-origin: left;
             transition: ease-out 250ms;
-            top:52%;
+            top: 52%;
         }
+
         &:hover::before, &:hover::after {
             transform: scale(1);
         }
     }
 }
-.settingsCross{
-    position:absolute;
-    top:0;
-    right:0;
-    width:10%;
-    height:7%;
-    padding-right:1.5%;
-    padding-top:1.5%;
+.crossTab{
+    width:19%;
+    position:relative;
+    height:100%;
+    float:left;
 }
-.cls-1 {
-    fill: none;
-    stroke: #000;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 8%;
+.settingsCross {
+    top: 5%;
+    position: absolute;
+    min-height: 100%;
+    height: 3rem;
+    width: 30%;
+    left: 40%;
+
+    & > g > g > g > path {
+        fill: #f5afff;
+        transition: stroke-width 500ms ease-in;
+    }
+
+    &:hover {
+        & > g > g > g > path {
+            stroke-width: 0.5px;
+            stroke: #f5afff;
+
+        }
+    }
 }
-#cross:hover #line{
-    stroke-width:10%;
-}
+
 /*GeneralScreen style:*/
 .settingsScreen.general {
     font-family: "Cascadia Code", sans-serif;
@@ -223,7 +236,7 @@ $mute-percent: 21%;
     flex-direction: column;
     box-sizing: border-box;
     border-radius: 0 0 15px 15px;
-    border-top:2px solid black;
+    border-top: 0.2rem solid #f5afff;
     height: 100%;
 }
 .generalBox {
@@ -277,25 +290,26 @@ $mute-percent: 21%;
 
 }
 .helperDiv {
-    vertical-align:central;
+    color: #f8cdff;
+    vertical-align: central;
     position: absolute;
-    background: #f5f5f5;
+    background: blueviolet;
     width: 9rem;
     height: 0%;
     padding: 0% 4% 7% 4%;
-    border: 5px solid black;
-    text-align:justify;
+    border: 5px solid #cc78ff;
+    text-align: justify;
     border-radius: 1rem;
     display: inline;
     top: 3.2rem;
     right: 0%;
     z-index: -1;
     transform: scale(0,0);
-    opacity:0;
+    opacity: 0;
     transform-origin: top;
     transition: 500ms ease-out 200ms, font-size 500ms ease-out 200ms, opacity 500ms ease-out 200ms, height 500ms ease-out 200ms, top ease-out 500ms;
-    z-index:1;
-    overflow:hidden;
+    z-index: 1;
+    overflow: hidden;
 }
 .helperDiv > span {
     $font-size-helper: 0.75rem;
@@ -335,6 +349,9 @@ $mute-percent: 21%;
     width:50%;
     height:100%;
     padding-top:0%;
+    &>div>span{
+        font-family:Mistral;
+    }
 }
 .polishFlag {
     position:relative;
@@ -364,21 +381,33 @@ $mute-percent: 21%;
     font-size: 2.5rem;
     line-height:2.5rem;
 }
-.eyeOpen{
+.eyeOpen {
     position: relative;
-    left:30%;
+    left: 30%;
     width: 40%;
     height: 100%;
     top: 0;
     display: inline-block;
-    z-index:0;
+    z-index: 0;
+
+    & > svg > path {
+        stroke: #f5afff;
+    }
+
+    & > svg > circle {
+        stroke: #f5afff;
+    }
 }
 .eyeClosed {
     position: absolute;
     width: 100%;
     height: 68%;
-    left:0%;
-    z-index:-1;
+    left: 0%;
+    z-index: -1;
+
+    & > path, & > circle, & > line {
+        stroke: #f5afff;
+    }
 }
 .polishFlag.chosen, .englishFlag.chosen{
     opacity:0.8;
@@ -402,358 +431,289 @@ $mute-percent: 21%;
     height: 100%;
 
 }
-$clr-background:rgba(white, 1);
-.aboutContainer {
-    font-family:"Cascadia Code", sans-serif;
-    font-size:2rem;
-    line-height:2rem;
-    border-radius: 5%;
-    border: 3px solid black;
-    position: relative;
-    left: 37%;
-    top: 30%;
-    width: 25%;
-    height: 30%;
-}
-.aboutBox {
-    width: 100%;
-    height: 50%;
-    text-align: center;
-    position:relative;
-    top:20%;
-}
-.aboutScreenContainer {
-    position: absolute;
-    border: 0.4rem solid;
-    border-image-source: linear-gradient(to top,black 30%, transparent 33%);
-    border-image-slice: 1;
-    transform:translate(-50%, -50%);
-    top:50%;
-    left:50%;
-    width: 77%;
-    height: 86%;
-    box-sizing: border-box;
-    z-index: 3;
 
-    &::before {
-        content: "";
-        position: absolute;
-        width: 99%;
-        height: 5%;
-        left: 50%;
-        transform: translateX(-50%);
-        border-bottom: 3vh solid transparent;
-        border-radius: 2.2vh;
-        background-image: linear-gradient(black, black);
-        background-origin: border-box;
-        background-clip: content-box, border-box;
-        top: -2.7%;
+/*SoundScreen style!*/
+@mixin generatePuff($name, $transform, $trans-init, $trans-target, $scale-init, 
+$scale-target, $op-init, $op-target,
+$init-blur:0px, $target-blur:0px
+) {
+    @keyframes #{$name} {
+        from {
+            transform: #{$transform}(#{$trans-init}) scale($scale-init);
+            opacity: $op-init;
+            filter:blur($init-blur);
+        }
+
+        to {
+            transform: #{$transform}(#{$trans-target}) scale($scale-target);
+            opacity: $op-target;
+            filter:blur($target-blur)
+        }
     }
 }
-
-.settingsCrossAbout{
-    position:absolute;
-    right:-2%;
-    width:10%;
-    height:10%;
-
-}
-.aboutScreenProper {
+.settingsScreen.sound {
     position: relative;
-    left: 0;
-    top: 0;
     width: 100%;
     height: 100%;
-    background: $clr-background;
     display: flex;
     flex-direction: column;
-    border-top: 0.6rem solid transparent;
-    box-sizing:border-box;
-    border-top-left-radius: 0.6rem;
-    border-top-right-radius: 0.6rem;
-    &::before{
-                 content:"";
-                 position:absolute;
-                 border-bottom:3vh solid transparent;
-                 border-radius:2.2vh;
-                 width:95%;
-                 height:5%;
-                 left:50%;
-                 transform:translateX(-50%);
-                 top:-5.9%;
-                 background-image:linear-gradient(to right, black 25%, transparent 25%, transparent 75%, black 75%);
-                 background-origin:border-box;
-                 background-clip:content-box, border-box;
-             }
-    &::after{
-        content:"";
-        position:absolute;
-        width:101%;
-        height:5%;
-        left:50%;
-        transform: translateX(-50%);
-        border-top:1.2vh solid black;
-        border-radius:0.6rem;
-        top:-2.2%;
-    }
-}
-.aboutContent{
-    padding-top:1%;
-    padding-bottom:1%;
-    padding-left:2%;
-    padding-right:2%;
-
-    display:block;
-}
-.welcome{
-    font-size:2.5rem;
-    line-height:2.5rem;
-    text-align:center;
-    padding-bottom:0.5%;
-}
-.aboutContent.text {
-    font-size: 1.3rem;
-    text-align: justify;
-}
-.aboutContent.text>span{
-    display:inline-block;
-    font-family:"Cascadia Code", sans-serif;
-}
-.aboutContent.logo{
-    position:relative;
-    height:38%;
-    &>img{
-        object-fit:cover;
-        height:100%;
-        width:auto;
-    }
-}
-.linkSpan {
-    position: relative;
-    display: inline-block;
-    text-decoration: underline;
-    user-select:none;
-}
-#linkSpan:hover  #toGitDiv {
-    transform: scale(1);
-    bottom:1.4rem;
-}
-.toGitDiv{
-    position:absolute;
-    background:#f6a4ff;
-    border:2px solid black;
-    border-radius:10px;
-    width:18rem;
-    height:2.2rem;
-    bottom:0.5rem;
-    left:-1%;
-    box-sizing:border-box;
-    font-family:"Cascadia Code" sans-serif;
-    transform:scale(0);
-    transition: 500ms ease-in, bottom 500ms ease-in;
-    &>*{
-        float:left;
-        position:relative;
-        height:90%;
-        font-size:1rem;
-    }
-    &>img{
-        padding:0.5% 1% 0 1%;
-    }
-    &>a{
-        padding: 2% 0.5% 0.5% 0.5%;
-
-    }
-}
-a[first-trick]{
-    position:relative;
-    &::before{
-                content:attr(first-trick);
-                position:absolute;
-                border: 0.2rem solid violet;
-                border-radius:0.2rem;
-                background:pink;
-                width:90%;
-                height:250%;
-                white-space:nowrap;
-                bottom:0;
-                left:0;
-                transform:scale(0);
-                transition:ease-out 300ms,
-                bottom ease-out 300ms,
-                left ease-out 300ms;
-            }
-    &::after{
-        content:$bg-img;
-        position:absolute;
-        width:600px;
-
-    }
-    &:hover::before{
-        bottom:2.5rem;
-        left:1rem;
-        transform:scale(1, 1);
-    }
-}
-.text.center{
-    position:relative;
-    text-align:center;
-    padding-top:0%;
-    left:50%;
-    transform:translateX(-50%);
-}
-.titleBlack{
-    position:relative;
-    width:39%;
-    left:50%;
-    transform:translateX(-50%);
-
-}
-.text.centered{
-    padding-top:0;
-    padding-bottom:0;
-    text-align:center;
-}
-.enjoy{
-    text-align:center;
-    font-size:1.5rem;
-}
-.launguageMiniHolder {
-    position:relative;
-    text-align:center;
-    font-family: 'RocketRinder';
-    font-size: 1.8rem;
-    width:20%;
-    height:10%;
-    left:50%;
-    transform:translateX(-50%);
-    display:inline-block;
-
-}
-.launguageMiniHolder>div{
-    top:20%;
-    position:relative;
-    display:inline-block;
-    text-align:center;
-}
-.launguageMiniHolderDiv.pl,.launguageMiniHolderDiv.eng{
-    width:25%;
-}
-.launguageMiniHolderDiv.slash{
-    width:5%;
-    padding-left:6%;
-    padding-right:6%;
-}
-.launguageMiniHolderDiv.pl, .launguageMiniHolderDiv.eng {
-
-
-}
-#miniL:hover #spanL{
-    &::before, &::after{
-    opacity: 1;
-    transform: scale(1);
-                       }
-}
-.launguageMiniHolderDiv.pl, .launguageMiniHolderDiv.eng {
-    &::before, &:after{
-    content: "";
-    position: absolute;
-    opacity:0;
-                        }
-    &::before{
-    top:-5%;
-    right:-12%;
-    bottom:-12%;
-    left:-5%;
-    width:1rem;
-    height:50%;
-    border-top:2px solid black;
-    z-index:-1;
-    transform:scale(0,1);
-    transform-origin:left;
-             }
-&::after {
-    top: -5%;
-    left: -5%;
-    right: -5px;
-    bottom: -15%;
-    border-left: 2px solid black;
-    height:1rem;
-    z-index:-1;
-    transform:scale(1, 0);
-    transform-origin:top;
-}
-&::before, &::after {
-    transition: opacity 0.35s, transform 0.35s;
-}
-&:hover::before,&:hover::after{
-    transform:scale(1);
-    opacity:1;
-}
-
-}
-.spanClass {
-    user-select: none;
     box-sizing: border-box;
-    &::before,&::after{
-    position: absolute;
-	content: '';
-	opacity: 0;
-    text-align:center;
-                      }
-    &::before/*top and bottom*/
-{
-    display: inline;
-    right:-10%;
-    bottom:-15%;
-    width:1rem;
-    border-bottom: 2px solid black;
-    transform: scale(0,1);
-    transform-origin:right;
-}
-
-&::after{ /*left and right*/
-    display:inline;
-    height:1rem;
-    right:-10%;
-    bottom:-15%;
-    border-right:2px solid black;
-    transform:scale(1,0);
-    transform-origin:0 100%;
-}
-&::before, &::after {
-    transition: opacity 0.35s, transform 0.35s;
-}
-}
-/*SoundScreen style!*/
-.settingsScreen.sound{
-    position:relative;
-    width:100%;
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    box-sizing:border-box;
+    border-top: 0.2rem solid #f5afff;
+    perspective:1000px;
 }
 .soundScreenContainer{
     width:100%;
-    height:50%;
+    height:35%;
     display:flex;
     flex-direction:column;
 }
-.soundScreenBox{
+.fetch-songs.container{
+    width:100%;
+    height:30%;
+}
+.fetch-songs.label.wrapper{
+    position:relative;
+    width:12rem;
+    height:6.75rem;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+}
+$fade-in-duration: 1000ms;
+.fetch-songs.button.label {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 2rem;
+    box-sizing: border-box;
+    user-select:none;
+    & > .plus {
+        &.fade-plus-out{
+            @include generatePuff(puff-plus-out, rotate3d, (0, 1, 0, 0deg), (0,1,0,-180deg),1,1,1,0);
+            animation:puff-plus-out $fade-in-duration ease-out 1 normal forwards;
+
+        }
+        &.fade-plus-in{
+            @include generatePuff(puff-plus-in, rotate3d, (0,1,0,180deg), (0,1,0,0deg),1,1,0,1);
+            animation:puff-plus-in $fade-in-duration ease-in 1 normal forwards;
+        }
+        position: relative;
+        width: 6rem;
+        height: 6rem;
+        left: 3rem;
+        top: 0.37rem;
+        border-radius: 50%;
+        border: 0.3rem solid #b317ed;
+        box-sizing: border-box;
+        $plus-long: 3rem;
+        $plus-short: 0.3rem;
+        transition: 1s transform ease;
+        box-sizing: border-box;
+
+        &::before, &::after {
+            content: "";
+            position: absolute;
+            width: $plus-short;
+            height: $plus-long;
+            border-radius: 0.3rem;
+            left: 50%;
+            top: 50%;
+            background: #b317ed;
+            box-sizing: border-box;
+        }
+
+        &::before {
+            transform: translate(-50%,-50%);
+        }
+
+        &::after {
+            transform: translate(-50%,-50%) rotate(90deg);
+        }
+    }
+
+    & > .skew {
+        $width: 95%;
+        $height: 95%;
+        position: absolute;
+        z-index: -1;
+        width: $width;
+        height: $height;
+        top: 50% - 0.5*$height;
+        left: 50% - 0.5*$width;
+        transform: skew(-20deg);
+        border-radius: 0.4rem;
+        background: #ff70f7;
+        border: 0.2rem solid #f5afff;
+        box-sizing: border-box;
+    }
+
+    &:hover {
+        & > .plus {
+            transform: rotate3d(0,1,0,180deg);
+
+            &::before {
+            }
+        }
+    }
+
+    &:hover .fetch-songs.popup {
+        opacity: 1;
+    }
+}
+@keyframes rotate-loading-generic{
+    to{transform:rotate(1turn)}
 
 }
-.soundScreenBox.text{
-    height:45%;
-    width:100%;
-    text-align:center;
-    &>span{
-              position:relative;
-              top:50%;
-          }
+.fetch-songs.loading.holder {
+    position: absolute;
+    width: 6rem;
+    height: 6rem;
+    left: 3rem;
+    top: 0.37rem;
+    border-radius: 50%;
+    border: 0.3rem solid #b317ed;
+    box-sizing: border-box;
+    
+
+    &.fade-loading-in {
+        @include generatePuff(puff-loading-in, rotate3d, (0, 1, 0, 180deg), (0,1,0,0),1,1,0,1);
+        animation: puff-loading-in $fade-in-duration ease-in 1 normal forwards;
+    }
+
+    &.fade-loading-out {
+        @include generatePuff(puff-loading-out, rotate3d, (0, 1, 0, 0deg), (0,1,0,-180deg),1,1,1,0);
+        animation: puff-loading-out $fade-in-duration ease-out 1 normal forwards;
+    }
+
+    & > svg {
+        animation: rotate-loading-generic 10s linear $fade-in-duration infinite reverse forwards;
+
+        & > g > g > g > path {
+            fill: #b317ed;
+        }
+    }
+}
+.fetch-songs.button.label:hover + .fetch-songs.popup {
+    opacity: 1;
+    transition: 500ms opacity ease-out;
+}
+.fetch-songs.popup {
+    position: absolute;
+    height: 2rem;
+    border-radius: 1rem;
+    background: #ff78f8;
+    top: -2.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    border: 0.2rem solid #ff36f4;
+    opacity: 0;
+
+    transition: 500ms opacity ease-in 500ms;
+
+    & > span {
+        position: relative;
+        font-size: 1.2rem;
+        font-family: "Cascadia Code";
+        white-space: nowrap;
+        padding: 0 0.6rem 0.4rem 0.6rem;
+        line-height: 1.2rem;
+        top: -0.4rem;
+        color: #b317ed;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        border-top: 0.5rem solid #ff36f4;
+        border-left: 4rem solid transparent;
+        border-right: 4rem solid transparent;
+        left: 50%;
+        top: 2.1rem;
+        transform: translateX(-50%);
+        box-shadow: 0px 8px 20px 8px rgba(216, 59, 255, 0.4);
+        z-index: 1;
+    }
+}
+
+.fetch-songs.button.proper {
+    display: none;
+}
+@mixin generatePopup($font-size:2rem, $line-height:2rem, 
+$color:white, $width: 50%, $border-radius: 2rem, $background: #b317ed, 
+$border: 0.3rem solid #f5afff, $left: 25%, $top: 50%, $font-family:"Cascadia Code" ) {
+    position: absolute;
+    width: $width;
+    background:$background;
+    border-radius: $border-radius;
+    border: $border;
+    box-sizing: border-box;
+    height: min-content;
+    left: $left;
+    top: $top;
+
+    & > div {
+        position: relative;
+        display: table;
+
+        & > span {
+            position: relative;
+            display: table-cell;
+            text-align: center;
+            font-family:$font-family;
+            font-size:$font-size;
+            line-height:$line-height;
+            color:$color;
+        }
+    }
+}
+.fetch-songs.already.container {
+    @include generatePopup();
+    transform: translateY(-50%);
+    box-shadow: 0 8px 15px 0 rgba(0,0,0,0.3);
+    $animation-duration: 500ms;
+    @include generatePuff(puff-song-in, translate3d, (0, -50%, -100px), (0, -50%, 0), 0.8, 1, 0,1);
+    @include generatePuff(puff-song-out, translate3d, (0, -50%, 0), (0, -50%, 100px), 1, 1.2, 1,0);
+    animation: puff-song-in $animation-duration ease-in 0s 1 normal forwards
+    ,puff-song-out $animation-duration ease-out 1500ms 1 normal forwards;
+    & > div {
+        padding: 0.3rem 0.8rem 0.3rem 0.8rem;
+    }
+}
+.fetch-songs.api-busy.container {
+    $first-duration: 500ms;
+    $middle-dur:1000ms;
+    $third-duration:500ms;
+    @include generatePopup();
+    transform: translateY(-50%);
+    @include generatePuff(puff-api-in, translate3d, (0%, -50%, -50px), (0%, -50%, -20px), 0.8,1,0,1,5px,0px);
+    @include generatePuff(puff-api-mid, translate3d, (0%, -50%, -20px), (0%, -50%, 20px), 1,1,1,1,0px,0px);
+    @include generatePuff(puff-api-out, translate3d, (0%, -50%, 20px), (0%, -50%, 50px), 1,1.2,1,0,0,5px);
+    animation: puff-api-in $first-duration ease-in 0s 1 normal forwards,
+    puff-api-mid $middle-dur linear $first-duration 1 normal forwards,
+    puff-api-out $third-duration ease-out $first-duration+$middle-dur 1 normal forwards;
+    user-select:none;
+
+    & > div {
+        padding: 0.3rem 0.4rem 0.3rem 0.4rem;
+    }
+}
+.soundScreenBox.text {
+    height: 50%;
+    width: 100%;
+    text-align: center;
+
+    & > span {
+        position: relative;
+        top: 35%;
+        color: #f5afff;
+        font-family: "Cascadia Code";
+        font-size: 2rem;
+    }
 }
 .soundScreenBox.slider{
-    height:55%;
+    height:50%;
     width:100%;
 }
 .soundSliderHolder{
@@ -773,7 +733,7 @@ a[first-trick]{
     background: #d8a7eb;
     background-image: linear-gradient(#ffac65, #ff5d5d);
     background-repeat: no-repeat;
-    border-radius: 20px;
+    border-radius: 2rem;
 }
 .soundSlider::-webkit-slider-thumb {
     z-index:3;
@@ -825,8 +785,6 @@ option{
 }
 /*ControlsScreen style:*/
 .settingsScreen.controls {
-    font-family: "Cascadia Code", sans-serif;
-    font-size: 1.2rem;
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
@@ -847,9 +805,11 @@ option{
 }
 .controlsBox.big{
     height:15%;
+    margin-bottom:3%;
 }
 .controlsBox.text{
     height:7%;
+    margin-bottom:1%;
 }
 .controlsBox.key{
     height:15%; 
@@ -889,6 +849,13 @@ option{
 .escKey{
     float:left;
 }
+.keyText {
+    height: 100%;
+    position: relative;
+    font-family: "Cascadia Code", sans-serif;
+    font-size: 1.2rem;
+    color:#4a1a67;
+}
 .keyText.title {
     top:35%;
     font-size: 1.4rem;
@@ -897,18 +864,16 @@ option{
     text-align: center;
     width:100%;
 }
-.keyText.left{
-    float:left;
-    position:relative;
-    left:20%;
-
+.keyText.right, .keyText.left {
+    float: left;
+    bottom:0%;
+    text-align:center;
 }
 .keyText.right{
-    float:right;
-    text-align:right;
-    position:relative;
-    right:19%;
-
+    width:45%;
+}
+.keyText.left {
+    width: 50%;
 }
 .keyText.or{
     font-weight:bold;
@@ -949,12 +914,15 @@ option{
     right: 15%;
 }
 .escKeyText {
-    line-height: 25px;
-    position:relative;
+    line-height: 1.4rem;
+    position: relative;
     display: inline-block;
     width: 70%;
-    top:15%;
-    left:3%;
+    top: 15%;
+    left: 3%;
+    font-family: "Cascadia Code";
+    font-size: 1.4rem;
+    color: #4a1a67;
 
 }
 .triplet{
@@ -986,11 +954,13 @@ option{
     top:10%;
 }
 /* NextPiece style*/
+$next-piece-border: #7211a1;
+$next-piece-background: lighten(#ff8cf9,4%);
 .nextPiece {
-    background-color: #9831ff;
+    background-color: $next-piece-background;
     box-sizing: border-box;
-    border: 2px solid black;
-    border-radius:6px;
+    border: 0.15rem solid $next-piece-border;
+    border-radius: 0.4rem;
     position: absolute;
     top: 61.5%;
     left: 10%;
@@ -998,12 +968,12 @@ option{
     height: 22%;
     padding: 0px;
     margin: 0px;
-
+    box-shadow:3px 7px 10px 0px fade-out($next-piece-border, 0.6);
 }
 .nextPieceTable {
     box-sizing: border-box;
-    border: 2px solid black;
-    border-radius:inherit;
+    border: 2px solid $next-piece-border;
+    border-radius: inherit;
     width: 100%;
     height: 100%;
     padding: 0px;
@@ -1017,10 +987,10 @@ tbody{
     width:100%;
     height:16.6%
 }
-.nextPieceCell{
-    border:2px solid black;
-    width:25%;
-
+.nextPieceCell {
+    position:relative;
+    border: 2px solid $next-piece-border;
+    width: 25%;
 }
 /*red, greenyellow, lightpink, blue, greent, midnightblue, brown, aliceblue */
 /*colors version 2:
@@ -1036,32 +1006,54 @@ tbody{
 .nextPiece:hover{
 
 }
+@mixin generateRadialGradient($color) {
+    background: $color;
+    $width:85%;
+    $height:85%;
+    &::before {
+        content:"";
+        position: absolute;
+        width: $width;
+        height: $height;
+        top: 50% - $height*0.5;
+        left: 50% - $width*0.5;
+        background-image: radial-gradient(circle at 25% 25%, rgba(255,255,255, 0.6),$color);
+        border-radius:0.1rem;
+    }
+}
 .red {
-    background-color: #E10032;
+    //background-color: #E10032;
+    @include generateRadialGradient(#E10032);
 }
 
 .yellow {
-    background-color: #f6db2e;
+    //background-color: #f6db2e;
+    @include generateRadialGradient(#f6db2e);
 }
 
 .blue {
-    background-color: #4a00ff;
+    //background-color: #4a00ff;
+    @include generateRadialGradient(#4a00ff);
 }
 
 .green {
-    background-color: #04B16F;
+    //background-color: #04B16F;
+    @include generateRadialGradient(#04B16F);
 }
 
 .lagoon {
-    background-color: #BCBEC0    /*#BCBEC0*/; /*alternative: #92A9BD*/
+    //background-color: #BCBEC0 /*#BCBEC0*/; /*alternative: #92A9BD*/
+    @include generateRadialGradient(#BCBEC0);
 }
 
 .pink {
-    background-color: #FF8300;
+    //background-color: #FF8300;
+    @include generateRadialGradient(#FF8300);
 }
 
 .brown {
-    background-color: #7FE9DE /*#7FE9DE*/;
+    //background-color: #7FE9DE /*#7FE9DE*/;
+    @include generateRadialGradient(#7FE9DE);
 }
 .cell.ghost {
     background-color: aliceblue;
@@ -1069,24 +1061,26 @@ tbody{
 /*
     ScoreBoard Style
 */
+$scoreBoard-border: #7900b4;
+$scoreBoard-background: #f684ff;
 .scoreBoard {
-    display:table;
-    font-size:1.5rem;
+    display: table;
+    font-size: 1.5rem;
     border-radius: 10px;
-    border: 2px solid black;
-    background-color: blueviolet;
+    border: 0.2rem solid $scoreBoard-border;
+    background-color: $scoreBoard-background;
     position: absolute;
     top: 5.5%;
     left: 10%;
-    width: 28%;
+    width: 30%;
     height: 26%;
     padding: 0px;
     margin: 0px;
     min-width: 180px;
-
+    box-shadow:5px 8px 15px 0px fade-out($scoreBoard-border, 0.4);
 }
 .scoreBoardTable{
-
+    border-radius:inherit;
     border-collapse:collapse;
     width:100%;
     height:100%;
@@ -1095,6 +1089,7 @@ tbody{
     overflow:hidden;
     box-shadow: 0 0 20px rgba(0,0,0,0.15);
     z-index:2;
+    color:$scoreBoard-border;
 
 }
 /*.scoreBoardTable thead tr{
@@ -1103,9 +1098,9 @@ tbody{
     background-color:indigo;
     color:white;
 }*/
-.scoreBoardTable>th{
-    text-align:center;
-    border-bottom: 1px solid black;
+.scoreBoardTable > th {
+    text-align: center;
+    border-bottom: 1px solid $scoreBoard-border;
 }
 /*.scoreBoardTable tbody tr:nth-of-type(even){
     background-color:mediumorchid;
@@ -1117,10 +1112,10 @@ tbody{
 .scoreBoardTable td{
    width:70%;
 }
-.scoreBoardTable>tbody>tr{ 
-    border-bottom: 1px solid black;
-    text-align:center;
-    position:relative;
+.scoreBoardTable > tbody > tr {
+    border-bottom: 1px solid $scoreBoard-border;
+    text-align: center;
+    position: relative;
 }
 .internalTableDiv {
     box-sizing: border-box;
@@ -1154,16 +1149,19 @@ tbody{
     background-color:lavender;
 }
 .levelIndicator {
-    font-weight:bold;
+    font-weight: bold;
     text-align: center;
     font-size: 1.2rem;
     height: 5%;
     width: 100%;
     border-radius: 12px 12px 0 0;
-    border: 2px solid black;
+    border: 0.2rem solid #6d00d1;
     border-bottom: 0px;
     background-color: mediumslateblue;
     z-index: 2;
+    font-family: "Cascadia Code";
+    color: lighten(#f5afff,5%);
+    box-sizing: border-box;
 }
 .levelIndicatorText {
     display: inline-block;
@@ -1280,20 +1278,25 @@ $song-time:10s;
     }
 }
 .songPopup {
-    font-size:100%;
     overflow: clip;
     user-select: none;
-    line-height: 20px;
     position: absolute;
-    width: 100px;
-    height: 22px;
     border: 2px solid #f89cff;
     background-color: #eabce4;
-    border-radius: 0.5rem;
+    border-radius: 2rem;
     text-align: center;
     opacity: 0;
     animation: popUp 800ms forwards;
     z-index: 1;
+    transform:translateY(-100%);
+    & > span {
+        position: relative;
+        color: #4a1a67;
+        font-family:"Cascadia Code";
+        padding:0 0.3rem 0 0.3rem;
+        line-height:1.2rem;
+        font-size:1.2rem;
+    }
 }
 .songPopup.close{
     opacity:0;

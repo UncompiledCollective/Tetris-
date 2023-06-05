@@ -11,53 +11,39 @@ const changeLevel = (rowsTo10, linesCleared, setCurrentLevel) => { // level up o
 
 
 
-
-const useDisplayNewLeader = (firstRender, newLocal, newGlobal, setLocal, setGlobal, isChanged, setIsChanged) => {
+async function changeState(setState, secondState, setSecondState, delay, value) {
+    if (secondState[0] === true) {
+        let timer = setTimeout(function () {
+            setSecondState((x) => {
+                x[0] = "pop";
+                return x;
+            })
+            setState(value[0]);
+        }, delay);
+        return () => clearTimeout(timer);
+    };
+    if (secondState[0] === "pop") {
+        let timer = setTimeout(function () {
+            setSecondState((x) => {
+                x[0] = false;
+                return x;
+            })
+            setState(value[1]);
+        }, delay - 2000);
+        return () => clearTimeout(timer);
+    };
+}
+const useDisplayNewLeader = (firstRender, newLocal, setLocal, newGlobal, setGlobal, isChanged, setIsChanged) => {
     React.useEffect(() => {
         if (firstRender.current) {
             return;
         }
-        console.log(newLocal, "here new local")
-        if (newLocal[0] === true) {
-            console.log("inside this dumb fucking shti")
-            let delay = setTimeout(function () {
-                setLocal((x) => {
-                    x[0] = "pop"
-                    return x;
-                })
-                setIsChanged(true)
-            },3000)
-        }
-        if (newLocal[0] === "pop") {
-            console.log("insided this dumb shit")
-            let delay = setTimeout(function () {
-                setLocal((x) => {
-                    x[0] = false
-                    return x;
-                })
-                setIsChanged(false)
-            }, 1000)
-        }
-        if (newGlobal[0] === true) {
-            let delay = setTimeout(function () {
-                setGlobal((x) => {
-                    x[0] = "pop";
-                    return x;
-                });
-                setIsChanged(true)
-            },3000)
-        }
-        if (newGlobal[0] === "pop") {
-            let delay = setTimeout(function () {
-                setGlobal((x) => {
-                    x[0] = false;
-                    return x;
-                });
-                setIsChanged(false)
-            }, 1000)
-        }
-
-    },[newLocal, newGlobal, isChanged])
+        changeState(setIsChanged, newLocal, setLocal, 3000, [1,2]);
+        changeState(setIsChanged, newGlobal, setGlobal, 3000, [3, 4]);
+        if (!newLocal[0] && !newGlobal[0] && isChanged !== false) { return setIsChanged(false); } //sometimes for osme reason popups wouldn't disappear for some reason
+        //so just in case I'm checking if the states are right and if not setting them to false;
+        //state passed is [isChanged, setIsChanged] - used because a change in array values doesn't cause react to rerender. For good or bad.
+    },[isChanged])
 }
 
 const useUpdateLevel = (firstRender, linesCleared, rowsTo10, setCurrentLevel) => {
@@ -178,6 +164,7 @@ const useUpdateTimer = (firstRender, gameOn, sendMovement, Gravity, setGravity, 
         }
     }, [timeRightNow, gameOn, currentLevel, sendMovement])
 }
+
 export {
     useDisplayNewLeader, useUpdateLevel, useDynamicMemory, useGameOver, handleNameChange, handleFocus,
     useUpdateGravity, useUpdateTimer

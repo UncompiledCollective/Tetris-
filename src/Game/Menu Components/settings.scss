@@ -1,0 +1,2027 @@
+@use 'sass:math';
+@import "_SettingsLibrary";
+$bg-img: url("D:\gay shit\true-tetris\src\Game\Menu Components\Menu PNGs\gitHub.png");
+$menu-font-color: #f5afff;
+
+.creditsContainer{
+    box-sizing:border-box;
+    position:relative;
+    left:50%;
+    transform:translateX(-50%);
+    height:32%;
+    border: 0.2rem solid $menu-font-color;
+    width:28%;
+    border-radius:0.5rem;
+    overflow:hidden;
+    &>span{
+        position:absolute;
+        top:20%;
+        width:100%;
+        text-align:center;
+        font-family:"Cascadia Code";
+        font-size:2rem;
+        color:$menu-font-color;
+        transition: all 1s;
+    }
+    &::before{
+        content:"";
+        position:absolute;
+    }
+}
+$clr-background: rgba(white, 1);
+.aboutContainer::before, .creditsContainer::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0%;
+    background: #f5afff;
+    transition: all 1s;
+    z-index: -1;
+    left: -100%;
+}
+.aboutContainer:hover, .creditsContainer:hover {
+    &::before {
+        left: 0%;
+    }
+
+    & > span {
+        color: #4a1a67;
+    }
+}
+.aboutContainer {
+    box-sizing: border-box;
+    font-family: "Cascadia Code", sans-serif;
+    font-size: 2rem;
+    line-height: 2rem;
+    border-radius: 0.5rem;
+    border: 0.2rem solid #f5afff;
+    position: relative;
+    left: 50%;
+    top: 30%;
+    width: 28%;
+    height: 32%;
+    transform: translateX(-50%);
+    transition: all 1s;
+    overflow: hidden;
+
+    & > span {
+        position:absolute;
+        width:100%;
+        text-align:center;
+        top:20%;
+        color: #f5afff;
+        font-family: "Cascadia Code";
+        font-size: 2rem;
+        transition: color 1s;
+    }
+
+}
+
+.launguage.Text {
+    font-family: "Cascadia Code";
+    font-size: 1.7rem;
+    color: #f5afff;
+}
+
+.ghostPiece.Text {
+    font-family: "Cascadia Code";
+    font-size: 1.7rem;
+    color: #f5afff;
+}
+
+.spanClass {
+    user-select: none;
+    box-sizing: border-box;
+
+    &::before, &::after {
+        position: absolute;
+        content: '';
+        opacity: 0;
+        text-align: center;
+    }
+
+    &::before /*top and bottom*/ {
+        display: inline;
+        right: -10%;
+        bottom: -15%;
+        width: 1rem;
+        border-bottom: 2px solid black;
+        transform: scale(0,1);
+        transform-origin: right;
+    }
+
+    &::after { /*left and right*/
+        display: inline;
+        height: 1rem;
+        right: -10%;
+        bottom: -15%;
+        border-right: 2px solid black;
+        transform: scale(1,0);
+        transform-origin: 0 100%;
+    }
+
+    &::before, &::after {
+        transition: opacity 0.35s, transform 0.35s;
+    }
+}
+/*Credits Screen style*/
+$modal-duration: 500ms;
+$credits-animation-delay: 2000ms + $modal-duration;
+$border-credits-color:#ffceff;
+.creditsScreen.container {
+    @include posSize(absolute, 90%, 90%, left,5%,top,5%);
+    z-index: 4;
+    box-sizing: border-box;
+    border-radius: 3rem;
+
+    &::before {
+        background: linear-gradient(to bottom, $border-credits-color 10%, transparent 10%);
+        animation: slide-in-top 1s ease-out $credits-animation-delay, instant-opacity 0s linear $credits-animation-delay;
+        animation-fill-mode: forwards;
+        box-shadow: 14px -14px 20px -5px rgba(255, 0, 255, 0.8), -14px -14px 20px -5px rgba(255, 0, 255, 0.8);
+    }
+
+    &::after {
+        background: linear-gradient(to top, $border-credits-color 10%, transparent 10%);
+        animation: slide-in-bottom 1s ease-out $credits-animation-delay, instant-opacity 0s linear $credits-animation-delay;
+        animation-fill-mode: forwards;
+        box-shadow: -14px 14px 20px -5px rgba(255, 0, 255, 0.8), 14px 14px 20px -5px rgba(255, 0, 255, 0.8);
+    }
+}
+
+.creditsScreen.container::before, .creditsScreen.container::after {
+    content: "";
+    position: absolute;
+    top: -0.4rem;
+    left: -0.4rem;
+    bottom: -0.4rem;
+    right: -0.4rem;
+    border-radius: 3.2rem;
+    z-index: -1;
+    opacity: 0;
+}
+.creditsScreen.cover::before, .creditsScreen.cover::after {
+    content: "";
+    position: absolute;
+    background: $border-credits-color;
+    height: 82%;
+    width: 30%;
+    z-index: -2;
+    opacity: 1;
+    top: 9%;
+    opacity:0;
+}
+.creditsScreen.cover::before, .creditsScreen.cover::after,
+.creditsScreen.container::before, .creditsScreen.container::after{
+}
+.creditsScreen.cover {
+    position: absolute;
+    top: 0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    border-radius:3rem;
+    &::before {
+        left: -0.4rem;
+        animation: slide-in-left 1000ms ease-in $credits-animation-delay, instant-opacity 0s linear $credits-animation-delay;
+        animation-fill-mode: forwards;
+    }
+
+    &::after {
+        right: -0.4rem;
+        animation: slide-in-right 1000ms ease-in $credits-animation-delay, instant-opacity 0s linear $credits-animation-delay;
+        animation-fill-mode: forwards;
+    }
+}
+.creditsScreen.tile {
+    float: left;
+    position: relative;
+    width: 12.5%;
+    height: 20%;
+    display: inline-block;
+    background: $credits-tile-color;
+    opacity: 0;
+    animation: fade-tile-in 500ms ease-in;
+    animation-fill-mode: forwards;
+}
+.creditsScreen.tile-wrapper{
+    position:relative;
+    width:100%;
+    height:100%;
+    border-radius:3rem;
+    overflow:hidden;
+}
+.credits.modal {
+    @include generateModal(4, #00000049);
+    animation: fade-tile-in $modal-duration ease-out;
+    animation-fill-mode: forwards;
+}
+.creditsScreen.holder{
+    position:relative;
+    width:100%;
+}
+.creditsScreen.holder.title {
+    height: 12%;
+    box-sizing:border-box;
+    & > * {
+        position: relative;
+        float: left;
+        height: 100%;
+        display:inline-block;
+    }
+    & > span {
+        opacity:0;
+        width: 30%;
+        text-align: center;
+        font-family: "Cascadia Code";
+        font-size: 5rem;
+        color: #ffe9ff;
+        animation: fade-in-top 1s ease-in-out $credits-animation-delay 1 forwards;
+    }
+}
+.divide.credits.wrapper {
+    opacity: 0;
+    &.left {
+        animation: fade-in-right 1s ease-in-out $credits-animation-delay 1 forwards;
+    }
+
+    &.right {
+        animation: fade-in-left 1s ease-in-out $credits-animation-delay 1 forwards;
+    }
+}
+
+.divide.credits.wrapper {
+    width: 35%;
+}
+.divide.credits.title{
+    position:absolute;
+    height:100%;
+    width:100%;
+    &>g>path{
+        fill:$creditScreen-font-color;
+    }
+    &.left{
+        transform:scaleX(-1);
+    }
+}
+.creditsScreen.true {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    padding: 1% 0.5% 1% 0.5%;
+    opacity: 0;
+    animation: fade-tile-in 0s ease-out $credits-animation-delay;
+    animation-fill-mode: forwards;
+}
+.close-cross.credits{
+    @include generateCloseCross(6rem, (right, top), (0.2rem, 0rem), 50%, transparent, transparent,
+    0rem, 3.5rem, 0.3rem, 0.3rem, $creditScreen-font-color, 1.1, 500ms
+    );
+    opacity:0;
+    animation: generic-fade-in 500ms ease-in 2500ms 1 normal forwards;
+}
+.credits.holder.subtitle {
+    position: relative;
+    height: 7%;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1rem;
+    opacity: 0;
+    transition: opacity 500ms;
+
+    & > span {
+        position: relative;
+        color: $creditScreen-font-color;
+        font-size: 3rem;
+        transition: left 1500ms ease-in-out, right 1500ms ease-in-out;
+        &.left {
+            left: -2rem
+        }
+
+        &.right {
+            left: 2rem;
+        }
+    }
+
+
+
+    &.fadeIn {
+        opacity: 1;
+
+        & > span {
+            left: 0;
+        }
+    }
+}
+.credits.tab.holder {
+    position: relative;
+    width: 99%;
+    height: 77%;
+    transition:opacity 500ms;
+    & > div{
+        float: left;
+        position: relative;
+    }
+}
+$cubic-bezier-loop: cubic-bezier(0.3, 0.05, 0.7, 0.95);
+.credits.animation {
+    position: absolute;
+    width: 100% - $credits-animation-offset-left;
+    height: 100% - $credits-animation-offset-top;
+    &.right{
+        right:0; //natural flow of css is from the left so the right arrow needs to be anchored to the right for symetry
+    }
+    &.first {
+        opacity: 0;
+        filter: blur(20px);
+        overflow: clip;
+        transition: opacity 750ms ease-in-out;
+
+        &.left::before {
+            animation: rotate-pseudo-top-left 12s $cubic-bezier-loop 0s infinite;
+        }
+
+        &.left::after {
+            animation: rotate-pseudo-bottom-right 12s $cubic-bezier-loop 0s infinite;
+        }
+
+        &.right::before {
+            animation: rotate-pseudo-top-right 12s $cubic-bezier-loop 0s infinite;
+            animation-direction: reverse;
+        }
+
+        &.right::after {
+            animation: rotate-pseudo-bottom-left 12s $cubic-bezier-loop 0s infinite;
+            animation-direction: reverse;
+        }
+    }
+
+    &.second {
+        background: #321445; //this is the color of the tiles.
+        border-radius: 1.2rem;
+    }
+}
+.credits.arrow:hover .credits.animation.first {
+    opacity:1;
+    transition:opacity 750ms ease-in-out;
+}
+.credits.animation.first::before,
+.credits.animation.first::after {
+    content: "";
+    position: absolute;
+    width: $credits-pseudo-element-width;
+    height: 0%;
+    padding-bottom: $credits-pseudo-element-width;
+    background: radial-gradient(circle, rgba(255,0,255,1) 50%, #fff 100%);
+}
+
+
+
+.credits.arrow {
+    width: 15%;
+    height: 100%;
+}
+$svg-wrapper-transition-time:500ms;
+.credits.svg.wrapper {
+    top: 22%;
+    & > svg {
+        position: relative;
+        transition:all $svg-wrapper-transition-time ease-in-out;
+        & > g > g > g > path {
+            fill: $creditScreen-font-color;
+        }
+    }
+}
+.credits.svg.wrapper.first {
+    display: inline-block;
+    position: relative;
+    transition: top $svg-wrapper-transition-time ease-in-out;
+
+    & > svg {
+        width: 100%;
+    }
+
+    &.left > svg {
+        left: -15%;
+        animation: fade-arrow-in-left-first 500ms ease-in $credits-animation-delay;
+    }
+
+    &.right > svg {
+        right: -15%;
+        animation: fade-arrow-in-right-first 500ms ease-in $credits-animation-delay;
+    }
+}
+.credits.svg.wrapper.second {
+    position: absolute;
+
+    & > svg {
+        margin-top: 5%;
+        width: 90%;
+    }
+
+    &.left > svg {
+        left: 10%;
+        animation: fade-arrow-in-left-second 500ms ease-in $credits-animation-delay;
+    }
+
+    &.right > svg {
+        right: 0%;
+        animation: fade-arrow-in-right-second 500ms ease-in $credits-animation-delay;
+    }
+}
+.credits.arrow:hover .credits.svg.wrapper.second.left {
+    & > svg {
+        left: 20%;
+        transition: left $svg-wrapper-transition-time ease-in-out;
+    }
+}
+.credits.arrow:hover .credits.svg.wrapper.first.left {
+    top:19%;
+    transition: top $svg-wrapper-transition-time ease-in;
+    & > svg {
+        left:-25%;
+        width:120%;
+        transition: all $svg-wrapper-transition-time ease-in;
+    }
+}
+.credits.arrow:hover .credits.svg.wrapper.second.right{
+    &>svg{
+        right:10%;
+    }
+}
+.credits.arrow:hover .credits.svg.wrapper.first.right{
+    top:18%;
+    &>svg{
+        right:-5%;
+        width:120%;
+    }
+}
+$credits-tab-wrapper-background:#3d1954;
+.credits.tab.wrapper {
+    width: 70%;
+    height: 99%;
+    overflow: clip;
+    border-radius: 1.8rem;
+    background-color: $credits-tab-wrapper-background;
+    box-sizing: border-box;
+    animation: generic-fade-in 750ms ease-in $credits-animation-delay forwards;
+}
+//Credits tab (inside wrapper) style:
+$animation-tab-stats: 1s ease-in 0.5s 1 forwards;
+.credits.tab.wrapped {
+    width: 100% - 2 * $credits-tab-wrapped-offset-horizontal;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    padding: 0.5% 1% 0.5% 1.5%;
+
+    & > span {
+        @include credits-font-generic;
+        opacity: 0;
+        position: relative;
+        float: left;
+        clear: both;
+        display: inline-block;
+        left: 0;
+        line-height: 1.8rem;
+        animation: float-span-in 500ms ease-in forwards;
+        user-select: none;
+        transition: color ease 500ms;
+        background: fade-out($credits-tab-wrapper-background, 0.2);
+        padding:1px 4px 3px 4px;
+        margin-bottom:2px;
+        border-radius:0.8rem;
+    }
+}
+.credits.tab.wrapped.music, credits.tab.wrapped.general {
+    overflow: auto;
+    border-width: 0px;
+    border-style: solid;
+    border-color: transparent;
+    box-shadow: none;
+    transition: 750ms border-color ease-in;
+
+    &::-webkit-scrollbar {
+        background: transparent;
+        width: 1.4rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-right-style: inset;
+        border-right-width: 2rem;
+        border-color: inherit;
+        border-radius: 1.4rem;
+        box-shadow: inherit;
+    }
+
+    &:hover {
+        border-color: #ffc2fa;
+    }
+
+
+    & > span:hover {
+        color: #f6a4ff;
+    }
+}
+.credits.music.popUp {
+    opacity: 0;
+    position: absolute;
+    height: 1.4rem;
+    min-width: 4rem;
+    padding: 0 5px 0 5px;
+    border: 0.2rem solid #b33ddd;
+    border-radius: 0.8rem;
+    background: #f4acff;
+    animation: generic-fade-in 500ms ease-in forwards, generic-fade-out 1000ms ease-out 2s forwards;
+    transform-origin: center;
+    box-shadow: -5px 3px 2px 1px fade-out($credits-tab-wrapper-background, 0.4), 3px -2px 2px 1px fade-out($credits-tab-wrapper-background, 0.4);
+    transform:translateY(-100%);
+    & > span {
+        @include credits-font-generic(1.2,#b33fdf );
+    }
+}
+.credits.tab.music.anime.wrapper{
+    position:absolute;
+    right:0;
+    transform:scaleX(-1);
+    top:60%;
+}
+.credits.tab.image.music {
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    padding-right: 55%;
+    bottom: 0;
+    right: 0;
+    transform: scaleX(-1);
+
+    & > img {
+        height: 100%;
+        z-index: 2;
+    }
+}
+.credits.tab.helper-holder {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    $transition-delay: 1000ms;
+    & > div {
+        opacity: 0;
+        position: absolute;
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        left: -20%;
+        top: 0;
+
+        &.helper, &.helper2 {
+        }
+    }
+
+    & > .helper {
+        $trans-b0: fade-out($credits-tab-wrapper-background, 0.1);
+        $trans-b1: fade-out($credits-tab-wrapper-background, 0.2);
+        $trans-b2: fade-out($credits-tab-wrapper-background, 0.6);
+        $trans-b3: fade-out($credits-tab-wrapper-background, 0.8);
+        z-index: -1;
+        background-image: conic-gradient(generateDisco2( 46, $trans-b0, $trans-b0, //invisible
+        $trans-b3, transparent, $trans-b3, $trans-b1, $trans-b0, $trans-b1, $trans-b3,transparent,$trans-b3, $trans-b0, $trans-b0, $trans-b3, transparent,$trans-b3, $trans-b1, $trans-b0, $trans-b1, $trans-b3,transparent,$trans-b3, $trans-b0, $trans-b1, $trans-b3,transparent,$trans-b3, $trans-b1, $trans-b0, $trans-b3, transparent, $trans-b3 ));
+        /*animation-name: generic-fade-in, rotate-disco;
+        animation-duration: 750ms, 10s;
+        animation-delay: $transition-delay, 0s;
+        animation-iteration-count: 1, infinite;
+        animation-direction: normal, normal;
+        animation-timing-function: ease-in, linear;
+        animation-fill-mode: forwards, forwards;*/
+        animation: generic-fade-in 750ms ease-in $transition-delay forwards, rotate-disco 10s linear 0s infinite forwards, generic-fade-out;
+    }
+
+    & > .helper2 {
+        z-index: -2;
+        //background: radial-gradient(circle, rgba(255,191,248,1) 0%, rgba(255,0,254,1) 14%, rgba(255,0,0,1) 49%, rgba(255,0,0,1) 100%);
+        background-image: conic-gradient( generateDisco3( 26, rgba(255,0,254,1), rgba(255,0,0,1), rgba(251,255,73,1), rgba(0,236,255,1), #f0f ) );
+        transform: scale3d(4,4,4);
+        animation: fade-to-9 750ms ease-in $transition-delay 1 forwards;
+    }
+
+    & > .helper3 {
+        z-index: -1;
+        background-image: radial-gradient(50% 50%, #fff 22%, rgba(255,105,231,1),transparent);
+        filter: blur(2px);
+        animation: fade-to-8 750ms ease-in $transition-delay 1 forwards;
+    }
+}
+.credits.tab.helper-holder.float-out {
+    z-index:-2;
+    animation: generic-fade-out 1000ms ease-in 500ms normal 1 forwards
+} 
+.credits.tab.wrapped.float-in,
+.credits.tab.wrapped.float-out {
+    overflow:hidden;
+
+}
+.credits.tab.image.music.float-in {
+    &.left {
+        right: 102%;
+        animation: float-image-music-in-left $animation-tab-stats;
+    }
+
+    &.right {
+        right: -102%;
+        animation: float-image-music-in-right $animation-tab-stats;
+    }
+}
+.credits.tab.image.music.float-out{
+    opacity:0.6;
+    transition: opacity 500ms;
+    &.left{
+        animation:float-image-music-out-left $animation-tab-stats;
+    }
+    &.right{
+        animation:float-image-music-out-right $animation-tab-stats;
+    }
+}
+.credits.tab.image.general, .credits.tab.image.assets{
+    position:relative;
+    width:100%;
+    height:100%;
+}
+
+.credits.tab.wrapped.float-in {
+    &.left {
+        right:-102%;
+        animation: float-tab-in-right $animation-tab-stats;
+    }
+
+    &.right {
+        left:-102%;
+        animation: float-tab-in-left $animation-tab-stats;
+    }
+}
+.credits.tab.wrapped.float-out {
+    filter:blur(1px);
+    &.left {
+        animation: float-tab-out-left $animation-tab-stats;
+    }
+
+    &.right {
+        animation: float-tab-out-right $animation-tab-stats;
+    }
+    transition: 500ms filter ease-in-out;
+}
+.credits.tab.title {
+    position: relative;
+    width: 100%;
+    padding-bottom: 1.5%;
+    & > span {
+        @include credits-font-generic(2.4);
+        position: relative;
+        width: 100%;
+        text-align: center;
+    }
+    &.resources{
+        margin-bottom:0.4rem;
+    }
+}
+//style for credits tab general
+.credits.tab.general.container.toGit {
+    position: absolute;
+    height: 100%;
+    bottom: 0%;
+    left: 0;
+    opacity: 0;
+    border-radius: 1.5rem;
+    transform: translateY(0%);
+    transition: all 500ms ease-out 1s;
+    padding: 0.1rem 0.2rem 0.1rem 0.2rem;
+    & > div {
+        height: inherit;
+        position: relative;
+        border: 0.2rem solid fade-out($creditScreen-font-color, 0.2);
+        box-shadow: -4px 2px 12px 2px rgb(126, 0, 126, 0.5), 4px -2px 12px 2px rgb(126, 0, 126, 0.5);
+        border-radius: inherit;
+        background: rgb(215, 21, 215);
+        transform: scale(0,0);
+        transition: transform 500ms ease-out 1s;
+        padding:0.1rem 0.3rem 0.1rem 0.3rem;
+        width:max-content;
+        & > * {
+            position: relative;
+            float: left;
+        }
+
+        & > img {
+            height: 100%;
+        }
+
+        & > span {
+            @include credits-font-generic(1.5, $creditScreen-font-color, inline-block);
+            padding: 0.1rem 0.5rem 0.1rem 0.3rem;
+            &>a{
+                @include credits-font-generic(1.5,$creditScreen-font-color, inline-block);
+            }
+        }
+    }
+}
+.credits.general.image.container{
+    position:absolute;
+    bottom:0;
+    right:0;
+    height:100%;
+    width:32%;
+}
+.credits.general.contained {
+    position: inherit;
+    height: 100%;
+    width: 100%;
+
+    &.main {
+        z-index: -1;
+        opacity: 0.9;
+    }
+
+    & > img {
+        position: absolute;
+        height: inherit;
+        width: inherit;
+    }
+
+    &.glitch {
+        perspective: 1000px;
+        z-index: 1;
+        overflow: hidden;
+        opacity: 0;
+
+        &:nth-child(1) {
+            animation: glitch-anim-1 12s linear 0s infintie forwards;
+        }
+
+        &:nth-child(2) {
+            animation: glitch-main-2 12s cubic-bezier(0.9, 0.39, 0.5, 0.35) 0s infinite forwards;
+        }
+
+        &:nth-child(3) {
+            animation: glitch-main-3 8s cubic-bezier(.9,.53,.16,.47) 0s infinite forwards;
+        }
+
+        &:nth-child(4) {
+            animation: glitch-shake-2 20s linear 2s infinite forwards;
+        }
+
+        &:nth-child(5) {
+            animation: glitch-shake 10s linear 0s infinite forwards;
+        }
+    }
+}
+.credits.tab.general.text-holder, .credits.tab.assets.text-holder {
+    position: relative;
+    float: left;
+    clear: both;
+    & > span {
+        position: relative;
+        @include credits-font-generic(1.2, $creditScreen-font-color, inline-block);
+    }
+}
+.credits.tab.general.text-holder {
+    &.author {
+        height: 10%;
+        margin-top: 0.2rem;
+
+        & > span {
+            &:nth-child(1) {
+                padding-right: 1rem;
+            }
+
+            &:nth-child(2) {
+                @include credits-font-generic(1.8, #ff9fff, inline-block);
+                user-select:none;
+                &:hover .credits.tab.general.container.toGit {
+                    transform: translateY(-110%);
+                    opacity: 1;
+                    bottom: 0;
+                    transition: transform 500ms ease-in, opacity 500ms ease-in, bottom 0ms linear;
+                    &>div{
+                        transform:scale(1,1);
+                        transition: transform 500ms ease-in
+                    }
+                }
+            }
+        }
+    }
+    &.paragraph {
+        position: relative;
+        margin-bottom: 3%;
+
+        & > span {
+            float: left;
+            padding: 0 0.5rem 0.1rem 0;
+
+            &:nth-child(3) {
+                clear: left;
+                padding-top: 0.5rem;
+            }
+        }
+
+        &:nth-child(1) {
+            height: 5%;
+        }
+
+        &:not(.smaller) {
+            height: 12%;
+        }
+    }
+}
+.disco-span {
+    background: linear-gradient(120deg, #ff6be8, #ff7dea, #ff7dea, #ff7fea);
+    font-weight: bold;
+    background-size: 100%;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+    user-select: none;
+    &:hover {
+        color:red;
+    }
+}
+.credits.tab.general.lib-container {
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    width: 7rem;
+    height: 6rem;
+    transform: translateX(-50%);
+    z-index: 1;
+    transition:opacity 1000ms ease-in 500ms;
+    &.show {
+        opacity: 1;
+        transition: opacity 700ms ease-in;
+    }
+    &.optional{
+        left:120%;
+        top:-50%;
+    }
+}
+.credits.tab.general.lib-spin{
+    position:relative;
+    width:100%;
+    height:100%;
+    animation: rotate-generic 12s ease-in-out 0s infinite;
+}
+.credits.tab.general.lib-disco, .credits.tab.general.lib-shape {
+    position: absolute;
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    animation: morph 8s ease-in-out infinite both alternate;
+    overflow: hidden;
+    border:0.2rem solid fade-out(#fff, 0.7);
+}
+.credits.tab.general.lib-disco {
+    $offset: -0.3rem;
+    position: absolute;
+    top: $offset;
+    left: $offset;
+    bottom: $offset;
+    right: $offset;
+    background: transparent;
+    filter:blur(11px);
+    z-index: -1;
+
+    &::before{
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        border-image: inherit;
+    }
+
+    &::before {
+        $base:#ff1cf5;
+        $trans-b0: fade-out($base, 0.1);
+        $trans-b1: fade-out($base, 0.2);
+        $trans-b2: fade-out($base, 0.6);
+        $trans-b3: lighten(fade-out($base, 0.8), 90%);
+        background-image: conic-gradient(generateDisco( 18, 
+        $trans-b1,$trans-b3,$trans-b2,
+        $trans-b0, transparent, transparent, transparent, $trans-b0,
+        $trans-b1,$trans-b3,$trans-b1,
+        $trans-b0,transparent, transparent, transparent, $trans-b0
+        ));
+        animation: rotate-generic-double-speed 12s ease-in-out 0s infinite alternate;
+        animation-fill-mode:inherit;
+        filter:brightness(120%);
+    }
+}
+.credits.tab.general.lib-shape {
+    box-sizing:border-box;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, rgba(255,79,249,1), rgba(255,59,232,1),   rgba(165,0,165,1));
+}
+.credits.tab.general.lib-text {
+    $offset-width: 52%;
+    $offset-height: 52%;
+    width: 100%+$offset-width;
+    height: 100%+$offset-height;
+    position: absolute;
+    left: -1 * math.div($offset-width,2);
+    top: -1 * math.div($offset-height,2);
+    animation: rotate-generic 12s ease-in-out 0s infinite;
+
+    & > span {
+        @include credits-font-generic();
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        text-align: center;
+        user-select: none;
+
+        &.optional {
+            letter-spacing: 2px;
+        }
+    }
+}
+// style for credits resources tab:
+.credits.tab.assets.text-holder {
+    margin-bottom: 2rem;
+    &>span{
+        &:nth-child(1){
+            padding-right:2rem
+        }
+        &>a{
+            @include credits-font-generic(1.2, $creditScreen-font-color, inline-block);
+        }
+    }
+}
+//welcome screen style
+// modal animation duration is 500ms, $credits-animation-delay
+.welcome.modal {
+    @include generateModal(4, none, 1);
+
+    & > .modal-wrapper {
+        @include posSize();
+        opacity: 0;
+        background-image: radial-gradient(ellipse at 50% bottom, #3b2041,#230027 80%);
+        background-position: -100% 100%;
+        background-repeat: no-repeat;
+        animation: generic-fade-in $welcome-screen-animation-delay ease-in 0s 1 normal forwards, generic-fade-out;
+        overflow: hidden;
+    }
+}
+.close-welcome{
+    animation: generic-fade-out 1s ease-in 0s 1 normal forwards;
+}
+.close-welcome-modal {
+    animation: generic-fade-out 750ms ease-out 750ms 1 normal forwards;
+}
+.welcomeScreen.large.wrapper{
+    @include posSize(absolute);
+    z-index:4;
+}
+.welcomeScreen.starry-sky {
+    position: absolute;
+    $size: 5px;
+    $offset: 2000px; //browser width 1980px with 20 backup
+    $height: 1100px;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    /*    @media screen and (max-width: 2100px) {
+        $offset:2500px;
+    }
+
+    @media screen and (max-width: 3000px) {
+        $offset: 3000px;
+    }
+
+    @media screen and (max-width: 3800px) {
+        $offset: 3800px;
+    }
+*/
+    &:nth-child(1) {
+        width: $size;
+        height: $size;
+    }
+
+    &:nth-child(2) {
+        width: $size - 3px;
+        height: $size - 3px;
+    }
+
+    &:nth-child(3) {
+        width: $size - 4px;
+        height: $size - 4px;
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        width: inherit;
+        height: inherit;
+        border-radius: inherit;
+        top: inherit;
+        left: -$offset
+    }
+
+    @include generateStars(3, #fff, $offset, -$offset, $offset, $height, 250s, 0,0,px, 100, 400, 700);
+}
+
+.welcomeScreen.container.main {
+    @include posSize(absolute, $welcome-screen-container-main-width, 90%, left,(100% - $welcome-screen-container-main-width)*0.5,top,5%);
+    z-index: 4;
+    border-radius: 2rem;
+    opacity:0;
+    animation: generic-fade-in $welcome-screen-animation-delay ease-in 1 normal forwards;
+}
+$white-shade-1:#ffdcfc;
+.welcomeScreen.lights.container {
+    position: absolute;
+    inset: 0 -5.5% 60% -5.5%;
+    &::before, &::after {
+        content: "";
+        position: absolute;
+        background: $white-shade-1;
+        box-shadow: 0px 8px 10px -4px rgba(66, 68, 90, 0.4 );
+    }
+
+    &::before {
+        @include generateFoldOut(fold-left, -30deg, left);
+        inset: -5% 0.5% 100% 20%;
+        transform: skew(-30deg) scaleX(0);
+        animation: fold-left 500ms ease-in $welcome-screen-animation-delay 1 normal forwards;
+    }
+
+    &::after {
+        @include generateFoldOut(fold-right, 30deg, right);
+        inset: -5% 20% 100% 0.5%;
+        transform: skew(30deg) scaleX(0);
+        animation: fold-right 500ms ease-in $welcome-screen-animation-delay 1 normal forwards;
+    }
+}
+$lamp-offest-top: 2rem;
+$lamp-width: 3.5rem;
+.welcomeScreen.lamp.container {
+    opacity: 0;
+    z-index:1;
+    &.left {
+        @include generateSwing(swing-left);
+        animation: swing-left $swing-lamp-duration linear $welcome-screen-animation-delay*1.2 1 normal forwards;
+    }
+
+    &.right {
+        @include generateSwing(swing-right, 45deg, -45deg);
+        animation: swing-right $swing-lamp-duration linear $welcome-screen-animation-delay*1.2 1 normal forwards;
+    }
+}
+.welcomeScreen.lightWrapper {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    //overflow: hidden;
+}
+.welcomeScreen.lamp.container{
+    position:relative;
+    width:$lamp-width;
+    height:$lamp-offest-top+$lamp-width;
+    &.left{
+        float:left;
+        left:0.5rem;
+    }
+    &.right{
+        float:right;
+        right:0.5rem;
+    }
+}
+
+.welcomeScreen.lamp.proper.main {
+    position: relative;
+    width: $lamp-width;
+    height: $lamp-width;
+    background: white;
+    top: $lamp-offest-top;
+    border-radius: 40% 40% 40% 40% / 50% 50% 50% 50%;
+    box-sizing: border-box;
+    display: inline-block;
+    &::before, &::after {
+        content: "";
+    }
+
+    &::before {
+        height: $lamp-offest-top;
+        position: absolute;
+        top: -$lamp-offest-top;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 5px;
+        background-image: linear-gradient(150deg, generateDisco(10, black, brown))
+    }
+
+    &::after {
+        border-radius: 1rem;
+        border-top: 10px solid black;
+        border-bottom: 10px solid black;
+        border-left: 0.2rem solid transparent;
+        border-right: 0.2rem solid transparent;
+        position: absolute;
+        height:95%;
+        top:2.5%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    &.left {
+        left: 0;
+    }
+
+    &.right {
+        float:right;
+    }
+}
+.welcomeScreen.lamp.guts {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    float:left;
+    &::before,&::after{
+        content:"";
+        position:absolute;
+    }
+    &:nth-child(1) {
+        &::before{
+            @include generateArchedLine(80%, 10%, 1rem, right, 3px);
+            right:0.1rem;
+        }
+        &::after{
+            @include generateArchedLine(50%, 25%, 1rem, right, 3px);
+            right:0.8rem;
+        }
+    }
+    &:nth-child(2) {
+        &::before{
+            @include generateArchedLine(80%, 10%, 1rem, left, 3px);
+            left:0.1rem;
+        }
+        &::after{
+            @include generateArchedLine(50%, 25%, 1rem, left, 3px);
+            left:0.8rem;
+        }
+    }
+}
+.welcomeScreen.lightSource {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    &.right {
+        right: 0;
+        &::before{
+            float:right;
+        }
+        &::after{
+            right:0;
+        }
+    }
+
+    &.left {
+        left: 0;
+    }
+
+    background: transparent;
+    filter: blur(10px);
+
+    &::before {
+        content: "";
+        width: $lamp-width;
+        height: $lamp-width;
+        top: $lamp-offest-top;
+        position: relative;
+        display: inline-block;
+        border-radius:0.5rem;
+        background-image: radial-gradient(circle at center, white 80%, transparent);
+    }
+}
+$welcome-outside-shadow-color:fade-out(black,0.6);
+.welcomeScreen.tiles.container {
+    @include posSize(absolute);
+    border-radius: inherit;
+    overflow: hidden;
+    box-shadow: 10px 10px 10px 1px $welcome-outside-shadow-color, -10px 10px 10px 1px $welcome-outside-shadow-color, ;
+}
+
+.welcomeScreen.tiles.wrapper {
+    @include posSize(relative, 160%, 100%, left, -30%);
+}
+
+$welcome-purple-1: #9b00a6;
+$welcome-purple-2: #920b9c;
+.welcomeScreen.tile {
+    float: left;
+    position: relative;
+    width: 2.5%;
+    height: 100%;
+    display: inline-block;
+    background: $welcome-purple-2;
+    opacity: 0;
+    &.even {
+        @include generate-skew-in(skew-even, -30deg, 100%, 1.05, 0, 1.05);
+        transform: skew(-30deg) scaleX(1.05) translateY(100%);
+        animation: skew-even 500ms ease-in;
+        animation-fill-mode: forwards;
+    }
+
+    &.odd {
+        @include generate-skew-in(skew-odd, -30deg, -100%, 1.05,0,1.05);
+        transform: skew(-30deg) scaleX(1.05) translateY(-100%);
+        animation: skew-odd 500ms ease-in;
+        animation-fill-mode: forwards;
+    }
+}
+
+.welcomeScreen.tile-filler{
+    @include posSize(absolute, 15%, 50%);
+}
+.welcomeScreen.proper.container {
+    @include posSize();
+    border-radius: inherit;
+    overflow: hidden;
+    padding: 1% 0.5% 1% 0.5%;
+    opacity: 0;
+    animation: generic-fade-in 500ms ease-in $logo-container-delay*1.5 1 normal forwards;
+    box-sizing: border-box;
+    box-shadow: inset 0px 10px 10px -4px rgba(66, 68, 90, 0.4 );
+}
+$logo-container-width:44rem;
+.welcomeScreen.logo.container {
+    @include posSize(absolute);
+    z-index: 4;
+    opacity: 0;
+    animation: generic-fade-in 500ms linear $logo-container-delay 1 normal forwards;
+}
+.welcomeScreen.logo.wrapper{
+    @include posSize();
+    overflow:hidden;
+}
+$background-horizontal-beams:black;//#4a0076
+$gate-top-color: $background-horizontal-beams;
+.welcomeScreen.logo.proper.holder {
+    position: relative;
+    width: $logo-container-width;
+    height: $logo-container-width;
+    top: 4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    & > img {
+        position: absolute;
+        width: 99%;
+        height: 99%;
+        top: 0.5%;
+        left: 0.5%;
+    }
+}
+$star-circle-width: 300%;
+$star-circle-height: $star-circle-width;
+$star-circle-offset-horizontal: -146%;
+$star-circle-offset-vertical: $star-circle-offset-horizontal*0.21;
+$star-circle-width-border-y: 0.9rem;
+$star-circle-width-border-x: 0.3rem;
+$width-beam-wrapper: 150%;
+$height-beam-wrapper:100%;
+$beam-fade-in-duration:500ms;
+$beam-translate-duration:1000ms;
+.welcomeScreen.beam.wrapper {
+    z-index: 1;
+    display: inline-block;
+    opacity: 0;
+    $internal-phase-out-delay:$title-done-final-delay + 250ms;
+    $phase-out-duration:500ms;
+    &.top {
+        @include posSize(relative, $width-beam-wrapper, $height-beam-wrapper, left, math.div(100% - $width-beam-wrapper, 2));
+        transform: translateY(30%);
+        @include generateTranslateY(translate-top, 30%,-10%);
+        @include generateTranslateY(translate-out-top, -10%, -15%);
+        animation: translate-top $beam-translate-duration ease-in $logo-container-delay+$beam-fade-in-duration 1 normal forwards, 
+            generic-fade-in $beam-fade-in-duration ease-in $logo-container-delay 1 normal forwards,
+        translate-out-top $phase-out-duration ease-out $delay-jade-screen 1 normal forwards,
+        generic-fade-out $phase-out-duration ease-out $delay-jade-screen 1 normal forwards;
+        
+    }
+
+    &.bottom {
+        @include posSize(relative, $width-beam-wrapper, $height-beam-wrapper, left, math.div(100% - $width-beam-wrapper, 2), bottom,100%);
+        transform: translateY(-30%);
+        @include generateTranslateY(translate-bottom, -30%,0);
+        @include generateTranslateY(translate-out-bottom, 0,5%);
+        animation: translate-bottom $beam-translate-duration ease-in $logo-container-delay+$beam-fade-in-duration 1 normal forwards, 
+            generic-fade-in $beam-fade-in-duration ease-in $logo-container-delay 1 normal forwards,
+        translate-out-bottom $phase-out-duration ease-out $delay-jade-screen 1 normal forwards,
+        generic-fade-out $phase-out-duration ease-out $delay-jade-screen 1 normal forwards;
+        
+    }
+}
+.welcomeScreen.logo.prop {
+    $star-width: 18%;
+    $offset-star-hor: math.div(100% - $star-width,2);
+    $offset-star-top: -1%;
+    $arm-width: 17%;
+    $arm-height: 10%;
+    $blade-width: 50% - math.div($star-width,2) - $arm-width;
+    $blade-height: 12%;
+    float: left;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 0;
+    border: 0px;
+    margin-right: -1.5px; //forced to use negative magin, nothing else works.
+    &:nth-child(1), &:nth-child(5) {
+        @include posSize(relative, $blade-width, $blade-height, left, 0, top, $star-width - $blade-height);
+    }
+
+    &:nth-child(2), &:nth-child(4) {
+        @include posSize(relative, $arm-width, $arm-height, left, 0, top, $star-width - $arm-height);
+    }
+
+    &:nth-child(3) {
+        @include posSize(relative, $star-width, $star-width, left, 0, top,5%);
+    }
+
+    &:nth-child(1)::before {
+        $circle-width: 200%;
+        $circle-heigth: $circle-width;
+        @include generatePseudoSphere(absolute, $circle-width, $circle-heigth, left, -20%, top, -$circle-heigth*0.78);
+        @include boxTheShadow(0, 3rem, 2.2rem, 0, 0, $gate-top-color);
+    }
+
+    &:nth-child(5)::before {
+        $circle-width: 200%;
+        $circle-height: $circle-width;
+        @include generatePseudoSphere(absolute, $circle-width, $circle-height, right, -20%, top, -$circle-height*0.78);
+        @include boxTheShadow(0, -3rem, 2.2rem, 0, 0, $gate-top-color);
+        clear: right;
+    }
+
+    &:nth-child(2) {
+        $left-slice: 25%;
+        $left-slice-2: 27%;
+        $left-slice-3: 50%;
+        $clip-target: 55%;
+        clip-path: polygon(0% 85%, $left-slice 76%, $left-slice-3 73%, 100% 73%, 100% $clip-target, $left-slice-2 $clip-target, $left-slice 0%, 0% 0%);
+    }
+
+    &:nth-child(2)::before {
+        $circle-width: 250%;
+        $circle-height: $circle-width;
+        @include generatePseudoSphere(absolute, $circle-width, $circle-height, left, -75%, top, 73%, 50%, 45%);
+        @include boxTheShadow(0, 1rem, -1rem, 0,0, $gate-top-color);
+    }
+
+    &:nth-child(2)::after {
+        $cirlce-width: 250%;
+        $circle-height: $cirlce-width;
+        $clip-target-Y: 95%;
+        $clip-target-x: 35%;
+        @include generatePseudoSphere(absoluite, $cirlce-width, $circle-height, right, -$cirlce-width*0.50, top, -$circle-height*0.68);
+
+        @include boxTheShadow(0, -1rem, 0.9rem, 0, 0, $gate-top-color);
+        clip-path: polygon(0% 0%, 0% $clip-target-Y, $clip-target-x $clip-target-Y, $clip-target-x 0%)
+    }
+
+    &:nth-child(4) {
+        $left-slice: 75%;
+        $left-slice-2: 73%;
+        $left-slice-3: 50%;
+        $clip-target: 55%;
+        clip-path: polygon(100% 85%, $left-slice 76%, $left-slice-3 73%, 0% 73%, 0% $clip-target, $left-slice-2 $clip-target, $left-slice 0%, 100% 0%);
+    }
+
+    &:nth-child(4)::before {
+        $circle-width: 250%;
+        $circle-height: $circle-width;
+        @include generatePseudoSphere(absolute, $circle-width, $circle-height, right, -75%, top, 73%, 50%, 45%);
+        @include boxTheShadow(0, -1rem, -1rem, 0,0, $gate-top-color);
+    }
+
+    &:nth-child(4)::after {
+        $cirlce-width: 250%;
+        $circle-height: $cirlce-width;
+        $clip-target-Y: 95%;
+        $clip-target-x: 65%;
+        @include generatePseudoSphere(absolute, $cirlce-width, $circle-height, left, -$cirlce-width*0.50, top, -$circle-height*0.68);
+
+        @include boxTheShadow(0, 1rem, 0.9rem, 0, 0, $gate-top-color);
+        clip-path: polygon(100% 0%, 100% $clip-target-Y, $clip-target-x $clip-target-Y, $clip-target-x 0%)
+    }
+
+    &:nth-child(6) {
+        @include posSize(relative, 100%, 100%, left, 0, top, -4%);
+
+        &::before {
+            $circle-width-big: 40%;
+            $circle-height-big: $circle-width-big;
+            @include generatePseudoSphere(absolute, $circle-width-big, $circle-height-big, left, math.div(100% - $circle-width-big,2), top, -27.5%);
+            border: 0.8rem solid $gate-top-color;
+        }
+    }
+}
+.welcomeScreen.logo.pseudo {
+    $offset-vertical-pseudo: 4.5%;
+    $offset-horizontal-pseudo: 5%;
+    //clip-path: polygon(0% $clip-y-1,0% 50%, 0% $clip-y-2, $clip-x-1 100%,$clip-x-2 100%, 100% $clip-y-2, 100% 50%, 100% $clip-y-1, $clip-x-2 0%, $clip-x-1 0%);
+    overflow: hidden;
+    transform: scaleX(1.15);
+    $clip-x: 46%;
+    $clip-y: 43%;
+
+    &:nth-child(1) {
+        //bottom left
+        @include posSize(absolute, 100%, 100%, left,$offset-horizontal-pseudo,top,$offset-vertical-pseudo+4%);
+        clip-path: polygon(0% $clip-y, $clip-x $clip-y, $clip-x 100%, 0% 100%);
+
+        &::before {
+            @include generatePseudoSphere(absolute, $star-circle-width, $star-circle-height, left, $star-circle-offset-horizontal*1.6, top, -$star-circle-offset-vertical, 40%, 50%);
+            @include boxTheShadow(0, $star-circle-width-border-x, -$star-circle-width-border-y, 0,0, $gate-top-color);
+        }
+    }
+
+    &:nth-child(2) {
+        //top left
+        @include posSize(absolute, 100%, 100%, left,$offset-horizontal-pseudo,top,-$offset-vertical-pseudo);
+        clip-path: polygon(0% #{100%-$clip-y}, $clip-x #{100%-$clip-y}, $clip-x 0%, 0% 0%);
+
+        &::before {
+            @include generatePseudoSphere(absolute, $star-circle-width, $star-circle-height, left, $star-circle-offset-horizontal*1.6, bottom, -$star-circle-offset-vertical, 40%, 50%);
+
+            @include boxTheShadow(0, $star-circle-width-border-x, $star-circle-width-border-y, 0,0, $gate-top-color);
+        }
+
+        &::after {
+        }
+    }
+
+    &:nth-child(3) {
+        //bottom right
+        @include posSize(absolute, 100%, 100%, right,$offset-horizontal-pseudo,top,$offset-vertical-pseudo+4%);
+        //clip-path: polygon(0% 45%, 45% 45%, 45% 100%, 0% 100%);
+        clip-path: polygon(100% $clip-y, #{100%-$clip-x} $clip-y, #{100%-$clip-x} 100%, 100% 100%);
+
+        &::before {
+            @include generatePseudoSphere(absolute, $star-circle-width, $star-circle-height, right, $star-circle-offset-horizontal*1.6, top, -$star-circle-offset-vertical, 40%, 50%);
+
+            @include boxTheShadow(0, -$star-circle-width-border-x, -$star-circle-width-border-y, 0,0, $gate-top-color);
+        }
+    }
+
+    &:nth-child(4) {
+        //top right
+        @include posSize(absolute, 100%, 100%, right,$offset-horizontal-pseudo,top,-$offset-vertical-pseudo);
+        //clip-path: polygon(0% 55%, 45% 55%, 45% 0%, 0% 0%);
+        clip-path: polygon(100% #{100%-$clip-y}, #{99.5%-$clip-x} #{100%-$clip-y}, #{99.5%-$clip-x} 0%, 100% 0%);
+
+        &::before {
+            @include generatePseudoSphere(absolute, $star-circle-width, $star-circle-height, right, $star-circle-offset-horizontal*1.6, bottom, -$star-circle-offset-vertical, 40%, 50%);
+
+            @include boxTheShadow(0, -$star-circle-width-border-x, $star-circle-width-border-y, 0,0, $gate-top-color);
+        }
+    }
+}
+.welcomeScreen.div.wrapper {
+    $size: 80%;
+    $top-offset: 5%;
+    $initial-offset: -2%;
+    opacity: 0;
+    @include posSize(absolute, $size, $size, left,math.div(100 - $size,2), top,$initial-offset);
+    @include generateFlyIn(fly-div, top, $initial-offset,$top-offset);
+    @include generateSpin-out(spin-logo-out, 0, 720deg, 1,0);
+    z-index: 2;
+    animation: fly-div $logo-div-duration ease-in $beam-fade-in-duration*2 + $logo-container-delay 1 normal forwards, 
+        generic-fade-in $logo-div-duration ease-in $beam-fade-in-duration*2+$logo-container-delay 1 normal forwards, 
+        spin-logo-out $spin-out-duration ease-out $swirl-duration-combined 1 normal forwards;
+    border-radius: 50%;
+    background-image: linear-gradient(120deg,rgba(255,0,99,1), rgba(255,0,194,1), #8f0fff);
+}
+.welcomeScreen.logo.div {
+    opacity: 1;
+    @include generateBackgroundOffsets(6);
+    border-radius: inherit;
+    @include generateAlteringRotations(6, spin-to-win, 1, $swirl-animation-duration, $welcome-screen-animation-delay*2, 100ms, $welcome-screen-animation-delay*2 + $swirl-animation-duration + $swirl-repeat-delay);
+}
+.welcomeScreen.beam.bottom.prop {
+    $horizontal-beam-width: 60%;
+    $star-holder-width: math.div(100%-$horizontal-beam-width,2);
+    $star-holder-height: $star-holder-width*1.2;
+    position: relative;
+    float: left;
+    overflow: hidden;
+
+    &:nth-child(1), &:nth-child(3) {
+        width: $star-holder-width;
+        height: $star-holder-height;
+        top: 100% - 1*$star-holder-height;
+
+        &::after {
+            content: "";
+        }
+    }
+
+    $filler-width: 25%;
+    $filler-height: 14%;
+
+    &:nth-child(2) {
+        @include posSize(relative, $horizontal-beam-width, $star-holder-height, left, 0, top, 100%-$star-holder-height);
+
+        &::before {
+            content: "";
+            @include posSize(absolute, 100%, $filler-height, left,0, top, math.div(100% - $filler-height,2) );
+            background:$background-horizontal-beams;
+        }
+    }
+
+    &:nth-child(1)::after {
+        @include posSize(absolute, $filler-width, $filler-height, right, 0, top, math.div(100% - $filler-height,2));
+        background: $background-horizontal-beams;
+    }
+
+    &:nth-child(3)::after {
+        @include posSize(absolute, $filler-width, $filler-height, left, 0, top, math.div(100% - $filler-height,2));
+        background: $background-horizontal-beams;
+    }
+
+    & > .pseudo {
+        margin: 0 auto;
+        $circle-pseudo-width: 200%;
+        $circle-pseudo-height: $circle-pseudo-width;
+        @include generateFourSpheres(100%, 100%, 0.5px,0.5px,$circle-pseudo-width, $circle-pseudo-height, -0.68,-0.69, $background-horizontal-beams, 0.8rem, 1rem, 50%, 50%);
+
+        &:nth-child(1), &:nth-child(3) {
+            margin-right: -1rem;
+        }
+    }
+}
+.welcomeScreen.screen.prop { //this one's really been given me trouble... At this point I'm playing darts until I score center
+    box-sizing: border-box;
+    $offset-top-screen: 11%;
+    $extendY: 15%;
+    @include posSize(absolute, $width-beam-wrapper, $height-beam-wrapper, left, math.div(100% - $width-beam-wrapper,2), top,$offset-top-screen - math.div($extendY,2));
+    display: inline-block;
+    //background: fade-out(red, 0.5);
+    z-index: 0;
+    $initial-x: 10%;
+    $clip-trap-y-1: 80%;
+    $clip-trap-x-1: 85%;
+    $target-y: 85%;
+    clip-path: polygon($initial-x 0%, #{100% - $initial-x} 0%, #{100% - $initial-x} $clip-trap-y-1,#{$clip-trap-x-1} $target-y, #{100% - $clip-trap-x-1} $target-y, $initial-x $clip-trap-y-1 );
+    overflow: hidden;
+    $screen-color: rgb(255, 110, 252); //#ff8eeb
+    transform: scale(1, 0);
+    @include animateJadeScreen(jade-ed, $screen-color);
+    animation: jade-ed $beam-translate-duration ease-in $logo-container-delay+$beam-fade-in-duration 1 normal forwards, generic-fade-out 500ms ease-out $delay-jade-screen 1 normal forwards;
+
+    &::before {
+        content: "";
+        $circle-width: 54%;
+        @include posSize(absolute, $circle-width, $circle-width * math.div($width-beam-wrapper,$height-beam-wrapper),left,math.div(100% - $circle-width,2),top,-1.38 * math.div($height-beam-wrapper,2));
+        border-radius: 50%;
+        box-shadow: 0rem 20rem 0px 0px $screen-color, 15rem 10rem 0px 0px $screen-color, -15rem 10rem 0px 0px $screen-color, 0rem 30rem 0px 0px $screen-color, 15rem 30rem 0px 0px $screen-color, -15rem 30rem 0px 0px $screen-color, 15rem 20rem 0px 0px $screen-color, -15rem 20rem 0px 0px $screen-color, 0rem 45rem 0px 0px $screen-color, 15rem 45rem 0px 0px $screen-color, -15rem 45rem 0px 0px $screen-color, 0rem 60rem 0px 0px $screen-color, 15rem 60rem 0px 0px $screen-color, -15rem 60rem 0px 0px $screen-color,;
+    }
+}
+.welcomeScreen.title-rel.container {
+    @include posSize(relative, 60%, $title-done-height);
+    margin: 0rem 20% 0.5rem 20%;
+    z-index: 0;
+
+    & > .wrapper {
+        @include posSize(absolute);
+        overflow: hidden;
+        z-index: 1000;
+
+        & > img {
+            @include posSize(absolute, 80, 100%, left, 50%);
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: generic-fade-in 500ms ease-in $title-container-delay - 250ms 1 normal forwards;
+        }
+    }
+}
+.welcomeScreen.title.done.container {
+    @include posSize(absolute, $welcome-screen-container-main-width, 90%, left,(100% - $welcome-screen-container-main-width)*0.5,top,5%);
+    z-index: 4;
+    border-radius: 2rem;
+    overflow: hidden;
+    @include generateFade-out(fade-the-done-out);
+    animation: fade-the-done-out 500ms ease-in $title-container-delay 1 normal forwards,;
+    & > .relative {
+        @include posSize(relative);
+        box-sizing: border-box;
+        padding: 1% 0.5% 1% 0.5%;
+
+        & > .wrapper {
+            //padding: 1% 0.5% 1% 0.5%; //, padding of the relative container to match it perfectly later;
+            @include posSize(relative, 60%, $title-done-height, left, 0, top, 0);
+            margin-left: 20%;
+            overflow: hidden;
+            $target-translate: 130%;
+            $init-translate: -30%;
+            $init-rotate: -30deg;
+            $init-scale: 0;
+            $target-scale: 1.9;
+            opacity: 0;
+            transform: translateY($init-translate) scale($init-scale);
+            @include generate-fold-in(fold-title, $init-translate, $target-translate, $init-rotate, 0, 0, 720deg, $init-scale, $target-scale, 0, 1, 50% 100%, 50% -150%, 50%, center);
+            @include de-translate-title(de-title, $target-scale, 1, $target-translate, -0%);
+            animation: fold-title $title-done-duration ease-in $swirl-duration-combined - 500ms 1 normal forwards, de-title $title-done-final-duration ease-out $title-done-final-delay 1 normal forwards;
+            box-sizing: border-box;
+
+            & > img {
+                @include posSize(absolute, 80, 100%, left, 50%);
+                transform: translateX(-50%);
+            }
+        }
+    }
+}
+.welcomeScreen.fire.div{
+    @include posSize(absolute);
+    z-index:4;
+    overflow:hidden;
+}
+
+.welcomeScreen.fire.container {
+    $box-shadow-list: generateBoxShadow(100, 40, 40, 1rem);
+    $box-shadow-list-second: generateBoxShadow(50, 40, 40, 1rem);
+    position: relative;
+    width: 40rem;
+    height: 40rem;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+    $partice-width: 9px;
+    $particle-height: 9px;
+    @include generateToSomewhere(translate-fireworks, left, 40%, top, 0%);
+    @include translateAndScale(scale-fireworks, 1, 0.5, -50%, -50%, -50%, -50%);
+    animation: translate-fireworks $title-done-final-duration ease-out $delay-jade-screen - 500ms 1 normal forwards,
+    scale-fireworks $title-done-duration ease-out $delay-jade-screen - 500ms 1 normal forwards,
+    generic-fade-out $title-done-duration+2000ms ease-out $delay-jade-screen 1 normal forwards;
+    &::before, &::after {
+        content: "";
+        position: absolute;
+        width: $partice-width;
+        height: $particle-height;
+        border-radius: 50%;
+        @include generateGravity(gravity, 10rem, 0.2);
+        display: inline-block;
+        left: 0;
+    }
+
+    &::before {
+        box-shadow: map-get($box-shadow-list, white);
+        @include generateFirePositions(fire-before, 5, 0, 10, 5, 85, 15, 10, 25, 30, 10, 50, 10);
+        @include translate-color(color-swap, map-get($box-shadow-list, colors));
+        animation: color-swap $firework-duration ease-out $firework-delay infinite backwards, gravity $firework-duration ease-in $firework-delay infinite backwards, fire-before $firework-duration*5 linear $firework-delay infinite normal backwards;
+    }
+
+    &::after {
+        box-shadow: map-get($box-shadow-list-second, white);
+        @include generateFirePositions(fire-after, 5, 90, 0, 81, 25, 86, 75, 90, 50, 80, 25);
+        @include translate-color(color-swap-2, map-get($box-shadow-list-second, colors));
+        animation: color-swap-2 $firework-duration ease-out $firework-right-delay infinite backwards, gravity $firework-duration ease-in $firework-right-delay infinite backwards, fire-after $firework-duration*5 linear infinite backwards;
+    }
+}
+.welcomeScreen.firework{
+    position:absolute;
+    width:20%;
+    height:20%;
+    transform-origin:center;
+    opacity:0;
+    background-size:105px 105px;
+    aspect-ratio:1;
+    transform-style:preserve-3d;
+    &.refresh{
+        @include generate-fire-work(fire, 0%, 1);
+        animation: fire 1500ms ease-out 0s 1 normal both, rotate-generic 500ms ease-out 1500ms 1 normal;
+    }
+    @include Testing-mixin(5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
+}
+
+$font-size-welcome:1.8;
+$spans-height:65%;
+.welcomeScreen.spans.container {
+    position: relative;
+    width: 100%;
+    height: $spans-height;
+    left: 0;
+    top: 0;
+    box-sizing: border-box;
+    $padding-percentage: 5%;
+    padding: 0% $padding-percentage 0% $padding-percentage;
+    display: inline-block;
+    opacity:0;
+    animation: generic-fade-in 500ms ease-in $title-done-final-delay 1 normal forwards;
+    & > div > .wrapper {
+        position: relative;
+        top: 100%;
+        transform: translateY(-100%);
+    }
+
+    & > * {
+        float: left;
+        height: 3.2rem;
+        display: inline-block;
+    }
+
+    & > .greetings {
+        clear: both;
+
+        & > .wrapper {
+            & > span {
+                @include credits-font-generic($font-size-welcome, $creditScreen-font-color, inline-block);
+            }
+        }
+    }
+
+    & > .title {
+        margin: 0 5px 0 5px;
+
+        & > .wrapper {
+            float: left;
+            margin: 0 5px 0 5px;
+
+            & > span {
+                color: $menu-font-color;
+                position: relative;
+            }
+
+            &:nth-child(1) > span {
+                font-family: "Comic Sans MS";
+                font-size: 1.8rem;
+                top: 0.1rem;
+            }
+
+            &:nth-child(2) > span, &:nth-child(3) > span {
+                font-family: "Alien Encounters";
+            }
+
+            &:nth-child(2) > span {
+                font-size: 4rem;
+                top: 0.7rem;
+                padding-right: 0.4rem;
+                left: -0.2rem;
+            }
+
+            &:nth-child(3) > span {
+                font-size: 1.8rem;
+                top: 0.6rem;
+                padding-right: 0.4rem;
+            }
+
+            &:nth-child(4) > span {
+                font-family: "RocketRinder";
+                font-size: 3rem;
+                top: 0.4rem;
+                letter-spacing: 0.2rem;
+            }
+        }
+    }
+
+    & > .span-name-2 {
+        perspective: 1500px;
+        display: block;
+        height: max-content;
+        margin-top: 0.6rem;
+        @include credits-font-generic($font-size-welcome, $creditScreen-font-color, inline-block);
+    }
+
+    & > .span-name-3 {
+        perspective: 1500px;
+        height: max-content;
+        margin-top: 0.6rem;
+        @include credits-font-generic($font-size-welcome, $creditScreen-font-color, inline-block);
+        text-align: justify;
+    }
+}
+.welcomeScreen.special.span.span-name {
+    margin-top: 0.6rem;
+    height: max-content;
+    perspective: 1500px;
+
+    & > .common-wrapper {
+        @include credits-font-generic($font-size-welcome, $creditScreen-font-color, inline-block);
+
+        & > span {
+            text-align: justify;
+        }
+
+        & > span:nth-child(2) {
+            $padding-set-1: 0.2rem 0 0.2rem 0.4rem;
+            $padding-set-2: 0 0.8rem 0.1rem 0.3rem;
+            position: relative;
+            color: $menu-font-color;
+            user-select: none;
+            @include generatePopupOnHover(absolute, container, toGit, 1.5rem,
+            $padding-set-1, $padding-set-2, 2.4rem, 0.2rem, #fc7ef6,rgb(157, 0, 187),
+            $font-size-welcome, $creditScreen-font-color, 0.2rem, 
+            500ms ease-out 1s,-15%, 0, -8%);
+            display:inline-block;
+            &:hover .welcomeScreen.toGit.container.toGit {
+                transform: translateY(-130%);
+                transition: 500ms ease-in;
+
+                & > div {
+                    transform: scale(1);
+                    transition: 500ms ease-in;
+                    padding: $padding-set-1; //trying to fix that small change in height...
+                    & > span {
+                        padding: $padding-set-2;
+                    }
+                }
+            }
+        }
+    }
+
+    & > .container {
+    }
+}
+.welcomeScreen.launguage.selector.container {
+    @include posSize(relative, 90%, 100% - $title-done-height - $spans-height);
+    padding:0 5% 0 5%;
+    opacity:0;
+    animation: generic-fade-in 500ms ease-in $title-container-delay 1 normal forwards;
+    & > div {
+        $wrapper-width: 15%;
+        $wrapper-height: 100%;
+        @include posSize(relative,$wrapper-width, $wrapper-height, left, 50% - $wrapper-width*0.5, top, 50% - $wrapper-height*0.5);
+
+        & > .box {
+            @include posSize(relative, 50%);
+            float:left;
+            display:inline-block;
+            & > div {
+                @include posSize(relative, 100%, 55%);
+                & > span {
+                    @include credits-font-generic($font-size-welcome);
+                    text-align:center;
+                    user-select:none;
+                }
+            }
+        }
+    }
+}
+.welcomeScreen.launguage.trick.wrapper {
+    $trick-hor-width: 50%;
+    $trick-hor-height: 0.5rem;
+    $white-shorter: 0.2rem;
+    $white-shorter-ver: $white-shorter*1;
+    $white-longer: 85%;
+    $color-1: #ff87d8;
+    $trick-ver-width: 0.5rem;
+    $trick-ver-height: 50%;
+    $ver-top-offset-computed: $trick-ver-height * 0.05 - 5%;
+
+    &.top.left.hor {
+        @include generateTrick($trick-hor-width, $trick-hor-height, (left,top), (0,-15%), hor, $white-longer, $white-shorter, 3px, 1px, $color-1, white, 0.3rem, (0, 1), 500ms ease-in, 7.5% 50%);
+        z-index: 1;
+    }
+
+    &.top.left.ver {
+
+        @include generateTrick($trick-hor-height, $trick-ver-height, (left,top), (0, -10%), ver, $white-longer, $white-shorter-ver, 3px, 1px, $color-1, white, 0.3rem, (1, 0), 500ms ease-in, 50% 7.5%);
+    }
+
+    &.bottom.right.hor {
+        @include generateTrick($trick-hor-width, $trick-hor-height, (right,bottom), (2.5%,-14%), hor, $white-longer, $white-shorter, 
+        3px, 1px, $color-1, white, 0.3rem, (0, 1), 500ms ease-in, 92.5% 50%);
+        z-index: 1;
+    }
+
+    &.bottom.right.ver {
+        @include generateTrick($trick-hor-height, $trick-ver-height, (right, bottom), (0, -9.5%), ver, $white-longer,
+        $white-shorter-ver, 3px, 1px, $color-1, white, 0.3rem, (1, 0), 500ms ease-in, 50% 92.5%);
+    }
+}
+.welcomeScreen.launguage-proper {
+    &.left:hover {
+        & > .top.left.ver, .top.left.hor, .bottom.right.hor, .bottom.right.ver {
+            & > div {
+                & > div {
+                    //transform: translate(0,0);
+                    transform: scale(1,1);
+                }
+            }
+        }
+    }
+
+    &:not(.left):hover {
+        & > .top.left.ver, .top.left.hor, .bottom.right.hor, .bottom.right.ver {
+            & > div {
+                & > div {
+                    //transform: translate(0,0);
+                    transform: scale(1,1);
+                }
+            }
+        }
+    }
+}
+
+.welcome-regular {
+    position: relative;
+    height: max-content;
+
+    &:nth-child(2) { //it's 2nd child according to CSS...
+        //that means it checked that span nested inside a div right above it and marked it number 1
+        clear: left;
+    }
+
+    & > .wrapper {
+        & > span {
+            @include credits-font-generic(1.8, $creditScreen-font-color, inline-block);
+        }
+    }
+
+    &:nth-child(6) {
+        clear: right
+    }
+
+    &:nth-child(7) {
+        clear: left;
+        width: 100%;
+        text-align: center;
+
+        & > span {
+            display: inline-block;
+            width: 100%;
+        }
+    }
+}
+
+.fade-span-out {
+    
+    //@include generate-fly-in(fly-span-out, translateX, 1,0, 0, 50% );
+    &.common-wrapper {
+        @include generate-puff-out(puff-out, 1,0,1,1.5);
+        animation-name: puff-out;
+    }
+
+    &.wrapper {
+        //@include generate-slide-out-back(slide-out-back, 1,0,0,-20000px);
+        //animation-name: slide-out-back;
+
+        &:nth-child(2n) {
+            @include generate-fly-in(fly-span-out-2, translate, 1,0,(0, -100%),(-50%, -100%), 1,0.75);
+            animation-name: fly-span-out-2;
+        }
+
+        &:not(:nth-child(2n)) {
+            @include generate-fly-in(fly-span-out, translate, 1,0,(0, -100%),(50%, -100%),1, 0.75);
+            animation-name: fly-span-out;
+        }
+    }
+
+    animation-duration: $fade-span-out-duration*1ms;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-fill-mode: forwards;
+}
+.fade-span-in {
+    &.common-wrapper {
+        @include generate-slide-out-back(slide-span-in, 0,1,-600px, 0px);
+        animation-name: slide-span-in;
+    }
+    &.wrapper{
+        @include generate-fly-in(fly-span-in, translateY, 0,1,-100%, -100%, 0.75,1);
+        animation-name:fly-span-in;
+    }
+
+    animation-duration: $fade-span-in-duration*1ms;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-fill-mode: forwards;
+}
+.lang-span {
+    &.fade-span-out {
+        animation: generic-fade-out $fade-span-out-duration*1ms ease-out 0s 1 normal forwards;
+    }
+
+    &.fade-span-in {
+        animation: generic-fade-in $fade-span-in-duration*1ms ease-out 0s 1 normal forwards;
+    }
+}
+$pink-shade-1:#ef66ff;
+$pink-shade-2:#ff50e6;
+$white-shade-1:#ffe9ff;
+$white-shade-2:#ffdcfc;
+.close-cross.welcomePage.container {
+    opacity:0;
+    @include generateCloseCross(6rem, (right,top),(0.5rem, 0.5rem),50%,transparent, transparent, 
+    0.2rem, 4rem, 0.4rem, 0.3rem, $white-shade-2, 1.2, 500ms
+    );
+    animation: generic-fade-in 500ms ease-in $title-done-final-delay 1 normal forwards;
+}

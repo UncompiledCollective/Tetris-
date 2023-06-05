@@ -326,7 +326,7 @@ const checkLast = (piece, reference) => {
     piece.check.map((x) => x[0] -= 1);
     piece.check_left.map((x) => x[0] -= 1);
     piece.check_right.map((x) => x[0] -= 1);
-    console.log(piece, "logging piece after updates for last chance;")
+    //console.log(piece, "logging piece after updates for last chance;")
     for (let b = 0; b < piece.check.length; b++) {
         if (reference[piece.check[b][0]][piece.check[b][1]].value !== 0) {
             return false

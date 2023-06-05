@@ -12,13 +12,13 @@ const StartScreen = ({ board, setBoard }) => {
         </div>
         )
 }
-const OverScreen = ({gameOn, callback}) => {
+const OverScreen = ({gameOn, callback, Text}) => {
     const handleClick = () => {
         callback()
     }
     return (
         <div className={`${(gameOn === "over")?"overScreenContainer": "overScreenContainer hidden"}` }>
-            <div className="fuckYou">YOU SUCK</div>
+            <div className="gameOver">{Text}</div>
             {/*<div className={`${(gameOn === "over") ? "replayButtonHolder" : "replayButtonHolder"}`}>*/}
             {/*    <RefreshButton className="refreshButtonSvg" onClick={handleClick }/>*/}
             {/*</div>*/}

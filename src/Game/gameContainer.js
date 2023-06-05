@@ -5,11 +5,12 @@ import { ScoreBoard, LevelIndicator, ScoreScreen } from "./Menu Components/Score
 import { StartArray, createNextPieceArray } from "./main canvas/array.js"
 import { Timer } from "./Timer.js";
 import { MusicPlayer } from "./Music/music.js";
-import { LeaderBoardButton, LeaderBoard, NewLeaderUniversal } from "./Menu Components/leaderBoard.js";
+import { LeaderBoardButton, LeaderBoard, NewLeaderUniversal, ErrorPopup } from "./Menu Components/leaderBoard.js";
 import { useDisplayNewLeader, useUpdateLevel, useDynamicMemory, useGameOver, handleNameChange, handleFocus } from "./GameHooksFuncs.js"
-/*import { OverScreen } from "./main canvas/StartScreen.js";, legacy version.*/
+import { avatarObj } from "./Menu Components/Avatars/Avatars";
 
-const GameContainer = ({ gameOn, setGameOn, isSettingsOpen, ghost, mVol, isMute, Text, lang, setMemory, getMemory, oneTime }) => {
+const GameContainer = ({ gameOn, setGameOn, isSettingsOpen, ghost, mVol, isMute, Text, lang, setMemory, getMemory,
+     songList, songState, setSongState, oneTime }) => {
     const [currentLevel, setCurrentLevel] = React.useState(0); //tracks current level.
     const [nextPieceState, setNextPieceState] = React.useState(null); // tracks the next piece.Passed to nextPiece.js
     const [linesCleared, setLinesCleared] = React.useState(0); // number of lines cleared at a single instance. Used by This component to calculate level and ScoreBoard to count points.
@@ -24,28 +25,32 @@ const GameContainer = ({ gameOn, setGameOn, isSettingsOpen, ghost, mVol, isMute,
     const [newLocalScore, setNewLocalScore] = React.useState([false, 0]); // used to inform player after new best local score!
     const [newGlobalScore, setNewGlobalScore] = React.useState([false, 0]);
     const [isChanged, setIsChanged] = React.useState(false); // used to force a rerender
+    const [importedAvatars, setImportedAvatars] = React.useState({});
+    const [sendScoreError, setSendScoreError] = React.useState(false);
     useUpdateLevel(firstRenderRef, linesCleared, rowsTo10, setCurrentLevel);
-    useDisplayNewLeader(firstRenderRef, newLocalScore, newGlobalScore, setNewLocalScore, setNewGlobalScore, isChanged, setIsChanged);
+    useDisplayNewLeader(firstRenderRef, newGlobalScore, setNewGlobalScore, newGlobalScore, setNewGlobalScore, isChanged, setIsChanged, true, false)
     useGameOver(firstRenderRef, gameOn, setCurrentLevel, setNextPieceState, rowsTo10, setLinesCleared)
     return (
         <div className="GameContainer">
             <LeaderBoard leaderUp={isLeaderUp} setLeader={setIsLeaderUp} setMemory={setMemory}
                 getMemory={getMemory} scoreObj={holdScore} newScore={noteNewScore} setNewScoreLocal={setNewLocalScore}
-                setNoteNewScore={setNoteNewScore} setHoldScore={setHoldScore} Text={Text} lang={lang }
+                setNoteNewScore={setNoteNewScore} setHoldScore={setHoldScore} Text={Text} lang={lang}
+                importedAvatars={importedAvatars} setImportedAvatars={setImportedAvatars} avatarObj={avatarObj}
             />
-            {newLocalScore[0] ? (
-                <NewLeaderUniversal tab="local" Text={Text} lang={lang} state={newLocalScore} />
-                    ): (<></>)
-            }
             {newGlobalScore[0] ? (
                 <NewLeaderUniversal tab="global" Text={Text} lang={lang} state={newGlobalScore} />
                     ): (<></>)
-                }
+            }
+            {newLocalScore[0] ? (
+                <NewLeaderUniversal tab="local" Text={Text} lang={lang} state={newLocalScore} />
+            ) : (<></>)
+            }
             {(gameOn === "over") ? (
                 <ScoreScreen gameOn={gameOn} setGameOn={setGameOn} score={holdScore} lang={lang}
                     Text={Text} user={userName} setUser={(event) => handleNameChange(event, setUserName)}
                     handleFocus={(event) => handleFocus(event, setIsInputFocused)} setNewScore={setNoteNewScore}
-                    setHoldScore={setHoldScore }
+                    setHoldScore={setHoldScore} getMemory={getMemory} setMemory={setMemory} importedAvatars={importedAvatars}
+                    setImportedAvatars={setImportedAvatars} avatarObj={avatarObj}
                 />
                 ): (<></>)}
             <div className="box center">
@@ -54,21 +59,26 @@ const GameContainer = ({ gameOn, setGameOn, isSettingsOpen, ghost, mVol, isMute,
                     <LevelIndicator currentLevel={currentLevel} Text={Text} lang={lang }/>
                     <CanvasGame array_prop={StartArray} sendNextPiece={setNextPieceState} setLinesCleared={setLinesCleared}
                         gameOn={gameOn} setGameOn={setGameOn} getMovement={sendMovement} setSendMovement={setSendMovement}
-                        isSettingsOpen={isSettingsOpen} ghost={ghost}></CanvasGame>
+                        isSettingsOpen={isSettingsOpen} ghost={ghost} overText={Text[lang].general.over }></CanvasGame>
                 </div>
                 
                 
             </div>
             <div className="box right">
                 <ScoreBoard currentLevel={currentLevel} linesCleared={linesCleared} resetLinesCleared={setLinesCleared}
-                    gameOn={gameOn} Text={Text} lang={lang} setHoldScore={setHoldScore} />
+                    gameOn={gameOn} Text={Text} lang={lang} setHoldScore={setHoldScore} score={holdScore}
+                    setNewGlobalScore={setNewGlobalScore} setIsChanged={setIsChanged}
+                    setErrorState={setSendScoreError} errorState={sendScoreError }
+                />
                 <NextPiece getNextPiece={nextPieceState} createMutableArray={createNextPieceArray} gameOn={gameOn} />
                 <LeaderBoardButton handler={setIsLeaderUp} />
             </div>
             <Timer gameOn={gameOn} setSendMovement={setSendMovement} currentLevel={currentLevel}
                 sendMovement={sendMovement} />
-            <MusicPlayer mVol={mVol} isMute={isMute} Text={Text} lang={lang} isFocused={isInputFocused} oneTime={oneTime }/>
-            
+            <MusicPlayer mVol={mVol} isMute={isMute} Text={Text} lang={lang} isFocused={isInputFocused} oneTime={oneTime}
+                songList={songList} songState={songState} setSongState={setSongState} oneTime={oneTime }
+            />
+            <ErrorPopup span={[Text[lang].general.score_fail, Text[lang].general.again]} state={sendScoreError} name4class="scoreScreen" twinkle={true} offsetTwinkle={lang === "eng" ? true : false} keyprop="gamecontainer-error-1"/>
         </div>
         );
 }

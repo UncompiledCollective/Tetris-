@@ -105,39 +105,6 @@ function centerAspectCrop(mediaWidth, mediaHeight, aspect,) {
         mediaHeight,
     )
 }
-const useDebounceEffect = (voidFunction, waitTime, dependancies)=>{
-    useEffect(() => {
-        const timeout = setTimeout(function () {
-            voidFunction.apply(undefined, dependancies)
-        }, waitTime)
-        return function () {
-            clearTimeout(timeout);
-        }
-    }, dependancies)
-}
 
-function canvasToBase64(canvas) {
-    let file = canvas.toDataURL("image/jpeg");
-    let temp = file.split(","); //splits image file into extension part, and base64 string. 
-    let fileType = temp[0].match(/:(.*?);/)[1]; // extension
-    console.log(fileType, "logging filetype");
-    let bstr = atob(temp[1]); // atob turns a string into bytes file. Voodoo. Don't log it, it's just intelligable noise
-    let n = bstr.length; // length of that intelligable string. Because.
-    let u8arr = new Uint8Array(n); //makes it into an 8 bit? array. This stinks of C.
-    while (n--) { //n-- means until n reaches 0. n is usually a couple thousands.
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], "testfile",  { type: fileType });
-}
 
-function downloadFile(canvas) {
-    var element = document.createElement('a');
-    let temp = canvas.toDataURL("image/jpeg")
-    element.setAttribute('href', temp);
-    element.setAttribute('download', "test.jpg");
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-}
-export { centerAspectCrop, canvasPreview, canvasPreview100, canvasToBase64, downloadFile };
+export { centerAspectCrop, canvasPreview, canvasPreview100 };

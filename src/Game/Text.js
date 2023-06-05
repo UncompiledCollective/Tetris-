@@ -7,13 +7,24 @@ const gameText = {
             polish: "polish",
             ghostPiece: "GhostPiece",
             ghostDisc1: "GhostPiece shows where the piece is gonna fall. Press spacebar to  instantly move the piece there.",
-            congratulations: "Congratulations!"
+            congratulations: "Congratulations!",
+            loading: "Now loading",
+            wrong: "Something went wrong",
+            again:"Please try again later.",
+            copied: "copied!",
+            server: "Could not reach server.",
+            score_fail: "Failed to post score to server",
+            over:"Game Over"
         },
         sound: {
             sound: "sound",
             music: "music",
             sfx: "sound effects",
-            playing: "now playing:"
+            playing: "now playing:",
+            click: "Click to get more songs from server!",
+            click_success: "No more songs to receive!",
+            success: "All available songs have been received!",
+            busy:"Already fetching songs from server",
         },
         controls: {
             controls: "controls",
@@ -30,17 +41,17 @@ const gameText = {
             next: "next",
         },
         about: {
-            greeting: "Greatings!",
+            greetings: "Hi there!",
             welcome: "welcome to",
-            span1: "A tetris clone, and a love project to japanese disco from the 80s (and its modern randitions)",
+            span1: "A tetris clone, inspired by japanese disco from the 80s (and its modern randitions)",
             span2: "The project is made entirely from scratch, by myself, ",
-            span3: "the UncompilledCollective",
-            span4: ". I hope you will enjoy the the game and fall in love with this type of music just as I did.",
-            span5: "The game features a global leaderboard where players can compete for top score.",
-            span6: "A list of all assets used can be found at the credits.",
+            span3: "The game features a global leaderboard, where players can compete for a top score. ",
+            span4: "Players can also make a custom avatar to represent their score at the leaderboard.",
+            span5: "A list of all assets used can be found at the credits.",
             enjoy: "Enjoy!",
             eng: "Eng",
             pl: "Pl",
+            about: "About"
         },
         scoreBoard: {
             level: "Level",
@@ -61,9 +72,55 @@ const gameText = {
             your_slot: "Your placement: number ",
             format: "Please provide an image type file",
             size: "Maximum allowed size is 5 MB",
+            no_file:"No file has been selected.",
             image_crop: "Provided image will be cropped and resized into a 100 by 100 pixels square.",
-            image_crop2: "After confirmation a preview will be display with an option to go back."
+            image_crop2: "After confirmation a preview will be display with an option to go back.",
+            refresh_avatar:"Click to import other user made avatars!"
         },
+        leader: {
+            refreshPopUp: "Click to refresh the scoreboard !"
+        },
+        credits: {
+            credits: "Credits",
+            music: "music",
+            general: "general",
+            resources: "assets",
+            general_text: {
+                made: "Made by: ",
+                author: "Uncompiled Collective",
+                with: "Tools used:",
+                javascript: "javascript,",
+                javascript_frame: "framework - React",
+                react_libs_used: "libraries used",
+                react_libs_list: {
+                    axios: "axios",
+                    react_crop:"react crop",
+                },
+                style: "Styles made with: ",
+                sass: "Sass",
+                api: "Api",
+                api_frame: "node.js",
+                api_libs_used: "libraries used:",
+                api_libs_list: {
+                    mysql: "mysql",
+                    express: "express",
+                    express_multipart: "express multipart parser",
+                },
+                database: "database made with: ",
+                mysql: "mysql",
+
+            },
+            resources_text: {
+                assets: "all assets used belong to their respective creators.",
+                svg_p: "svg icons provided by:",
+                svg_repo: "svgrepo.com",
+                png_p: "png icons provided by:",
+                png_repo: "icons8.com",
+                special_thanks: "Special thanks to:",
+                codepen: "codepen.io",
+                inspire: "For inspiring style ideas"
+            },
+        }
     },
     pl: {
         general: {
@@ -73,13 +130,24 @@ const gameText = {
             polish: "polski",
             ghostPiece: "klocek-duch",
             ghostDisc1: "Klocek-duch pokazuje gdzie obecny klocek ma spaść. Naciśnij spacje by natychmiast się tam znalazł.",
-            congratulations: "Gratulacje!"
+            congratulations: "Gratulacje!",
+            loading: "Ładowanie",
+            wrong: "Coś poszło nie tak",
+            again:"Prosze spróbowac później.",
+            copied: "skopiowano!",
+            server: "Nie udało się połączyć z serwerem.",
+            score_fail: "Wysyłanie wyniku do serweru zakończone niepowodzeniem.",
+            over: "Koniec Gry"
         },
         sound: {
             sound: "dźwięk",
             music: "muzyka",
             sfx: "efekty dźwiękowe",
-            playing: "teraz gra:"
+            playing: "teraz gra:",
+            click: "Kliknij by pobrać wiecej piosenek z serwera!",
+            click_success: "Wszystkie piosenku juz pobrane!",
+            success: "Wszystkie dostępne piosenki zostały pobrane!",
+            busy: "Piosenki już w trakcie pobierania",
         },
         controls: {
             controls: "sterowanie",
@@ -96,17 +164,17 @@ const gameText = {
             next: "następna",
         },
         about: {
-            greeting: "Cześć!",
-            welcome: "witaj w",
-            span1: "Klonie tetrisa i projekcie z pasji do japońskiego disco z lat 80 (i ich współczesnych wersji)",
+            greetings: "Cześć!",
+            welcome: "Witaj w",
+            span1: "Klonie tetrisa, zainspirowanym disco z lat 80 (i ich współczesne wersje)",
             span2: "Projekt został zrobiony w całości przeze mnie, ",
-            span3: "NieskompilowanaKolektywa",
-            span4: ". Mam nadzieje ze spodoba ci się gra i polubisz tą muzyke, tak jak polubiłem ją ja.",
-            span5: "Gra posiada tabele wyników poprzez którą gracze mogą rywalizować o najwyższe miejsca.",
+            span4: "Gra posiada globalną tabele wyników, gdzie gracze mogą rywalizowac o najlepszy wynik, ",
+            span5: "ponadto gracze mogą ustawić sobie własny avatar, by reprezoentować ich wynik w tabeli.",
             span6: "Lista zasobów użytych przeze mnie i ich autorów znajduje sie w zakładce autorzy w menu.",
             enjoy: "Miłej gry!",
             eng: "Ang",
             pl: "Pol",
+            about:"O grze"
         },
         scoreBoard: {
             level: "poziom",
@@ -127,15 +195,65 @@ const gameText = {
             your_slot: "Twoja pozycja: ",
             format: "Proszę wybrać plik typu obraz",
             size: "Maxymalny dozwolony rozmiar pliku to 5 MB",
+            no_file: "Żaden plik został wybrany.",
             image_crop: "Wybrany obraz zostanie zeskalowany do kwadratu o wymirach 100 na 100 pixeli.",
-            image_crop2: "Po zatwierdzeniu przycięty obraz zostanie wyświetlony, z opcją powrotu do edycji."
+            image_crop2: "Po zatwierdzeniu przycięty obraz zostanie wyświetlony, z opcją powrotu do edycji.",
+            refresh_avatar: "Naciśnij aby pobrać inne zrobione przez użytkowników avatary!"
         },
+        leader: {
+            refreshPopUp: "Kliknij, aby odswieżyć tabele wyników!"
+        },
+        credits: {
+            credits: "Autorzy",
+            music: "muzyka",
+            general: "ogólne",
+            resources: "zasoby",
+            general_text: {
+                made: "Projekt zrobiony przez: ",
+                author: "Uncompiled Collective",
+                with: "przy pomocy",
+                javascript: "javascript",
+                javascript_frame: "framework - react",
+                react_libs_used: "użyte biblioteki: ",
+                react_libs_list: {
+                    axios: "axios",
+                    react_crop: "react crop",
+                },
+                style: "Styl wykonany przy użyciu: ",
+                sass: "Sass",
+                api: "Api wykonane przy użyciu: ",
+                api_frame: "node.js",
+                api_libs_used: "użyte biblioteki:",
+                api_libs_list: {
+                    mysql: "mysql",
+                    express: "express",
+                    express_multipart: "express multipart parser",
+                },
+                database: "baza danych poprzez: ",
+                mysql: "mysql",
+
+            },
+            resources_text: {
+                assets: "wszystkie wykorzystane zasoby należą do ich twórców",
+                svg_p: "obrazy svg pobrane z:",
+                svg_repo: "svgrepo.com",
+                png_p: "ikony png pobrane z:",
+                png_repo: "icons8.com",
+                special_thanks: "Specjalne podziękowania dla:",
+                codepen: "codepen.io",
+                inspire:"Za inspirujące demonstracje stylu"
+            },
+        }
 
     },
     misc: {
         name: "UncompilledCollective",
         git: "link to github;",
-        chars:"$#^*()-:;<>~_",
+        chars: "$#^*()-:;<>~_",
+        title_funk: "funk",
+        title_tetris: "Tetris",
+        title_night: "夜中街",
+        title_reloaded: "reloaded",
     }
 }
 export { gameText };
