@@ -1,6 +1,6 @@
 import * as React from "react";
 import axios from "axios";
-import { adress } from "../../Game/Menu Components/axios.js"
+import { adress } from "../../Game/Menu Components/axios.js";
 const useGeneratePlaylist = (songsObj, state, randomiseFunc) => {
     const [list, setList] = React.useState(songsObj ? songsObj.map((x, index) => index) : []);
     React.useEffect(() => {
@@ -30,28 +30,11 @@ const useHoldSongs = (songsObj, setState, setPlaylistState, setApiBusy) => {
         setState(true);
         return;
         //setting return here because this HTTP request crashes my free API.
+        // memory heap crash. Async sending and file read could maybe fix it. Api closes down pretty often anyway...
         // Gonna try to make it work with that button in settings that downloads more songs.
-        setApiBusy(true)
-        console.log("executing htttp request");
-        axios.get(adress + "/get-songs-init").then(function (response) {
-            if (response.data) {
-                let urls = genBlobs(response.data);
-                setReturnSongs((x) => {
-                    if (x.length >= urls.length + 8) {
-                        return x;//check just in case this hook runs twice for some reason. Happens in dev build
-                    }
-                    x = x.concat(urls);
-                    return x;
-                })
-                setPlaylistState(true);
-                setApiBusy(false);
-            }
-        }).catch(function (error) {
-            console.log(error);
-            setApiBusy(false);
-        })
-        setState(true);
-        return;
+        // removed this because for some reason React Build version runs this code past return!
+        //moved to AppHooks.js as legacy code. 
+        
     }, [])
     return [returnSongs, setReturnSongs];
 }

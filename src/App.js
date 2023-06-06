@@ -12,7 +12,7 @@ import wallpaper7 from "./Game/Menu Components/backgrounds/wallpaper7.png";
 import logo_high_res from "./loader/logo_high.png";
 import {
     retreiveMemory, setMemory,
-    useHideLoader, useStartPlayingTrick, ApiTest
+    useHideLoader, useStartPlayingTrick
 } from "./appHooks.js";
 const loader = document.getElementById("loader"); 
 function App() {

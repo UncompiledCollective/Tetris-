@@ -1590,7 +1590,18 @@ $beam-translate-duration:1000ms;
         $circle-width: 54%;
         @include posSize(absolute, $circle-width, $circle-width * math.div($width-beam-wrapper,$height-beam-wrapper),left,math.div(100% - $circle-width,2),top,-1.38 * math.div($height-beam-wrapper,2));
         border-radius: 50%;
-        box-shadow: 0rem 20rem 0px 0px $screen-color, 15rem 10rem 0px 0px $screen-color, -15rem 10rem 0px 0px $screen-color, 0rem 30rem 0px 0px $screen-color, 15rem 30rem 0px 0px $screen-color, -15rem 30rem 0px 0px $screen-color, 15rem 20rem 0px 0px $screen-color, -15rem 20rem 0px 0px $screen-color, 0rem 45rem 0px 0px $screen-color, 15rem 45rem 0px 0px $screen-color, -15rem 45rem 0px 0px $screen-color, 0rem 60rem 0px 0px $screen-color, 15rem 60rem 0px 0px $screen-color, -15rem 60rem 0px 0px $screen-color,;
+        box-shadow: 0rem 20rem 0px 0px $screen-color, 
+            15rem 10rem 0px 0px $screen-color, 
+            -15rem 10rem 0px 0px $screen-color, 0rem 30rem 0px 0px $screen-color, 
+            15rem 30rem 0px 0px $screen-color, -15rem 30rem 0px 0px $screen-color, 
+            15rem 20rem 0px 0px $screen-color, -15rem 20rem 0px 0px $screen-color, 
+            0rem 45rem 0px 0px $screen-color, 15rem 45rem 0px 0px $screen-color, 
+            -15rem 45rem 0px 0px $screen-color, 0rem 60rem 0px 0px $screen-color, 
+            15rem 60rem 0px 0px $screen-color, -15rem 60rem 0px 0px $screen-color,
+            0rem 75rem 0px 0px $screen-color, 
+            15rem 75rem 0px 0px $screen-color, -15rem 75rem 0px 0px $screen-color,
+             0rem 90rem 0px 0px $screen-color, 
+            15rem 90rem 0px 0px $screen-color, -15rem 90rem 0px 0px $screen-color,;
     }
 }
 .welcomeScreen.title-rel.container {

@@ -555,7 +555,6 @@ const Cropper = ({ imageSource, crop, aspect, setCrop, setImageSource, setIsAvat
                                 })
                             }
                             if (!switchPreview) {
-                                console.log("sending callback")
                                 avatarCallback(canvasRef2.current);
                             }
                             return;

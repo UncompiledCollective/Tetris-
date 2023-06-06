@@ -128,12 +128,6 @@ const ApiTest = () => {
         return;
     }
     return (
-        //<div className="apiTest">
-        //    nigger;
-        //    <span>            {backendData ? backendData.map((x) => {
-        //        return <span>{x}</span>;
-        //    }) : ""}</span>
-        //</div>
         <div className="apiTest">
             <button type="button" style={{ width: "300px", height: "100px" }} onClick={function () {
                 handleClick();
@@ -180,5 +174,31 @@ const ApiTest = () => {
             }}>remove from local storage</button>
         </div>
     )
+}
+//old contents from musicHooks.js. Explaination there
+const oldUseHoldSongs = {
+    old: ```
+        setApiBusy(true)
+        console.log("executing htttp request");
+        axios.get(adress + "/get-songs-init").then(function (response) {
+            if (response.data) {
+                let urls = genBlobs(response.data);
+                setReturnSongs((x) => {
+                    if (x.length >= urls.length + 8) {
+                        return x;//check just in case this hook runs twice for some reason. Happens in dev build
+                    }
+                    x = x.concat(urls);
+                    return x;
+                })
+                setPlaylistState(true);
+                setApiBusy(false);
+            }
+        }).catch(function (error) {
+            console.log(error);
+            setApiBusy(false);
+        })
+        setState(true);
+        return;
+```
 }
 export { ApiImages, arrayBufferToBase64, retreiveMemory, setMemory, useHideLoader, useStartPlayingTrick, ApiTest }

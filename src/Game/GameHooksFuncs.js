@@ -112,7 +112,6 @@ const updateGravity = (x, level) => {
             temp = 2;
     }
     let temp2 = Math.round((0.8 - ((level) * 0.007)) ** (level) * 100) * 10;
-    console.log(temp2, "logging new gravity")
     return temp2;
 }
 const useUpdateGravity = (firstRender, setGravity, currentLevel, setTimeRightNow) => {
@@ -141,7 +140,7 @@ const useUpdateTimer = (firstRender, gameOn, sendMovement, Gravity, setGravity, 
         if (gameOn === "over") {
             setGravity(800);
             setTimeRightNow(0);
-            console.log(Gravity, timeRightNow, "logging aat Timer at gameOver")
+            //console.log(Gravity, timeRightNow, "logging aat Timer at gameOver")
             return;
         }
         if (gameOn === true) {

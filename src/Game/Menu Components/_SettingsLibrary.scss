@@ -1073,7 +1073,7 @@ $title-done-duration: 2000ms; //duration of true title entry;
 $title-done-final-delay:$swirl-duration-combined + $title-done-duration + 500ms; //final delay for title animations
 $title-done-final-duration: 1500ms;
 $title-container-delay: $title-done-final-delay + $title-done-final-duration; //delay between complete closure of this container
-$delay-jade-screen: $title-done-final-delay (+250ms);
+$delay-jade-screen: $title-done-final-delay +250ms;
 $firework-duration: 1.2s;
 $firework-delay: $swirl-duration-combined + 1000ms;
 $firework-right-delay: $firework-delay +250ms;

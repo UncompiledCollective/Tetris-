@@ -403,18 +403,11 @@ const useGetMoreSongs = (state, setState, songs, setSongs, delay=1000,popupDelay
         if (state === false) { return; }
         if (state === true) {
             setLoading(true);
-            console.log("condition met")
             axios.post(adress + "/get-songs-after", {
                 value: songs.length - 8
             } ).then(function (result) {
                 if (result.data) {
-                    console.log(result.data);
-                    console.log("it's not zero");
                     let urls = genBlobs(result.data);
-                    //let buff = result.data[0].audio.data;
-                    //const blob = new Blob([new Uint8Array(buff)]);
-                    //const url = URL.createObjectURL(blob);
-                    
                     setSongs((x) => {
                         x = x.concat(urls);
                         return x
