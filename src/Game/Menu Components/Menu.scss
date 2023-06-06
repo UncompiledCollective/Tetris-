@@ -343,14 +343,15 @@ $score-screen-background: #f4acff;
     min-width:100%;
     min-height:68%;
 }
-.flag{
-    position:relative;
-    float:left;
-    width:50%;
-    height:100%;
-    padding-top:0%;
-    &>div>span{
-        font-family:Mistral;
+.flag {
+    position: relative;
+    float: left;
+    width: 50%;
+    height: 100%;
+    padding-top: 0%;
+
+    & > div > span {
+        font-family: "Mistral", "Butter Cup";
     }
 }
 .polishFlag {

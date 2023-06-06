@@ -1199,22 +1199,12 @@ input[type="file"] {
         transform: scaleX(-1) translateX(-50%);
         transform-origin: center;
         animation: antiprogress 5s linear infinite;
-        stroke-width: 0.01rem;
+        stroke-width: 0.02rem;
         stroke: $container-background-color;
 
         & > g > g > g > path {
-            fill: $container-border-color;
+            fill: lighten($container-border-color, 5%);
         }
-    }
-}
-.popUp.selector {
-    position: relative;
-    text-align: center;
-    left: 5%;
-    & > span {
-        color: #7d309b;
-        font-family: "Cascadia Code";
-        font-size: 1.5rem;
     }
 }
 .popUp.score {
@@ -1225,13 +1215,25 @@ input[type="file"] {
     position: relative;
     padding: 0 1.2rem 0.1rem 1.2rem;
     box-shadow: 0 -8px 20px 0 rgba(237, 200, 235, 0.2), 0 8px 20px 0 rgba(237, 200, 235, 0.2);
+
     & > span {
-        position:relative;
-        display:inline-block;
+        position: relative;
+        display: inline-block;
         font-family: "Cascadia Code";
         font-size: 1.3rem;
-        white-space:nowrap;
+        white-space: nowrap;
         color: #8f13bd;
+    }
+}
+
+.popUp.selector {
+    position: relative;
+    text-align: center;
+    left: 5%;
+    & > span {
+        color: #7d309b;
+        font-family: "Cascadia Code";
+        font-size: 1.5rem;
     }
 }
 

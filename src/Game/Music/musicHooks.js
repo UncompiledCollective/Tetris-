@@ -1,6 +1,6 @@
 import * as React from "react";
 import axios from "axios";
-
+import { adress } from "../../Game/Menu Components/axios.js"
 const useGeneratePlaylist = (songsObj, state, randomiseFunc) => {
     const [list, setList] = React.useState(songsObj ? songsObj.map((x, index) => index) : []);
     React.useEffect(() => {
@@ -27,8 +27,13 @@ const useHoldSongs = (songsObj, setState, setPlaylistState, setApiBusy) => {
     const [returnSongs, setReturnSongs] = React.useState(songsObj)
     React.useEffect(() => {
         //space for a possible HTTP post request to get some songs
+        setState(true);
+        return;
+        //setting return here because this HTTP request crashes my free API.
+        // Gonna try to make it work with that button in settings that downloads more songs.
         setApiBusy(true)
-        axios.get("/get-songs-init").then(function (response) {
+        console.log("executing htttp request");
+        axios.get(adress + "/get-songs-init").then(function (response) {
             if (response.data) {
                 let urls = genBlobs(response.data);
                 setReturnSongs((x) => {

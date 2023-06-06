@@ -1,6 +1,7 @@
 import * as React from "react";
 import axios from "axios";
 import { addToObj, objToArray } from "./ScoreHooksFuncs.js";
+import { adress } from "./axios.js";
 function findIndexCallback(x) {
     for (let y in x) {
         if (x[y] !== this[y]) {
@@ -80,7 +81,7 @@ const leaderCallBack = (setLeader) => {
 }
 
 const useUpdateLocalScore = (passedScoreObj, setMemory, getMemory, sortOfObj, newScore, setLocalHeldScore, setNewScore,
-      setNoteNew, setHoldScore) => {
+      setNoteNew, setHoldScore, setIsChanged) => {
     React.useEffect(() => {
         if (getMemory("localScore") === null) {
             setMemory("localScore", []);
@@ -97,6 +98,7 @@ const useUpdateLocalScore = (passedScoreObj, setMemory, getMemory, sortOfObj, ne
                 let temp2 = temp.findIndex(findIndexCallback, passedScoreObj) + 1;
                 let delay = setTimeout(function () {
                     setNewScore([true, temp2]);
+                    setIsChanged("changed")
                     return;
                 }, 2500)
             }
@@ -120,7 +122,7 @@ function useDebounceEffect(value, delay) {
 }
 async function fetchData(setLoading, setScoresGlobal, setState) {
     setLoading(true);
-    await axios.get("/send-scores").then(function (result) {
+    await axios.get(adress + "/send-scores").then(function (result) {
         setScoresGlobal(result.data);
         setState("second");
     }).catch(function (error) {
@@ -147,7 +149,7 @@ const useRefereshGlobalScores = (state, globalScores, setScoresGlobal, setLoadin
 const useImportAvatars = (state, setLoading, avatarObj, setAvatarObj, setState, debounce=1000, setErrorState) => {
     async function importAvatars() {
         if (Object.keys(avatarObj).length === 0) {
-            axios.post("/get-all-avatars", []).then(function (result) {
+            axios.post(adress + "/get-all-avatars", []).then(function (result) {
                 setAvatarObj((x) => {
                     return addToObj(x, result.data)
                 })
@@ -162,7 +164,7 @@ const useImportAvatars = (state, setLoading, avatarObj, setAvatarObj, setState, 
         } else {
             let temp = objToArray(avatarObj)
             let timer = setTimeout(function () {
-                axios.post("/get-all-avatars", temp).then(function (result) {
+                axios.post(adress + "/get-all-avatars", temp).then(function (result) {
                     console.log(result.data, "logging")
                     setAvatarObj((x) => {
                         return addToObj(x, result.data);

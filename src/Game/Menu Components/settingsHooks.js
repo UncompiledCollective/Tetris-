@@ -1,5 +1,6 @@
 import * as React from "react";
 import axios from "axios";
+import { adress } from "./axios";
 function genArray(number) {
     let temp = []
     for (let y = 0; y < number; y++) {
@@ -403,7 +404,7 @@ const useGetMoreSongs = (state, setState, songs, setSongs, delay=1000,popupDelay
         if (state === true) {
             setLoading(true);
             console.log("condition met")
-            axios.post("/get-songs-after", {
+            axios.post(adress + "/get-songs-after", {
                 value: songs.length - 8
             } ).then(function (result) {
                 if (result.data) {

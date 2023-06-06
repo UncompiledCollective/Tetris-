@@ -56,6 +56,9 @@ const ApiTest = () => {
     const [imageSource, setImageSource] = React.useState(null);
     const [imageBuffer, setImageBuffer] = React.useState(null);
     const [isImages, setIsImages] = React.useState(false);
+    const instance = axios.create({
+        baseURL: "https://funk-tetris-api.onrender.com",
+    });
     function downloadFile(file) {
         var element = document.createElement('a');
         const url = window.URL.createObjectURL(
@@ -69,31 +72,22 @@ const ApiTest = () => {
     }
     const handleClick = () => {
         try {
-            axios.get("/receive-file").then((response) => {
-                console.log(response);
-                if (response.data[0]?.avatar_file) {
-                    setImageBuffer(response.data[0].avatar_file);
-                }
+            instance.get("/send-scores",{
+            }).then((response) => {
+                console.log(response.data);
             })
         } catch (error) {
             console.log(error)
         }
         return;
     }
-    console.log(imageBuffer, "logging buffer")
     const handleClick2 = () => {
-        const testScore = {
-            Score: 8900,
-            lines_4: 4,
-            lines_3: 3,
-            lines_2: 2,
-            lines_1: 1,
-            lines_total: 3,
-            name: "fucker",
-            avatar_id: 0,
-        }
-        axios.post("/new-score", testScore).then(function (result) {
+        
+        axios.get("https://funk-tetris-api.onrender.com/send-scores", {
+        }).then(function (result) {
             console.log(result.data, "logging result");
+        }).catch(function (error) {
+            console.log(error)
         })
         return;
     }
@@ -177,7 +171,7 @@ const ApiTest = () => {
             )}
             <button type="button" style={{ width: "300px", height: "100px" }} onClick={function () {
                 handleClick2();
-            }}>post-score</button> <button type="button" style={{ width: "300px", height: "100px" }} onClick={function () {
+            }}>button 2</button> <button type="button" style={{ width: "300px", height: "100px" }} onClick={function () {
                 handleClick3();
             }}>sort-test</button><button type="button" style={{ width: "300px", height: "100px" }} onClick={function () {
                 handleClick4();

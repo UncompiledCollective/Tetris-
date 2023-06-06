@@ -27,7 +27,7 @@ const LeaderBoardButton = ({ handler }) => {
         )
 }
 const LeaderBoard = ({ leaderUp, setLeader, setMemory, getMemory, scoreObj, newScore, setNewScoreLocal,
-    setNoteNewScore, setHoldScore, Text, lang, importedAvatars, setImportedAvatars, avatarObj
+    setNoteNewScore, setHoldScore, Text, lang, importedAvatars, setImportedAvatars, avatarObj, setIsChanged
 }) => {   //leaderUp and setLeader are passed from GameContainer. They opena and close the menu.
     const [pageUp, setPageUp] = React.useState("local");
     const [currentPageLocal, setCurrentPageLocal] = React.useState(0); //controls which page currently we have of local/global scoreboard
@@ -43,7 +43,7 @@ const LeaderBoard = ({ leaderUp, setLeader, setMemory, getMemory, scoreObj, newS
     const [errorState, setErrorState] = React.useState(false);
     const firstRender = React.useRef(true);
     useUpdateLocalScore(scoreObj, setMemory, getMemory, sortOfObj, newScore, setLocalScoreBoard, setNewScoreLocal, setNoteNewScore,
-        setHoldScore
+        setHoldScore, setIsChanged
     );
     useCloseOpenWindow("Escape", leaderUp, leaderCallBack, setLeader, setErrorState);
     useRefereshGlobalScores(refreshScore, globalScoreBoard, setGlobalScoreBoard, setIsLoading, setRefreshScore);

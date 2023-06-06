@@ -28,14 +28,15 @@ const GameContainer = ({ gameOn, setGameOn, isSettingsOpen, ghost, mVol, isMute,
     const [importedAvatars, setImportedAvatars] = React.useState({});
     const [sendScoreError, setSendScoreError] = React.useState(false);
     useUpdateLevel(firstRenderRef, linesCleared, rowsTo10, setCurrentLevel);
-    useDisplayNewLeader(firstRenderRef, newGlobalScore, setNewGlobalScore, newGlobalScore, setNewGlobalScore, isChanged, setIsChanged, true, false)
-    useGameOver(firstRenderRef, gameOn, setCurrentLevel, setNextPieceState, rowsTo10, setLinesCleared)
+    useDisplayNewLeader(firstRenderRef, newLocalScore, setNewLocalScore, newGlobalScore, setNewGlobalScore, isChanged, setIsChanged);
+    useGameOver(firstRenderRef, gameOn, setCurrentLevel, setNextPieceState, rowsTo10, setLinesCleared);
     return (
         <div className="GameContainer">
             <LeaderBoard leaderUp={isLeaderUp} setLeader={setIsLeaderUp} setMemory={setMemory}
                 getMemory={getMemory} scoreObj={holdScore} newScore={noteNewScore} setNewScoreLocal={setNewLocalScore}
                 setNoteNewScore={setNoteNewScore} setHoldScore={setHoldScore} Text={Text} lang={lang}
                 importedAvatars={importedAvatars} setImportedAvatars={setImportedAvatars} avatarObj={avatarObj}
+                setIsChanged={setIsChanged }
             />
             {newGlobalScore[0] ? (
                 <NewLeaderUniversal tab="global" Text={Text} lang={lang} state={newGlobalScore} />

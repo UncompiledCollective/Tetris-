@@ -1,5 +1,6 @@
 import * as React from "react";
 import axios from "axios";
+import { adress } from "./axios.js"
 const remakeScoreObj = (obj) => {
     obj.current.Score = 0;
     obj.current.lines_4 = 0;
@@ -61,7 +62,7 @@ const useRefreshScore = (firstRender, gameOn, scoreObj, setHoldScore, remakeScor
         }
         if (gameOn === false) {
             if (score.Score) {
-                axios.post("/new-score", score).then(function (result) {
+                axios.post(adress + "/new-score", score).then(function (result) {
                     if (result.data.value !== undefined) {
                         setNewGlobalScore((x) => {
                             x[0] = true;
@@ -243,7 +244,7 @@ function onImageLoad(event, aspect, setCrop, centerAspectCrop) {
 //    }
 //}
 const useRestoreCrop = (imageSource, setPreview) => {
-    React.useEffecT(() => {
+    React.useEffect(() => {
         if (!imageSource) {
             return;
         }
@@ -268,7 +269,7 @@ const useSendAvatar = (state, setState, setIsLoading, canvas, madeAvs, setMadeAv
     async function postAvatar() {
         setIsLoading(true);
         await canvas.current.toBlob(function (blob) {
-            axios.post("/post-file",
+            axios.post(adress + "/post-file",
                 {
                     avatar: blob
                 },
@@ -353,7 +354,7 @@ const useGetAvatars = (state, avatarObject, setAvatarObject, avatarArray, setLoa
         checkErrorState(errorState, setErrorState);
         if (temp.length > 0) {
             let obj = { id_array: temp };
-            await axios.post("/receive-local", temp).then(function (result) {
+            await axios.post(adress + "/receive-local", temp).then(function (result) {
                 if (result.data) {
                     setAvatarObject((x) => {
                         return addToObj(x, result.data);
@@ -490,7 +491,7 @@ const useGetAvsForSelector = (state, setState, setSelectorLoading, setLocalAvata
         setSelectorLoading(true)
         let temp = objToArray(importedAvObj);
         let timer = setTimeout(function () {
-            axios.post("/get-all-avatars", temp).then(function (result) {
+            axios.post(adress + "/get-all-avatars", temp).then(function (result) {
                 setImportedAvObj((x) => {
                     let arr = addToObj(x, result.data);
                     let arr2 = objToArray(arr);

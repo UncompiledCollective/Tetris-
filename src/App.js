@@ -12,7 +12,7 @@ import wallpaper7 from "./Game/Menu Components/backgrounds/wallpaper7.png";
 import logo_high_res from "./loader/logo_high.png";
 import {
     retreiveMemory, setMemory,
-    useHideLoader, useStartPlayingTrick
+    useHideLoader, useStartPlayingTrick, ApiTest
 } from "./appHooks.js";
 const loader = document.getElementById("loader"); 
 function App() {
@@ -65,7 +65,6 @@ function App() {
                     songState={songState} setSongState={setSongState} 
                 />
             </div>
-           
       </>
   );
 }

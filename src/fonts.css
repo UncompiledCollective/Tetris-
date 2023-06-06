@@ -18,6 +18,10 @@
     font-family: 'Holligate Signature Demo';
     src: url('./Game/Menu Components/fonts/Holligate Signature Demo.ttf') format('truetype');
 }
+@font-face {
+    font-family: "Butter Cup";
+    src: url('./Game/Menu Components/fonts/Butter Cup.otf') format('opentype');
+}
 body {
     cursor: url("./Game/Menu Components/Cursor/cursor50.png"), auto;
 }
